@@ -16,14 +16,11 @@ get($URL, 'views/index.php');
 
 get($URL.'/joueurs','endpoints/joueurs_get.php');
 
-//POST--
+get($URL.'/gardiens','endpoints/gardiens_get.php');
 
+get($URL.'/resultmatchs','endpoints/matchs_get.php');
 
-
-//PUT--
-
-
-
+get($URL.'/classements','endpoints/classements_get.php');
 
 
 

@@ -1,0 +1,34 @@
+.classement-table {
+    width: 90%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.classement-table th,
+.classement-table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+}
+
+.classement-table thead {
+    background-color: #0626CD;
+    color: white;
+}
+
+.classement-table {
+    background-color: white;
+}
+
+
+.classement-table tbody tr.highlight {
+    background-color: #FFC403;
+    font-weight: bold;
+}
+
+.classement-table tbody tr.montreal {
+    background-color: #f0f0f0 !important;
+    font-weight: bold;
+}
