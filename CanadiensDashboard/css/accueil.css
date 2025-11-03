@@ -1,0 +1,91 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #e3ecf9;
+  color: #121C68;
+}
+
+.navbar {
+  background-color: white;
+  padding: 12px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li a {
+  color: #2E3551;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1em;
+  padding: 8px 12px;
+  transition: background-color 0.3s ease;
+  border-radius: 4px;
+}
+
+.navbar li a:hover {
+  background-color: #B01829;
+}
+
+.accueil {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.titre {
+  color: #EE5743;
+  font-size: 2em;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.logo {
+  width: 100px;
+  margin: 20px 0;
+}
+
+.slogan {
+  font-size: 1.2em;
+  margin: 5px 0;
+  color: #121C68;
+}
+
+.description {
+  max-width: 800px;
+  margin: 30px auto;
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: #121C68;
+  text-align: left;
+}
+
+.rouge {
+  color: #B01829;
+  font-weight: bold;
+}
+
+.bleu {
+  color: #121C68;
+  font-weight: bold;
+}
+
+.blanc {
+  color: #ffffff;
+  background-color: #333;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.header-banner {
+  background-color: #2045fa;
+  padding: 20px 0;
+  text-align: center;
+}
+
