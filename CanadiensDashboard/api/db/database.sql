@@ -9,5 +9,10 @@ CREATE TABLE joueurs (
   points INT GENERATED ALWAYS AS (buts + passes) STORED
 );
 
+INSERT INTO joueurs (nom,prenom,numero,position,buts,passes)
+VALUES  ('Suzuki','Nick',14,'Attaquant',8,12),
+		('Hutson','Lane',14,'Attaquant',3,12),
+		('Caufield','Cole',14,'Attaquant',10,12);
+
 
 
