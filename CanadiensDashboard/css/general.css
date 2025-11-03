@@ -1,0 +1,58 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #e3ecf9;
+    color: #121C68;
+}
+
+.navbar {
+    background-color: white;
+    padding: 12px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li a {
+    color: #2E3551;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 8px 12px;
+    transition: background-color 0.3s ease;
+    border-radius: 4px;
+}
+
+.navbar li a:hover {
+    background-color: #5151d6;
+    color:white;
+}
+
+
+.titre {
+    color: white;
+    font-size: 2em;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+
+.header-banner {
+    background-color: #AF1E2D;
+    padding: 20px 0;
+    text-align: center;
+}
+
+/* Onglet actif */
+.navbar a.active {
+  background-color: #dcdcdc;
+  color: #121C68;
+  border-radius: 4px;
+}

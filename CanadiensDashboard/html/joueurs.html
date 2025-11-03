@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Joueurs des Canadiens</title>
-    <link rel="stylesheet" href="../css/style.css">
+  <meta charset="UTF-8">
+  <title>Joueurs des Canadiens</title>
+  <link rel="stylesheet" href="../css/general.css">
+  <link rel="stylesheet" href="../css/joueurs.css">
 </head>
 <body>
-    <nav class="navbar">
-  <ul>
-    <li><a href="../index.html"> Accueil</a></li>
-    <li><a href="joueurs.html"> Joueurs</a></li>
-    <li><a href="#"> Statistiques</a></li>
-    <li><a href="#"> Matchs</a></li>
-    <li><a href="#"> À propos</a></li>
-  </ul>
-</nav>
-    <h1>Joueurs - Canadiens de Montréal</h1>
+
+  <div class="header-banner">
+        <h1 class="titre">Joueurs - Canadiens de Montréal</h1>
+    </div>
+  <nav class="navbar">
+    <ul>
+      <li><a href="../index.html">Accueil</a></li>
+      <li><a href="joueurs.html" class="active">Joueurs</a></li>
+      <li><a href="#">Statistiques</a></li>
+      <li><a href="#">Résultats de Matchs</a></li>
+      <li><a href="#">Classements</a></li>
+    </ul>
+  </nav>
 
 
-    <section id="joueurs"></section>
-    <section id="matchs"></section>
+  <section id="joueurs" class="joueurs-grid">
+    <!-- Cartes joueurs injectées dynamiquement -->
+  </section>
 
-    <script src="../javascript/script.js"></script>
+  <script src="../javascript/script.js"></script>
 </body>
 </html>
