@@ -1,29 +1,63 @@
-
-/* Grille de joueurs */
-.joueurs-grid {
+/* 🏒 Grille de joueurs */
+#joueurs.joueurs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 20px;
-  padding: 20px;
-  justify-items: center;
+  grid-template-columns: repeat(5, 220px); /* Cartes un peu plus larges */
+  gap: 30px; /* Plus d'espace entre les cartes */
+  padding: 40px 20px; /* Moins de padding vertical */
+  justify-content: center;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-/* Carte joueur */
+/* Responsive pour petits écrans */
+@media (max-width: 1200px) {
+  #joueurs.joueurs-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 200px));
+    gap: 20px;
+    padding: 30px 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  #joueurs.joueurs-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 180px));
+    padding: 20px 10px;
+    gap: 15px;
+  }
+}
+
+/* 🧊 Carte joueur */
 .joueur-card {
   background-color: #192168;
   color: white;
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 14px;
+  padding: 20px 16px; /* Padding réduit */
   text-align: center;
-  width: 140px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 220px; /* Largeur augmentée */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.joueur-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 16px rgba(0,0,0,0.25);
+  border: 2px solid #AF1E2D;
+}
+
+/* 🔢 Numéro du joueur */
 .joueur-card .numero {
   background-color: #AF1E2D;
   border-radius: 50px;
-  padding: 8px 16px;
+  padding: 8px 16px; /* Padding réduit */
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 12px; /* Margin réduite */
+  font-size: 1.1em;
   display: inline-block;
+}
+
+/* 🏒 Nom du joueur */
+.joueur-card .nom {
+  font-size: 1.05em;
+  font-weight: 500;
+  margin-bottom: 6px; /* Margin réduite */
 }
