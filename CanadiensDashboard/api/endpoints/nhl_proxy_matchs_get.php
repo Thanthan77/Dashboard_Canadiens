@@ -35,7 +35,7 @@ foreach ($data['games'] as $match) {
     $date = $match['gameDate'] ?? '';
     $etat = $match['gameState'] ?? 'FUTURE';
 
-    // 🔍 Correction du statut si score présent
+    //  Correction du statut si score présent
     if ($etat === 'OFF' && $scoreHome !== null && $scoreAway !== null) {
         $etat = 'FINAL';
     }

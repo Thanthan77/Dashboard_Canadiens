@@ -9,7 +9,7 @@ function getJson($url) {
     return $json ? json_decode($json, true) : null;
 }
 
-// 🔁 Utilise l’API Web officielle (toujours à jour)
+//  Utilise l’API Web officielle (toujours à jour)
 $url = "https://api-web.nhle.com/v1/standings/now";
 $data = getJson($url);
 
@@ -18,7 +18,7 @@ if (!$data || !isset($data['standings'])) {
     exit;
 }
 
-// 🧾 Extraction simplifiée
+//  Extraction simplifiée
 $classement = [];
 $rang = 1;
 
