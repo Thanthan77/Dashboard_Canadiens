@@ -14,12 +14,7 @@ fetch('../api/joueurs')
     defenseurs.innerHTML = '';
     gardiens.innerHTML = '';
 
-    // Séparer les gardiens des autres joueurs
-    const gardienIds = joueurs.filter(j => j.position === 'G').map(j => j.id);
-    const autresJoueurs = joueurs.filter(j => j.position !== 'G');
-
-    // Affichage des attaquants et défenseurs
-    autresJoueurs.forEach(joueur => {
+    joueurs.forEach(joueur => {
       const card = document.createElement('div');
       card.className = 'stats-card';
 
@@ -28,55 +23,36 @@ fetch('../api/joueurs')
       const numero = joueur.numero !== undefined ? `#${joueur.numero}` : '';
       const position = joueur.position || '';
 
-      const role = (position === 'D') ? 'Défenseur' : 'Attaquant';
-
-      card.innerHTML = `
-        <h3>${numero} ${prenom} ${nom}</h3>
-        <p>Position : ${role}</p>
-        <p>Buts : ${joueur.buts ?? '??'}</p>
-        <p>Passes : ${joueur.passes ?? '??'}</p>
-        <p>Points : ${joueur.points ?? '??'}</p>
-      `;
-
-      if (position === 'D') {
-        defenseurs.appendChild(card);
+      if (position === 'G') {
+        // Gardien
+        card.innerHTML = `
+          <h3>${numero} ${prenom} ${nom}</h3>
+          <p>Position : Gardien</p>
+          <p>Arrêts : ${joueur.arrets ?? '??'}</p>
+          <p>Tirs reçus : ${joueur.tirs_reçus ?? '??'}</p>
+          <p>% Arrêts : ${joueur.pourcentage_arrets ?? '??'}</p>
+          <p>Buts encaissés : ${joueur.buts_encaissés ?? '??'}</p>
+          <p>Blanchissages : ${joueur.blanchissages ?? '??'}</p>
+          <p>Temps de jeu : ${joueur.temps_de_jeu ?? '??'} min</p>
+        `;
+        gardiens.appendChild(card);
       } else {
-        attaquants.appendChild(card);
+        // Attaquant ou Défenseur
+        const role = (position === 'D') ? 'Défenseur' : 'Attaquant';
+        card.innerHTML = `
+          <h3>${numero} ${prenom} ${nom}</h3>
+          <p>Position : ${role}</p>
+          <p>Buts : ${joueur.buts ?? '0'}</p>
+          <p>Passes : ${joueur.passes ?? '0'}</p>
+          <p>Points : ${joueur.points ?? '0'}</p>
+        `;
+        if (position === 'D') {
+          defenseurs.appendChild(card);
+        } else {
+          attaquants.appendChild(card);
+        }
       }
     });
-
-    // Appel séparé pour les stats des gardiens
-    fetch('http://localhost/api/gardiens')
-      .then(res => res.json())
-      .then(statsGardiens => {
-        statsGardiens.forEach(stats => {
-          const joueur = joueurs.find(j => j.id === stats.joueur_id);
-          if (!joueur) return;
-
-          const card = document.createElement('div');
-          card.className = 'stats-card';
-
-          const prenom = joueur.prenom || '';
-          const nom = joueur.nom || '';
-          const numero = joueur.numero !== undefined ? `#${joueur.numero}` : '';
-
-          card.innerHTML = `
-            <h3>${numero} ${prenom} ${nom}</h3>
-            <p>Position : Gardien</p>
-            <p>Arrêts : ${stats.arrets ?? '??'}</p>
-            <p>Tirs reçus : ${stats.tirs_reçus ?? '??'}</p>
-            <p>% Arrêts : ${stats.pourcentage_arrets ?? '??'}</p>
-            <p>Buts encaissés : ${stats.buts_encaissés ?? '??'}</p>
-            <p>Blanchissages : ${stats.blanchissages ?? '??'}</p>
-            <p>Temps de jeu : ${stats.temps_de_jeu ?? '??'} min</p>
-          `;
-          gardiens.appendChild(card);
-        });
-      })
-      .catch(err => {
-        console.error("Erreur chargement stats gardiens :", err);
-        gardiens.innerHTML = "<p>Impossible de charger les stats des gardiens.</p>";
-      });
   })
   .catch(err => {
     console.error("Erreur chargement joueurs :", err);
