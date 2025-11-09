@@ -1,3 +1,21 @@
+const titreElement = document.getElementById("titre-saison");
+const now = new Date();
+const currentYear = now.getFullYear();
+const currentMonth = now.getMonth(); 
+
+// La saison commence généralement en octobre et finit en avril
+let saisonDebut, saisonFin;
+if (currentMonth >= 9) { // Saison commence en octobre
+    saisonDebut = currentYear;
+    saisonFin = currentYear + 1;
+} else {
+    saisonDebut = currentYear - 1;
+    saisonFin = currentYear;
+}
+
+titreElement.textContent = `Classements LNH - Saison ${saisonDebut}-${saisonFin}`;
+
+
 fetch('http://localhost/api/classements')
     .then(res => res.json())
     .then(data => {
