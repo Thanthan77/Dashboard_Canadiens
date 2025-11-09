@@ -25,9 +25,9 @@ get($URL.'/classements','endpoints/classements_get.php');
 
 get($URL.'/classements', 'endpoints/nhl_proxy_classements_get.php');
 get($URL.'/joueurs', 'endpoints/nhl_proxy_joueurs_get.php');
-get($URL.'/stats', 'endpoints/nhl_proxy_stats_get.php');
+get($URL.'/stats/$id', 'endpoints/nhl_proxy_statistiques_get.php');
 get($URL.'/matchs', 'endpoints/nhl_proxy_matchs_get.php');
-get($URL.'/gardiens', 'endpoints/nhl_proxy_gardiens_get.php');
+
 
 
 

@@ -1,0 +1,60 @@
+/* Espacement entre la navbar et le contenu */
+.carte-joueur {
+  background-color: #e0f0ff; /* bleu clair */
+  padding: 30px;
+  margin: 0 auto;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none;
+  text-align: center;
+}
+
+/* Supprime les effets au survol */
+.carte-joueur:hover {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none;
+}
+
+/* Supprime les marges internes du container si nécessaire */
+.statistiques-container {
+  margin-top: 40px;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Image du joueur */
+.photo-joueur {
+  width: 120px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+/* Numéro du joueur */
+.numero {
+  color: #c8102e;
+  font-weight: bold;
+}
+
+/* Liste des stats */
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+li {
+  margin: 10px 0;
+}
+
+hr {
+  display: block;
+  width: 150px;              /* largeur réduite */
+  height: 2px;              /* épaisseur de la ligne */
+  margin: 20px auto;        /* centrée horizontalement */
+  background-color: black;  /* couleur noire */
+  border: none;             /* supprime les bordures par défaut */
+}
+

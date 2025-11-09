@@ -21,11 +21,16 @@ fetch('http://localhost/api/joueurs')
       const prenom = joueur.prenom || '';
       const nom = joueur.nom || '';
       const numero = joueur.numero !== undefined ? joueur.numero : '';
+      const id = joueur.id;
 
       card.innerHTML = `
         <div class="nom">${prenom} ${nom}</div>
         <div class="numero">#${numero}</div>
       `;
+
+      card.addEventListener('click', () => {
+        window.location.href = `statistiqueJoueur.html?id=${id}`;
+      });
 
       container.appendChild(card);
     });
