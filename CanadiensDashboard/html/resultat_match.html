@@ -2,31 +2,34 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Résultats de Matchs</title>
+    <title>Résultats de Matchs - Canadiens</title>
     <link rel="stylesheet" href="../css/general.css">
     <link rel="stylesheet" href="../css/resultats.css">
 </head>
-    <body>
-
+<body>
     <div class="header-banner">
         <h1 class="titre">Résultats de Matchs</h1>
+        <div class="season-info">
+            <p>Canadiens de Montréal - Saison 2025-2026</p>
+        </div>
     </div>
+    
     <nav class="navbar">
         <ul>
             <li><a href="../index.html">Accueil</a></li>
             <li><a href="joueurs.html">Joueurs</a></li>
             <li><a href="statistiques.html">Statistiques</a></li>
-            <li><a href="resultat_match.html"class="active">Résultats de Matchs</a></li>
+            <li><a href="resultat_match.html" class="active">Résultats de Matchs</a></li>
             <li><a href="classements.html">Classements</a></li>
         </ul>
     </nav>
 
-
-
-    <section id="matchs" class="matchs-container">
-        <!-- Cartes de match injectées ici -->
-    </section>
+    <main class="main-container">
+        <section id="matchs" class="matchs-container">
+            <!-- Les matchs seront injectés ici par JavaScript -->
+        </section>
+    </main>
 
     <script src="../javascript/resultats.js"></script>
-    </body>
+</body>
 </html>
