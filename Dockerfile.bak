@@ -1,18 +1,6 @@
-{
-  "version": 2,
-  "functions": {
-    "api/**/*.php": {
-      "runtime": "vercel-php"
-    }
-  },
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "api/router.php"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "site/index.html"
-    }
-  ]
-}
+FROM php:8.2-cli
+
+WORKDIR /app
+COPY . .
+
+CMD ["php", "-S", "0.0.0.0:10000", "-t", "api"]
