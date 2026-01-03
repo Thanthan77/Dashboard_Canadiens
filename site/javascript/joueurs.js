@@ -1,4 +1,4 @@
-const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : '/api';
+const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : 'https://dashboard-canadiens.onrender.com/api';
 fetch(`${baseURL}/joueurs`)
   .then(res => {
     if (!res.ok) {

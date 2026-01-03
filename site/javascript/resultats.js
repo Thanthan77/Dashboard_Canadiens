@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         try {
             // Récupérer les données depuis votre API
-            const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : '/api';
+            const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : 'https://dashboard-canadiens.onrender.com/api';
             const response = await fetch(`${baseURL}/matchs`);
             
             if (!response.ok) {

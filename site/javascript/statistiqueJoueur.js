@@ -6,7 +6,7 @@ if (!id) {
   throw new Error("ID joueur manquant dans l'URL");
 }
 
-const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : '/api';
+const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : 'https://dashboard-canadiens.onrender.com/api';
 fetch(`${baseURL}/stats/${id}`)
   .then(res => {
     if (!res.ok) {

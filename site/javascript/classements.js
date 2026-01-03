@@ -15,7 +15,7 @@ if (currentMonth >= 9) { // Saison commence en octobre
 
 titreElement.textContent = `Classements LNH - Saison ${saisonDebut}-${saisonFin}`;
 
-const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : '/api';
+const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : 'https://dashboard-canadiens.onrender.com/api';
 fetch(`${baseURL}/classements`)
     .then(res => res.json())
     .then(data => {
