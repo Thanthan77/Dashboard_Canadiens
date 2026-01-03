@@ -15,4 +15,5 @@
       "dest": "site/index.html"
     }
   ]
+  // Force redeploy
 }
