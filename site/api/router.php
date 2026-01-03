@@ -7,8 +7,8 @@ if ($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '') {
     exit;
 }
 
-$publicPath = __DIR__ . '/../' . ltrim($_SERVER['REQUEST_URI'], '/');
-if (file_exists($publicPath) && !is_dir($publicPath)) {
+$path = __DIR__ . '/../' . ltrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+if (file_exists($path) && !is_dir($path)) {
     return false;
 }
 
