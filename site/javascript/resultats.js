@@ -119,7 +119,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Résultat
         const isVictory = match.Résultat === 'Victoire';
         const resultClass = isVictory ? 'victoire' : 'defaite';
-        const resultIcon = isVictory ? 'V' : 'D';
         const resultText = match.Résultat || 'N/A';
         
         // Score (si MTL est à domicile, afficher MTL-ADV, sinon ADV-MTL)
@@ -133,15 +132,11 @@ document.addEventListener('DOMContentLoaded', function() {
             <tr>
                 <td class="match-date">${formattedDate}</td>
                 <td class="opponent" title="${locationText}">
-                    <span class="location-icon ${isHome ? 'home' : 'away'}">
-                        ${locationIcon}
-                    </span>
-                    ${match.Adversaire}
+                    ${locationText} - ${match.Adversaire}
                 </td>
                 <td class="score">${scoreDisplay}</td>
                 <td class="result-cell">
                     <span class="result-badge ${resultClass}">
-                        <span class="result-icon">${resultIcon}</span>
                         ${resultText}
                     </span>
                 </td>
