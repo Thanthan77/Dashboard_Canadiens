@@ -6,7 +6,8 @@ if (!id) {
   throw new Error("ID joueur manquant dans l'URL");
 }
 
-fetch(`http://localhost/api/stats/${id}`)
+const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : '/api';
+fetch(`${baseURL}/stats/${id}`)
   .then(res => {
     if (!res.ok) {
       throw new Error(`Erreur HTTP : ${res.status}`);

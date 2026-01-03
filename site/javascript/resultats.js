@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         try {
             // Récupérer les données depuis votre API
-            const response = await fetch('http://localhost/api/matchs');
+            const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : '/api';
+            const response = await fetch(`${baseURL}/matchs`);
             
             if (!response.ok) {
                 throw new Error(`Erreur HTTP ${response.status}`);
@@ -112,13 +113,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Icône et texte pour domicile/extérieur
         const isHome = match.Domicile;
-        const locationIcon = isHome ? '🏠' : '✈️';
+        const locationIcon = isHome ? 'Domicile' : 'Extérieur';
         const locationText = isHome ? 'Domicile' : 'Extérieur';
         
         // Résultat
         const isVictory = match.Résultat === 'Victoire';
         const resultClass = isVictory ? 'victoire' : 'defaite';
-        const resultIcon = isVictory ? '✅' : '❌';
+        const resultIcon = isVictory ? 'V' : 'D';
         const resultText = match.Résultat || 'N/A';
         
         // Score (si MTL est à domicile, afficher MTL-ADV, sinon ADV-MTL)

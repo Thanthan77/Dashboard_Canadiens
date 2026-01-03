@@ -1,4 +1,5 @@
-fetch('http://localhost/api/joueurs')
+const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : '/api';
+fetch(`${baseURL}/joueurs`)
   .then(res => {
     if (!res.ok) {
       throw new Error(`Erreur HTTP : ${res.status}`);
