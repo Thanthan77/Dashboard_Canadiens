@@ -16,10 +16,24 @@ function getJson($url) {
 
 // Configuration
 $team = 'MTL';
-$seasonYear = date('Y');
 
-// Saison NHL
-$seasonId = $seasonYear . ((int)$seasonYear + 1);
+// Déterminer la saison NHL correcte
+$year = date('Y');
+$month = date('n'); // 1–12
+
+if ($month >= 9) {
+    // Saison commence en octobre
+    $seasonStart = $year;
+    $seasonEnd = $year + 1;
+} else {
+    // Janvier à août → saison précédente
+    $seasonStart = $year - 1;
+    $seasonEnd = $year;
+}
+
+$seasonId = $seasonStart . $seasonEnd;
+
+// URL API NHL
 $url = "https://api-web.nhle.com/v1/club-schedule-season/$team/$seasonId";
 $data = getJson($url);
 
@@ -42,24 +56,19 @@ $matchesByMonth = [];
 foreach ($data['games'] as $match) {
     $date = $match['gameDate'] ?? '';
     if (!$date) continue;
-    
+
     $monthNum = substr($date, 5, 2);
     $yearMonth = substr($date, 0, 7);
-    
-    if ($monthNum === '07' || $monthNum === '08' || $monthNum === '09') {
-        continue;
-    }
-    
-    if (!isset($matchesByMonth[$yearMonth])) {
-        $matchesByMonth[$yearMonth] = [];
-    }
-    
+
+    // On ignore juillet, août, septembre
+    if (in_array($monthNum, ['07', '08', '09'])) continue;
+
     $matchesByMonth[$yearMonth][] = $match;
 }
 
 ksort($matchesByMonth);
 
-// Formater les résultats - MATCHS TERMINÉS (FINAL ou OFF avec scores)
+// Formater les résultats
 $result = ['matchs_par_mois' => []];
 $monthsWithMatches = 0;
 $totalMatches = 0;
@@ -67,9 +76,9 @@ $totalMatches = 0;
 foreach ($matchesByMonth as $yearMonth => $monthMatches) {
     $monthNum = substr($yearMonth, 5, 2);
     $monthName = $frenchMonths[$monthNum] ?? 'Mois ' . $monthNum;
-    
+
     $formattedMatches = [];
-    
+
     foreach ($monthMatches as $match) {
         $home = $match['homeTeam']['abbrev'] ?? '';
         $away = $match['awayTeam']['abbrev'] ?? '';
@@ -77,33 +86,22 @@ foreach ($matchesByMonth as $yearMonth => $monthMatches) {
         $scoreAway = $match['awayTeam']['score'] ?? null;
         $date = $match['gameDate'];
         $etat = $match['gameState'] ?? 'FUTURE';
-        
-        // DÉTERMINER SI LE MATCH EST TERMINÉ
-        // Soit il est "FINAL", soit "OFF" avec des scores disponibles
-        $isTermine = false;
-        
-        if ($etat === 'FINAL') {
-            $isTermine = true;
-        } elseif ($etat === 'OFF' && $scoreHome !== null && $scoreAway !== null) {
-            $isTermine = true;
-        }
-        
-        // Si le match n'est pas terminé, on passe au suivant
-        if (!$isTermine) {
-            continue;
-        }
-        
-        // Le match est terminé, on le traite
+
+        // Match terminé ?
+        $isTermine = ($etat === 'FINAL') ||
+                     ($etat === 'OFF' && $scoreHome !== null && $scoreAway !== null);
+
+        if (!$isTermine) continue;
+
         $score = "$scoreHome-$scoreAway";
-        
-        // Déterminer le résultat
-        $resultat = null;
+
+        // Déterminer victoire/défaite
         if ($home === $team) {
-            $resultat = ($scoreHome > $scoreAway) ? 'Victoire' : 'Defaite';
-        } elseif ($away === $team) {
-            $resultat = ($scoreAway > $scoreHome) ? 'Victoire' : 'Defaite';
+            $resultat = ($scoreHome > $scoreAway) ? 'Victoire' : 'Défaite';
+        } else {
+            $resultat = ($scoreAway > $scoreHome) ? 'Victoire' : 'Défaite';
         }
-        
+
         $formattedMatches[] = [
             'Date' => $date,
             'Adversaire' => $home === $team ? $away : $home,
@@ -113,7 +111,7 @@ foreach ($matchesByMonth as $yearMonth => $monthMatches) {
             'Etat' => $etat === 'OFF' ? 'TERMINE' : $etat
         ];
     }
-    
+
     if (!empty($formattedMatches)) {
         $result['matchs_par_mois'][$monthName] = $formattedMatches;
         $monthsWithMatches++;
@@ -121,7 +119,7 @@ foreach ($matchesByMonth as $yearMonth => $monthMatches) {
     }
 }
 
-// Si aucun match terminé
+// Aucun match terminé
 if (empty($result['matchs_par_mois'])) {
     echo json_encode([
         'equipe' => 'Canadiens de Montréal',
