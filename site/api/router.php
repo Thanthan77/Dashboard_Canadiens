@@ -1,6 +1,12 @@
 <?php
 require_once __DIR__.'/routes.php';
 
+// Si on demande la racine "/", on sert index.html
+if ($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '') {
+    include __DIR__ . '/../index.html';
+    exit;
+}
+
 // Si le fichier demandé existe physiquement, on le sert directement
 $path = __DIR__ . '/../' . $_SERVER['REQUEST_URI'];
 if (file_exists($path) && !is_dir($path)) {
