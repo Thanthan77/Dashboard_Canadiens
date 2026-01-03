@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/routes.php';
 
 var_dump($_SERVER['REQUEST_URI']);
 exit;
