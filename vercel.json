@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "site/api/router.php", "use": "@vercel/php" },
+    { "src": "site/api/**/*.php", "use": "@vercel/php" },
+    { "src": "site/index.html", "use": "@vercel/static" },
+    { "src": "site/html/**/*.html", "use": "@vercel/static" },
+    { "src": "site/css/**/*.css", "use": "@vercel/static" },
+    { "src": "site/javascript/**/*.js", "use": "@vercel/static" }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "site/api/router.php"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "site/index.html"
+    }
+  ]
+}
