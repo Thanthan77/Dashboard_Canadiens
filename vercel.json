@@ -7,13 +7,12 @@
   },
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "api/router.php"
-    },
-    {
       "src": "/(.*)",
       "dest": "site/index.html"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "api/router.php"
     }
   ]
-  // Force redeploy
 }
