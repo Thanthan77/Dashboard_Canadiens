@@ -1,76 +1,123 @@
-const baseURL = window.location.hostname.includes('localhost')
-  ? 'http://localhost/api'
-  : 'https://dashboard-canadiens.onrender.com/api';
-
-fetch(`${baseURL}/joueurs`)
-  .then(res => {
-    if (!res.ok) {
-      throw new Error(`Erreur HTTP : ${res.status}`);
-    }
-    return res.json();
-  })
-  .then(joueurs => {
+document.addEventListener('DOMContentLoaded', function () {
     const attaquants = document.getElementById('attaquants');
     const defenseurs = document.getElementById('defenseurs');
     const gardiens = document.getElementById('gardiens');
 
-    attaquants.innerHTML = '';
-    defenseurs.innerHTML = '';
-    gardiens.innerHTML = '';
+    loadAndDisplayPlayers();
 
-    //  MAP DES POSITIONS
-    const positionsMap = {
-      R: "Ailier droit",
-      L: "Ailier gauche",
-      C: "Centre",
-      D: "Défenseur",
-      G: "Gardien"
-    };
+    async function loadAndDisplayPlayers() {
+        showLoading();
 
-    joueurs.forEach(joueur => {
-      const card = document.createElement('div');
-      card.className = 'stats-card';
+        try {
+            const baseURL = window.location.hostname.includes('localhost')
+                ? 'http://localhost/api'
+                : 'https://dashboard-canadiens.onrender.com/api';
 
-      const prenom = joueur.prenom || '';
-      const nom = joueur.nom || '';
-      const numero = joueur.numero !== undefined ? `#${joueur.numero}` : '';
-      const position = joueur.position || '';
-      const role = positionsMap[position] || "Inconnu";
+            const response = await fetch(`${baseURL}/joueurs`);
 
-      if (position === 'G') {
-        //  Gardien
-        card.innerHTML = `
-          <h3>${numero} ${prenom} ${nom}</h3>
-          <p>Position : ${role}</p>
-          <p>Arrêts : ${joueur.arrets ?? '??'}</p>
-          <p>Tirs reçus : ${joueur.tirs_reçus ?? '??'}</p>
-          <p>% Arrêts : ${joueur.pourcentage_arrets ?? '??'}</p>
-          <p>Buts encaissés : ${joueur.buts_encaissés ?? '??'}</p>
-          <p>Blanchissages : ${joueur.blanchissages ?? '??'}</p>
-          <p>Temps de jeu : ${joueur.temps_de_jeu ?? '??'} min</p>
-        `;
-        gardiens.appendChild(card);
-      } else {
-        //  Attaquant ou Défenseur
-        card.innerHTML = `
-          <h3>${numero} ${prenom} ${nom}</h3>
-          <p>Position : ${role}</p>
-          <p>Buts : ${joueur.buts ?? '0'}</p>
-          <p>Passes : ${joueur.passes ?? '0'}</p>
-          <p>Points : ${joueur.points ?? '0'}</p>
-        `;
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP ${response.status}`);
+            }
 
-        if (position === 'D') {
-          defenseurs.appendChild(card);
-        } else {
-          attaquants.appendChild(card);
+            const joueurs = await response.json();
+
+            if (!Array.isArray(joueurs)) {
+                throw new Error("Structure de données invalide");
+            }
+
+            displayPlayers(joueurs);
+
+        } catch (error) {
+            console.error("Erreur:", error);
+            showMessage(`Erreur: ${error.message}`, "error");
         }
-      }
-    });
-  })
-  .catch(err => {
-    console.error("Erreur chargement joueurs :", err);
-    document.getElementById('attaquants').innerHTML = "<p>Impossible de charger les joueurs.</p>";
-    document.getElementById('defenseurs').innerHTML = "<p>Impossible de charger les joueurs.</p>";
-    document.getElementById('gardiens').innerHTML = "<p>Impossible de charger les joueurs.</p>";
-  });
+    }
+
+    function displayPlayers(joueurs) {
+        attaquants.innerHTML = '';
+        defenseurs.innerHTML = '';
+        gardiens.innerHTML = '';
+
+        const positionsMap = {
+            R: "Ailier droit",
+            L: "Ailier gauche",
+            C: "Centre",
+            D: "Défenseur",
+            G: "Gardien"
+        };
+
+        joueurs.forEach(joueur => {
+            const card = document.createElement('div');
+            card.className = 'stats-card';
+
+            const prenom = joueur.prenom || '';
+            const nom = joueur.nom || '';
+            const numero = joueur.numero !== undefined ? `#${joueur.numero}` : '';
+            const position = joueur.position || '';
+            const role = positionsMap[position] || "Inconnu";
+
+            if (position === 'G') {
+                // 🧤 Gardien
+                card.innerHTML = `
+                    <h3>${numero} ${prenom} ${nom}</h3>
+                    <p>Position : ${role}</p>
+                    <p>Arrêts : ${joueur.arrets ?? '??'}</p>
+                    <p>Tirs reçus : ${joueur.tirs_reçus ?? '??'}</p>
+                    <p>% Arrêts : ${joueur.pourcentage_arrets ?? '??'}</p>
+                    <p>Buts encaissés : ${joueur.buts_encaissés ?? '??'}</p>
+                    <p>Blanchissages : ${joueur.blanchissages ?? '??'}</p>
+                    <p>Temps de jeu : ${joueur.temps_de_jeu ?? '??'} min</p>
+                `;
+                gardiens.appendChild(card);
+            } else {
+                // 🏒 Attaquant ou Défenseur
+                card.innerHTML = `
+                    <h3>${numero} ${prenom} ${nom}</h3>
+                    <p>Position : ${role}</p>
+                    <p>Buts : ${joueur.buts ?? '0'}</p>
+                    <p>Passes : ${joueur.passes ?? '0'}</p>
+                    <p>Points : ${joueur.points ?? '0'}</p>
+                `;
+
+                if (position === 'D') {
+                    defenseurs.appendChild(card);
+                } else {
+                    attaquants.appendChild(card);
+                }
+            }
+        });
+    }
+
+    function showLoading() {
+        attaquants.innerHTML = `
+            <div class="loading-state">
+                <div class="spinner"></div>
+                <p>Chargement des joueurs des Canadiens...</p>
+            </div>
+        `;
+        defenseurs.innerHTML = '';
+        gardiens.innerHTML = '';
+    }
+
+    function showMessage(message, type = 'info') {
+        const icon = type === 'error' ? '❌' : type === 'info' ? 'ℹ️' : '✅';
+
+        const html = `
+            <div class="message ${type}">
+                <div class="message-icon">${icon}</div>
+                <div class="message-content">
+                    <h3>${type === 'error' ? 'Erreur' : 'Information'}</h3>
+                    <p>${message}</p>
+                    ${type === 'error'
+                        ? '<button onclick="location.reload()" class="retry-btn">Réessayer</button>'
+                        : ''
+                    }
+                </div>
+            </div>
+        `;
+
+        attaquants.innerHTML = html;
+        defenseurs.innerHTML = '';
+        gardiens.innerHTML = '';
+    }
+});
