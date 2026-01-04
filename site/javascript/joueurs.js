@@ -1,17 +1,37 @@
-const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : 'https://dashboard-canadiens.onrender.com/api';
-fetch(`${baseURL}/joueurs`)
-  .then(res => {
-    if (!res.ok) {
-      throw new Error(`Erreur HTTP : ${res.status}`);
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('joueurs');
+
+  loadAndDisplayPlayers();
+
+  async function loadAndDisplayPlayers() {
+    showLoading();
+
+    try {
+      const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : 'https://dashboard-canadiens.onrender.com/api';
+      const response = await fetch(`${baseURL}/joueurs`);
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP ${response.status}`);
+      }
+
+      const joueurs = await response.json();
+
+      if (!Array.isArray(joueurs)) {
+        throw new Error('Structure de données invalide');
+      }
+
+      displayPlayers(joueurs);
+    } catch (error) {
+      console.error('Erreur lors du chargement des joueurs :', error);
+      showMessage(`Erreur : ${error.message}`, 'error');
     }
-    return res.json();
-  })
-  .then(joueurs => {
-    const container = document.getElementById('joueurs');
+  }
+
+  function displayPlayers(joueurs) {
     container.innerHTML = '';
 
-    if (!Array.isArray(joueurs) || joueurs.length === 0) {
-      container.innerHTML = "<p>Aucun joueur trouvé.</p>";
+    if (joueurs.length === 0) {
+      showMessage('Aucun joueur trouvé.', 'info');
       return;
     }
 
@@ -35,8 +55,29 @@ fetch(`${baseURL}/joueurs`)
 
       container.appendChild(card);
     });
-  })
-  .catch(error => {
-    console.error("Erreur lors du chargement des joueurs :", error);
-    document.getElementById('joueurs').innerHTML = "<p>Impossible de charger les joueurs.</p>";
-  });
+  }
+
+  function showLoading() {
+    container.innerHTML = `
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Chargement des joueurs...</p>
+      </div>
+    `;
+  }
+
+  function showMessage(message, type = 'info') {
+    const icon = type === 'error' ? '❌' : type === 'info' ? 'ℹ️' : '✅';
+
+    container.innerHTML = `
+      <div class="message ${type}">
+        <div class="message-icon">${icon}</div>
+        <div class="message-content">
+          <h3>${type === 'error' ? 'Erreur' : 'Information'}</h3>
+          <p>${message}</p>
+          ${type === 'error' ? '<button onclick="location.reload()" class="retry-btn">Réessayer</button>' : ''}
+        </div>
+      </div>
+    `;
+  }
+});
