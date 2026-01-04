@@ -1,4 +1,7 @@
-const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : 'https://dashboard-canadiens.onrender.com/api';
+const baseURL = window.location.hostname.includes('localhost')
+  ? 'http://localhost/api'
+  : 'https://dashboard-canadiens.onrender.com/api';
+
 fetch(`${baseURL}/joueurs`)
   .then(res => {
     if (!res.ok) {
@@ -15,6 +18,15 @@ fetch(`${baseURL}/joueurs`)
     defenseurs.innerHTML = '';
     gardiens.innerHTML = '';
 
+    //  MAP DES POSITIONS
+    const positionsMap = {
+      R: "Ailier droit",
+      L: "Ailier gauche",
+      C: "Centre",
+      D: "Défenseur",
+      G: "Gardien"
+    };
+
     joueurs.forEach(joueur => {
       const card = document.createElement('div');
       card.className = 'stats-card';
@@ -23,12 +35,13 @@ fetch(`${baseURL}/joueurs`)
       const nom = joueur.nom || '';
       const numero = joueur.numero !== undefined ? `#${joueur.numero}` : '';
       const position = joueur.position || '';
+      const role = positionsMap[position] || "Inconnu";
 
       if (position === 'G') {
-        // Gardien
+        //  Gardien
         card.innerHTML = `
           <h3>${numero} ${prenom} ${nom}</h3>
-          <p>Position : Gardien</p>
+          <p>Position : ${role}</p>
           <p>Arrêts : ${joueur.arrets ?? '??'}</p>
           <p>Tirs reçus : ${joueur.tirs_reçus ?? '??'}</p>
           <p>% Arrêts : ${joueur.pourcentage_arrets ?? '??'}</p>
@@ -38,8 +51,7 @@ fetch(`${baseURL}/joueurs`)
         `;
         gardiens.appendChild(card);
       } else {
-        // Attaquant ou Défenseur
-        const role = (position === 'D') ? 'Défenseur' : 'Attaquant';
+        //  Attaquant ou Défenseur
         card.innerHTML = `
           <h3>${numero} ${prenom} ${nom}</h3>
           <p>Position : ${role}</p>
@@ -47,6 +59,7 @@ fetch(`${baseURL}/joueurs`)
           <p>Passes : ${joueur.passes ?? '0'}</p>
           <p>Points : ${joueur.points ?? '0'}</p>
         `;
+
         if (position === 'D') {
           defenseurs.appendChild(card);
         } else {
