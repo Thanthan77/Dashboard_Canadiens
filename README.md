@@ -1,2 +1,88 @@
-# Dasshboard_Canadiens
+# 🏒 CanadiensDashboard  
+CanadiensDashboard est un tableau de bord interactif regroupant l’ensemble des données essentielles du Canadien de Montréal : statistiques individuelles, classement de l’équipe dans la LNH, et résultats mensuels détaillés avec répartition des victoires et des défaites. Le projet combine un frontend dynamique et un backend PHP pour offrir une expérience fluide et structurée.
+
+## 📌 Aperçu du projet
+CanadiensDashboard est une application web dynamique composée d’un **frontend HTML/CSS/JavaScript** et d’un **backend en PHP** servant les données des joueurs.  
+Le projet inclut :
+- un affichage dynamique des joueurs,
+- une page dédiée pour chaque joueur via un paramètre d’URL,
+- une API PHP simple pour fournir les statistiques,
+- un déploiement complet sur Render.
+
+Ce projet représente un MVP démontrant la capacité à livrer une application web complète, documentée et déployée.
+
+---
+
+## 🚀 Fonctionnalités principales
+
+### 🔹 Fonctionnalités du MVP
+- Liste complète des joueurs.
+- Page individuelle dynamique ( `statistiqueJoueur.html?id=XX` selon ton setup).
+- Récupération des données via un endpoint PHP.
+- Gestion des erreurs (ID manquant, joueur non trouvé).
+- Interface simple, responsive et rapide.
+- Déploiement public accessible en ligne.
+
+### 🔹 Fonctionnalités techniques
+- Backend PHP léger (sans framework).
+- Lecture de données depuis un fichier JSON.
+- Routing basé sur les paramètres GET.
+- Séparation claire frontend / backend.
+
+---
+
+## 🛠️ Technologies utilisées
+
+| Catégorie        | Technologies |
+|------------------|--------------|
+| **Frontend**     | HTML, CSS, JavaScript |
+| **Backend**      | PHP |
+| **Déploiement**  | Render (Web Service + Static Site) |
+| **Outils**       | Git, GitHub, Markdown |
+
+---
+
+## 📂 Structure du projet
+
+```plaintext
+canadiens-dashboard/
+│
+├── backend/
+│   ├── api.php
+│   ├── players.json
+│   └── utils.php
+│
+├── site/
+│   ├── index.html
+│   ├── classements.html
+│   ├── joueurs.html
+│   ├── resultat_match.html
+│   ├── statistiqueJoueur.html
+│   ├── statistiques.html
+│   ├── css/
+│   │   └── accueil.css
+│   │   └── classements.css
+│   │   └── general.css
+│   │   └── joueurs.css
+│   │   └── resultats.css
+│   │   └── statistiqueJoueur.css
+│   │   └── statistiques.css
+│   └── javascripts/
+│       ├── classements.js
+│       └── joueurs.js
+│       └── resultat.js
+│       └── statistiqueJoueurs.js
+│       └── statistiques.js
+│
+├── README.md
+└── Dockerfile
+
+## 🔗 Liens importants
+
+| Type               | Lien                                                                 |
+|--------------------|----------------------------------------------------------------------|
+| **Site déployé**   | [https://dashboard-canadiens.onrender.com](https://dashboard-canadiens.onrender.com)           |
+| **Repository GitHub** | [https://github.com/Thanthan77/Dashboard_Canadiens](https://github.com/Thanthan77/Dashboard_Canadiens) |
+
+
 
