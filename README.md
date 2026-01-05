@@ -12,24 +12,24 @@ Le projet inclut :
 Ce projet représente un MVP démontrant la capacité à livrer une application web complète, documentée et déployée.
 
 ---
+## 🚀 Fonctionnalités principales 
 
-##  Fonctionnalités principales
+### 🔹 Fonctionnalités du MVP 
 
-###  Fonctionnalités du MVP
-- Liste complète des joueurs.
-- Page individuelle dynamique ( `statistiqueJoueur.html?id=XX` selon ton setup).
-- Récupération des données via un endpoint PHP.
-- Gestion des erreurs (ID manquant, joueur non trouvé).
-- Interface simple, responsive et rapide.
-- Déploiement public accessible en ligne.
+- **Statistiques des joueurs** : fiche détaillée pour chaque joueur du Canadien de Montréal.
+-  **Classement de l’équipe dans la LNH** : position du CH dans le classement général de la ligue.
+- **Résultats des matchs par mois** : affichage des scores mensuels avec distinction claire entre **victoires** et **défaites**.
+- **Navigation dynamique** : pages générées selon les paramètres d’URL (ex. `?id=` pour les joueurs).
+- **Backend PHP** servant les données (joueurs, classement, résultats).
+- **Interface simple, rapide et responsive**.
+- **Déploiement complet sur Render**, accessible publiquement.
 
-###  Fonctionnalités techniques
-- Backend PHP léger (sans framework).
-- Lecture de données depuis un fichier JSON.
-- Routing basé sur les paramètres GET.
+### 🔹 Fonctionnalités techniques 
+
+- API PHP légère retournant des données en JSON. 
 - Séparation claire frontend / backend.
-
----
+- Gestion des erreurs (ID invalide, données manquantes).
+- Code organisé pour faciliter l’évolution du projet. 
 
 ##  Technologies utilisées
 
