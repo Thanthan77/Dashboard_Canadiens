@@ -1,7 +1,7 @@
-# 🏒 CanadiensDashboard  
+#  CanadiensDashboard  
 CanadiensDashboard est un tableau de bord interactif regroupant l’ensemble des données essentielles du Canadien de Montréal : statistiques individuelles, classement de l’équipe dans la LNH, et résultats mensuels détaillés avec répartition des victoires et des défaites. Le projet combine un frontend dynamique et un backend PHP pour offrir une expérience fluide et structurée.
 
-## 📌 Aperçu du projet
+##  Aperçu du projet
 CanadiensDashboard est une application web dynamique composée d’un **frontend HTML/CSS/JavaScript** et d’un **backend en PHP** servant les données des joueurs.  
 Le projet inclut :
 - un affichage dynamique des joueurs,
@@ -13,9 +13,9 @@ Ce projet représente un MVP démontrant la capacité à livrer une application 
 
 ---
 
-## 🚀 Fonctionnalités principales
+##  Fonctionnalités principales
 
-### 🔹 Fonctionnalités du MVP
+###  Fonctionnalités du MVP
 - Liste complète des joueurs.
 - Page individuelle dynamique ( `statistiqueJoueur.html?id=XX` selon ton setup).
 - Récupération des données via un endpoint PHP.
@@ -23,7 +23,7 @@ Ce projet représente un MVP démontrant la capacité à livrer une application 
 - Interface simple, responsive et rapide.
 - Déploiement public accessible en ligne.
 
-### 🔹 Fonctionnalités techniques
+###  Fonctionnalités techniques
 - Backend PHP léger (sans framework).
 - Lecture de données depuis un fichier JSON.
 - Routing basé sur les paramètres GET.
@@ -31,7 +31,7 @@ Ce projet représente un MVP démontrant la capacité à livrer une application 
 
 ---
 
-## 🛠️ Technologies utilisées
+##  Technologies utilisées
 
 | Catégorie        | Technologies |
 |------------------|--------------|
@@ -42,7 +42,7 @@ Ce projet représente un MVP démontrant la capacité à livrer une application 
 
 ---
 
-## 📂 Structure du projet
+##  Structure du projet
 
 ```plaintext
 canadiens-dashboard/
@@ -76,7 +76,7 @@ canadiens-dashboard/
 │
 ├── README.md
 └── Dockerfile
-
+```
 ## 🔗 Liens importants
 
 | Type               | Lien                                                                 |
