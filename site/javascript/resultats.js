@@ -41,7 +41,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function displayMatchsByMonth(data) {
         resultsContainer.innerHTML = '';
         
-        const months = Object.keys(data.matchs_par_mois);
+        const months = Object.keys(data.matchs_par_mois).sort((a, b) => {
+        const dateA = new Date(data.matchs_par_mois[a][0].Date);
+        const dateB = new Date(data.matchs_par_mois[b][0].Date);
+        return dateB - dateA; 
+});
+
         
         if (months.length === 0) {
             showMessage('Aucun match terminé disponible', 'info');
@@ -65,14 +70,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function createMonthSection(monthName, matches) {
 
-        matches.sort((a, b) => new Date(b.Date) - new Date(a.Date));
 
         const section = document.createElement('div');
         section.className = 'month-section';
         
         // Compter victoires/défaites pour ce mois
         const victories = matches.filter(m => m.Résultat === 'Victoire').length;
-        const defeats = matches.filter(m => m.Résultat === 'Defaite').length;
+        const defeats = matches.filter(m => m.Résultat === 'Défaite').length;
         
         // En-tête du mois avec statistiques
         const header = document.createElement('div');
