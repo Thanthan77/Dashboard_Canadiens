@@ -4,6 +4,7 @@
     border-collapse: collapse;
     font-family: 'Segoe UI', sans-serif;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    background-color: white;
 }
 
 .classement-table th,
@@ -18,11 +19,6 @@
     color: white;
 }
 
-.classement-table {
-    background-color: white;
-}
-
-
 .classement-table tbody tr.highlight {
     background-color: #FFC403;
     font-weight: bold;
@@ -31,4 +27,27 @@
 .classement-table tbody tr.montreal {
     background-color: #f0f0f0 !important;
     font-weight: bold;
+}
+
+/* Conteneur scrollable */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .classement-table th,
+  .classement-table td {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 480px) {
+  .classement-table th,
+  .classement-table td {
+    padding: 6px;
+    font-size: 0.8em;
+  }
 }

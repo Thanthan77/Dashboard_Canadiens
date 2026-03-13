@@ -4,11 +4,13 @@ body {
     background-color: #e3ecf9;
     color: #121C68;
 }
+
 .navbar {
     background-color: white;
     padding: 12px 0;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
+
 .navbar ul {
     list-style: none;
     display: flex;
@@ -17,6 +19,7 @@ body {
     margin: 0;
     padding: 0;
 }
+
 .navbar li a {
     color: #2E3551;
     text-decoration: none;
@@ -26,29 +29,30 @@ body {
     transition: background-color 0.3s ease;
     border-radius: 4px;
 }
+
 .navbar li a:hover {
     background-color: #5151d6;
     color:white;
 }
-.titre {
-    color: white;
-    font-size: 2em;
-    margin-bottom: 10px;
-    text-align: center;
-}
-.header-banner {
-    background-color: #AF1E2D;
-    padding: 20px 0;
-    text-align: center;
-}
-/* Onglet actif */
+
 .navbar a.active {
   background-color: #dcdcdc;
   color: #121C68;
   border-radius: 4px;
 }
 
-/* Ajoutez ces styles à votre general.css existant */
+.header-banner {
+    background-color: #AF1E2D;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.titre {
+    color: white;
+    font-size: 2em;
+    margin-bottom: 10px;
+    text-align: center;
+}
 
 .season-info {
     text-align: center;
@@ -61,9 +65,33 @@ body {
 
 .season-info p {
     margin: 0;
-    padding: 5px;
-    background: rgba(174, 31, 36, 0.8); /* Rouge Canadiens */
-    border-radius: 5px;
-    display: inline-block;
     padding: 8px 20px;
+    background: rgba(174, 31, 36, 0.8);
+    border-radius: 5px;
+}
+
+/* Responsive navbar */
+@media (max-width: 768px) {
+  .navbar ul {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .navbar li a {
+    font-size: 0.9em;
+    padding: 10px;
+  }
+
+  .titre {
+    font-size: 1.6em;
+  }
+
+  .header-banner {
+    padding: 15px 0;
+  }
+
+  .season-info p {
+    font-size: 0.9em;
+    padding: 6px 14px;
+  }
 }

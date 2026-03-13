@@ -1,39 +1,44 @@
-/* 🏒 Grille de joueurs */
 #joueurs.joueurs-grid {
   display: grid;
-  grid-template-columns: repeat(5, 220px); /* Cartes un peu plus larges */
-  gap: 30px; /* Plus d'espace entre les cartes */
-  padding: 40px 20px; /* Moins de padding vertical */
-  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  padding: 40px 20px;
   max-width: 1400px;
   margin: 0 auto;
+  justify-items: center;
 }
 
-/* Responsive pour petits écrans */
 @media (max-width: 1200px) {
   #joueurs.joueurs-grid {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 200px));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 25px;
     padding: 30px 15px;
   }
 }
 
 @media (max-width: 768px) {
   #joueurs.joueurs-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 180px));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
     padding: 20px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  #joueurs.joueurs-grid {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     gap: 15px;
   }
 }
 
-/* 🧊 Carte joueur */
 .joueur-card {
   background-color: #192168;
   color: white;
   border-radius: 14px;
-  padding: 20px 16px; /* Padding réduit */
+  padding: 20px 16px;
   text-align: center;
-  width: 220px; /* Largeur augmentée */
+  max-width: 220px;
+  width: 100%;
   box-shadow: 0 6px 12px rgba(0,0,0,0.15);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -44,20 +49,18 @@
   border: 2px solid #AF1E2D;
 }
 
-/* 🔢 Numéro du joueur */
 .joueur-card .numero {
   background-color: #AF1E2D;
   border-radius: 50px;
-  padding: 8px 16px; /* Padding réduit */
+  padding: 8px 16px;
   font-weight: bold;
-  margin-top: 12px; /* Margin réduite */
+  margin-top: 12px;
   font-size: 1.1em;
   display: inline-block;
 }
 
-/* 🏒 Nom du joueur */
 .joueur-card .nom {
   font-size: 1.05em;
   font-weight: 500;
-  margin-bottom: 6px; /* Margin réduite */
+  margin-bottom: 6px;
 }

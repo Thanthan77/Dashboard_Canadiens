@@ -1,9 +1,7 @@
-
 .accueil {
   text-align: center;
   padding: 40px 20px;
 }
-
 
 .logo {
   width: 100px;
@@ -42,4 +40,29 @@
   border-radius: 4px;
 }
 
+/* Responsive */
+@media (max-width: 768px) {
+  .logo {
+    width: 70px;
+  }
 
+  .slogan {
+    font-size: 1em;
+  }
+
+  .description {
+    font-size: 1em;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    width: 60px;
+  }
+
+  .description {
+    font-size: 0.95em;
+    line-height: 1.4;
+  }
+}
