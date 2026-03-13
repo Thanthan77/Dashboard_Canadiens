@@ -175,270 +175,176 @@ document.addEventListener('DOMContentLoaded', function() {
     addStyles();
     
     function addStyles() {
-        const style = document.createElement('style');
-        style.textContent = `
-            /* États de chargement et messages */
-            .loading-state {
-                text-align: center;
-                padding: 60px 20px;
-                color: #192168;
-            }
-            
-            .spinner {
-                border: 4px solid #f3f3f3;
-                border-top: 4px solid #AE1F24;
-                border-radius: 50%;
-                width: 50px;
-                height: 50px;
-                animation: spin 1s linear infinite;
-                margin: 0 auto 20px;
-            }
-            
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-            
-            .message {
-                display: flex;
-                align-items: center;
-                gap: 20px;
-                padding: 30px;
-                background: white;
-                border-radius: 10px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                margin: 20px;
-                max-width: 600px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            
-            .message.error {
-                border-left: 5px solid #dc3545;
-            }
-            
-            .message.info {
-                border-left: 5px solid #17a2b8;
-            }
-            
-            .message-icon {
-                font-size: 40px;
-                flex-shrink: 0;
-            }
-            
-            .error .message-icon {
-                color: #dc3545;
-            }
-            
-            .info .message-icon {
-                color: #17a2b8;
-            }
-            
-            .message-content h3 {
-                margin: 0 0 10px 0;
-                color: #333;
-            }
-            
-            .message-content p {
-                margin: 0 0 15px 0;
-                color: #666;
-            }
-            
-            .retry-btn {
-                background: #AE1F24;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                border-radius: 5px;
-                cursor: pointer;
-                font-weight: 600;
-                font-size: 16px;
-            }
-            
-            .retry-btn:hover {
-                background: #8a181c;
-            }
-            
-            /* Section mois */
-            .month-section {
-                background: white;
-                border-radius: 10px;
-                overflow: hidden;
-                margin-bottom: 30px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            }
-            
-            .month-header {
-                background: linear-gradient(90deg, #192168 0%, #AE1F24 100%);
-                color: white;
-                padding: 20px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            
-            .month-header h2 {
-                margin: 0;
-                font-size: 24px;
-                font-weight: 700;
-            }
-            
-            .month-stats {
-                display: flex;
+    const style = document.createElement('style');
+    style.textContent = `
+        /* === Chargement === */
+        .loading-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #192168;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #AE1F24;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* === Messages === */
+        .message {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .message.error { border-left: 5px solid #dc3545; }
+        .message.info { border-left: 5px solid #17a2b8; }
+
+        .message-icon {
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+
+        .message-content h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+
+        .retry-btn {
+            background: #AE1F24;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* === Bloc mensuel === */
+        .month-block {
+            margin-bottom: 40px;
+        }
+
+        .month-block h3 {
+            font-size: 1.4em;
+            color: #AF1E2D;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        /* === Grille des matchs === */
+        .matchs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        /* === Carte de match === */
+        .match-card {
+            background-color: #f0f4ff;
+            border-left: 6px solid #0626CD;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .match-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .match-date {
+            font-weight: bold;
+            color: #121C68;
+            margin-bottom: 8px;
+        }
+
+        .match-opponent {
+            font-size: 1em;
+            color: #2E3551;
+            margin-bottom: 6px;
+        }
+
+        .match-score {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .match-result {
+            font-size: 0.95em;
+            font-weight: 600;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .match-result.victoire {
+            background-color: #2ecc71;
+        }
+
+        .match-result.defaite {
+            background-color: #e74c3c;
+        }
+
+        /* === Responsive === */
+        @media (max-width: 768px) {
+            .matchs-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
                 gap: 15px;
-                align-items: center;
             }
-            
-            .match-count {
-                background: rgba(255,255,255,0.2);
-                padding: 5px 15px;
-                border-radius: 20px;
-                font-size: 14px;
-                font-weight: 500;
+
+            .match-card {
+                padding: 14px;
             }
-            
-            .record {
-                background: rgba(255,255,255,0.2);
-                padding: 5px 15px;
-                border-radius: 20px;
-                font-size: 16px;
-                font-weight: 600;
+
+            .match-score {
+                font-size: 1.1em;
             }
-            
-            /* Tableau des matchs */
-            .matches-table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            
-            .matches-table thead {
-                background: #f8f9fa;
-            }
-            
-            .matches-table th {
-                padding: 18px 20px;
-                text-align: left;
-                font-weight: 600;
-                color: #192168;
-                border-bottom: 3px solid #e9ecef;
-                font-size: 15px;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-            }
-            
-            .matches-table tbody tr {
-                border-bottom: 1px solid #f0f0f0;
-                transition: background 0.3s ease;
-            }
-            
-            .matches-table tbody tr:hover {
-                background: #f8f9fa;
-            }
-            
-            .matches-table td {
-                padding: 18px 20px;
-                vertical-align: middle;
-            }
-            
-            .match-date {
-                font-weight: 600;
-                color: #495057;
-                font-size: 16px;
-                white-space: nowrap;
-            }
-            
-            .opponent {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                font-weight: 500;
-                font-size: 17px;
-            }
-            
-            .location-icon {
-                font-size: 18px;
-            }
-            
-            .location-icon.home {
-                color: #192168;
-            }
-            
-            .location-icon.away {
-                color: #AE1F24;
-            }
-            
-            .score {
-                font-weight: 700;
-                font-size: 20px;
-                text-align: center;
-                font-family: 'Courier New', monospace;
-            }
-            
-            .result-cell {
+
+            .message {
+                flex-direction: column;
                 text-align: center;
             }
-            
-            .result-badge {
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                padding: 8px 16px;
-                border-radius: 25px;
-                font-weight: 600;
-                font-size: 15px;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                min-width: 120px;
-                justify-content: center;
+        }
+
+        @media (max-width: 480px) {
+            .matchs-grid {
+                grid-template-columns: 1fr;
             }
-            
-            .result-badge.victoire {
-                background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-                color: #155724;
-                border: 1px solid #c3e6cb;
+
+            .match-card {
+                padding: 12px;
             }
-            
-            .result-badge.defaite {
-                background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
-                color: #721c24;
-                border: 1px solid #f5c6cb;
+
+            .match-score {
+                font-size: 1em;
             }
-            
-            /* Responsive */
-            @media (max-width: 768px) {
-                .month-header {
-                    flex-direction: column;
-                    text-align: center;
-                    gap: 10px;
-                }
-                
-                .month-stats {
-                    justify-content: center;
-                }
-                
-                .matches-table {
-                    display: block;
-                    overflow-x: auto;
-                }
-                
-                .matches-table th,
-                .matches-table td {
-                    padding: 12px 15px;
-                    font-size: 14px;
-                }
-                
-                .result-badge {
-                    min-width: 100px;
-                    font-size: 13px;
-                    padding: 6px 12px;
-                }
-                
-                .message {
-                    flex-direction: column;
-                    text-align: center;
-                }
+
+            .match-result {
+                font-size: 0.9em;
+                padding: 3px 8px;
             }
-        `;
+        }
+    `;
+
         document.head.appendChild(style);
     }
 });

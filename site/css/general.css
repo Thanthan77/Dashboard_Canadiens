@@ -72,26 +72,39 @@ body {
 
 /* Responsive navbar */
 @media (max-width: 768px) {
+  .navbar {
+    background-color: transparent;
+  }
+
   .navbar ul {
     flex-direction: column;
-    gap: 15px;
+    align-items: stretch; /* Étire sur toute la largeur */
+    padding: 0;
+    margin: 0;
+    gap: 0;
+  }
+
+  .navbar li {
+    width: 100%; /* Chaque ligne = toute la largeur */
   }
 
   .navbar li a {
-    font-size: 0.9em;
-    padding: 10px;
+    display: block;        /* Le lien occupe toute la ligne */
+    width: 100%;
+    text-align: center;
+    padding: 14px 0;
+    background-color: transparent;
+    border-radius: 0;      /* Pas d’arrondi pour un effet “ligne complète” */
   }
 
-  .titre {
-    font-size: 1.6em;
+  .navbar li a:hover {
+    background-color: white; /* Hover blanc sur toute la ligne */
+    color: #121C68;
   }
 
-  .header-banner {
-    padding: 15px 0;
-  }
-
-  .season-info p {
-    font-size: 0.9em;
-    padding: 6px 14px;
+  .navbar a.active {
+    background-color: white; /* Page active = même style */
+    color: #121C68;
   }
 }
+
