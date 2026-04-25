@@ -1,44 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Classements LNH - Saison 2024-2025</title>
-    <link rel="stylesheet" href="../css/general.css">
-    <link rel="stylesheet" href="../css/classements.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/general.css" />
+    <link rel="stylesheet" href="../css/classements.css" />
+  </head>
+  <body>
     <div class="header-banner">
-        <h1 class="titre" id="titre-saison"></h1>
+      <h1 class="titre" id="titre-saison"></h1>
     </div>
     <nav class="navbar">
-    <ul>
+      <ul>
         <li><a href="../index.html">Accueil</a></li>
         <li><a href="joueurs.html">Joueurs</a></li>
         <li><a href="statistiques.html">Statistiques</a></li>
         <li><a href="resultat_match.html">Résultats de Matchs</a></li>
         <li><a href="classements.html" class="active">Classements</a></li>
-    </ul>
+      </ul>
     </nav>
 
-<!--Tableau de classements de la ligue national d'hockey-->
+    <!--Tableau de classements de la ligue national d'hockey-->
     <table class="classement-table">
-        <thead>
-            <tr>
-            <th>Position</th>
-            <th>Équipe</th>
-            <th>MJ</th>
-            <th>V</th>
-            <th>D</th>
-            <th>DP</th>
-            <th>PTS</th>
-            </tr>
-        </thead>
-        <tbody id="classement-body">
+      <thead>
+        <tr>
+          <th>Position</th>
+          <th>Équipe</th>
+          <th>MJ</th>
+          <th>V</th>
+          <th>D</th>
+          <th>DP</th>
+          <th>PTS</th>
+        </tr>
+      </thead>
+      <tbody id="classement-body">
         <!-- Données injectées ici dynamiquement -->
-        </tbody>
+      </tbody>
     </table>
-    <script src="../javascript/SaisonActuelle.js"></script>
+    <script src="../javascript/saisonActuelle.js"></script>
     <script src="../javascript/classements.js"></script>
-</body>
+  </body>
 </html>
