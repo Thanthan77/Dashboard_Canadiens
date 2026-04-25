@@ -9,7 +9,6 @@ async function getJson(url) {
 }
 
 async function getJoueursCanadiens() {
-
   const saisonId = getCurrentSeasonId();
 
   // PROXY CORS
@@ -108,3 +107,29 @@ async function getJoueursCanadiens() {
 
   return joueurs;
 }
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const container = document.getElementById("joueurs");
+
+  const joueurs = await getJoueursCanadiens();
+
+  joueurs.forEach((joueur) => {
+    const card = document.createElement("div");
+    card.className = "joueur-card";
+
+    card.innerHTML = `
+      <img src="${joueur.headshot}" class="photo-joueur">
+      <h3>#${joueur.numero} ${joueur.prenom} ${joueur.nom}</h3>
+      <p><strong>Position :</strong> ${joueur.position}</p>
+      <p><strong>Buts :</strong> ${joueur.buts ?? "0"}</p>
+      <p><strong>Passes :</strong> ${joueur.passes ?? "0"}</p>
+      <p><strong>Points :</strong> ${joueur.points ?? "0"}</p>
+
+      <a href="statistiques.html?id=${joueur.id}" class="btn-stats">
+        Voir statistiques détaillées
+      </a>
+    `;
+
+    container.appendChild(card);
+  });
+});
