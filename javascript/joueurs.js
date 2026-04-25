@@ -1,11 +1,6 @@
 async function getJson(url) {
   try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "User-Agent": "Mozilla/5.0",
-      },
-    });
+    const response = await fetch(url);
     return await response.json();
   } catch (e) {
     console.error("Erreur fetch :", e);
@@ -14,17 +9,14 @@ async function getJson(url) {
 }
 
 async function getJoueursCanadiens() {
-  // Déterminer la saison actuelle
-  const now = new Date();
-  const annee = now.getFullYear();
-  const mois = now.getMonth() + 1;
 
-  const saisonDebut = mois < 7 ? annee - 1 : annee;
-  const saisonFin = saisonDebut + 1;
-  const saisonId = Number(`${saisonDebut}${saisonFin}`);
+  const saisonId = getCurrentSeasonId();
 
-  // Étape 1 : Récupérer le roster
-  const rosterUrl = "https://api-web.nhle.com/v1/roster/MTL/current";
+  // PROXY CORS
+  const proxy = "https://corsproxy.io/?";
+
+  // Récupérer le roster
+  const rosterUrl = proxy + "https://api-web.nhle.com/v1/roster/MTL/current";
   const rosterData = await getJson(rosterUrl);
 
   if (!rosterData) {
@@ -45,9 +37,13 @@ async function getJoueursCanadiens() {
       const headshot = joueur.headshot ?? "";
       const pays = joueur.birthCountry ?? "";
 
-      // Étape 2 : Récupérer les stats individuelles
+      // Récupérer les stats individuelles
       const type = position === "G" ? "goalie" : "skater";
-      const statsUrl = `https://api.nhle.com/stats/rest/en/${type}/summary?cayenneExp=playerId=${id}`;
+
+      const statsUrl =
+        proxy +
+        `https://api.nhle.com/stats/rest/en/${type}/summary?cayenneExp=playerId=${id}`;
+
       const statsData = await getJson(statsUrl);
 
       // Trouver la ligne correspondant à la saison actuelle
@@ -112,81 +108,3 @@ async function getJoueursCanadiens() {
 
   return joueurs;
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("joueurs");
-
-  loadAndDisplayPlayers();
-
-  async function loadAndDisplayPlayers() {
-    showLoading();
-
-    try {
-      const joueurs = await getJoueursCanadiens();
-
-      if (!Array.isArray(joueurs)) {
-        throw new Error("Structure de données invalide");
-      }
-
-      displayPlayers(joueurs);
-    } catch (error) {
-      console.error("Erreur lors du chargement des joueurs :", error);
-      showMessage(`Erreur : ${error.message}`, "error");
-    }
-  }
-
-  function displayPlayers(joueurs) {
-    container.innerHTML = "";
-
-    if (joueurs.length === 0) {
-      showMessage("Aucun joueur trouvé.", "info");
-      return;
-    }
-
-    joueurs.forEach((joueur) => {
-      const card = document.createElement("div");
-      card.className = "joueur-card";
-
-      const prenom = joueur.prenom || "";
-      const nom = joueur.nom || "";
-      const numero = joueur.numero !== undefined ? joueur.numero : "";
-      const id = joueur.id;
-
-      card.innerHTML = `
-        <div class="nom">${prenom} ${nom}</div>
-        <div class="numero">#${numero}</div>
-      `;
-
-      card.addEventListener("click", () => {
-        window.location.href = `statistiqueJoueur.html?id=${id}`;
-      });
-
-      container.appendChild(card);
-    });
-  }
-
-  function showLoading() {
-    container.innerHTML = `
-      <div class="loading-state">
-        <div class="spinner"></div>
-        <p>Chargement des joueurs...</p>
-      </div>
-    `;
-  }
-
-  function showMessage(message, type = "info") {
-    const icon =
-      type === "error" ? "Erreur" : type === "info" ? "Information" : "Succès";
-
-    container.innerHTML = `
-      <div class="message ${type}">
-        <div class="message-icon">${icon}</div>
-        <div class="message-content">
-          <h3>${type === "error" ? "Erreur" : "Information"}</h3>
-          <p>${message}</p>
-          ${type === "error" ? '<button onclick="location.reload()" class="retry-btn">Réessayer</button>' : ""}
-        </div>
-      </div>
-    `;
-  }
-});

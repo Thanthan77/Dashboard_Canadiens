@@ -1,106 +1,108 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const container = document.getElementById('statistiques');
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
+async function getJson(url) {
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { "User-Agent": "Mozilla/5.0" },
+    });
+    return await response.json();
+  } catch (e) {
+    console.error("Erreur fetch :", e);
+    return null;
+  }
+}
 
-  if (!id) {
-    showMessage("ID joueur manquant dans l'URL.", 'error');
-    return;
+async function getInfosJoueur(id) {
+  if (!id || isNaN(id)) {
+    return { error: "ID joueur invalide" };
   }
 
-  loadAndDisplayStats(id);
+  id = Number(id);
 
-  async function loadAndDisplayStats(joueurId) {
-    showLoading();
+  // Saison actuelle via saisonActuelle.js
+  const saisonId = getCurrentSeasonId();
 
-    try {
-      const data = await getInfosJoueur(joueurId);
+  // Proxy CORS
+  const proxy = "https://corsproxy.io/?";
 
-      if (data.error) {
-        showMessage(data.error, 'error');
-        return;
-      }
+  // Infos du joueur
+  const infoUrl = proxy + `https://api-web.nhle.com/v1/player/${id}/landing`;
+  const infoData = await getJson(infoUrl);
 
-      displayStats(data);
-    } catch (error) {
-      console.error('Erreur lors du chargement des statistiques :', error);
-      showMessage("Impossible de charger les statistiques du joueur.", 'error');
+  if (!infoData) {
+    return { error: "Joueur introuvable" };
+  }
+
+  const prenom = infoData.firstName?.default ?? "";
+  const nom = infoData.lastName?.default ?? "";
+  const numero = infoData.sweaterNumber ?? "";
+  const position = infoData.position ?? "";
+  const headshot = infoData.headshot ?? "";
+  const pays = infoData.birthCountry ?? "";
+
+  // Type de stats
+  const type = position === "G" ? "goalie" : "skater";
+
+  const statsUrl =
+    proxy +
+    `https://api.nhle.com/stats/rest/en/${type}/summary?cayenneExp=playerId=${id}`;
+
+  const statsData = await getJson(statsUrl);
+
+  // Trouver la ligne correspondant à la saison actuelle
+  let ligne = null;
+  for (const item of statsData?.data ?? []) {
+    if (item.seasonId === saisonId) {
+      ligne = item;
+      break;
     }
   }
 
-  function displayStats(data) {
-    const positionsMap = {
-      C: 'Centre',
-      L: 'Ailier gauche',
-      R: 'Ailier droit',
-      D: 'Défenseur',
-      G: 'Gardien'
-    };
+  // Statistiques communes
+  const buts = ligne?.goals ?? null;
+  const passes = ligne?.assists ?? null;
+  const points = ligne?.points ?? null;
 
-    function alpha3ToAlpha2(code) {
-      try {
-        return new Map([
-          ['CAN', 'CA'], ['USA', 'US'], ['SWE', 'SE'], ['FIN', 'FI'], ['RUS', 'RU'],
-          ['CZE', 'CZ'], ['SVK', 'SK'], ['GER', 'DE'], ['SUI', 'CH'], ['FRA', 'FR'],
-          ['NOR', 'NO'], ['DNK', 'DK'], ['LAT', 'LV'], ['GBR', 'GB'], ['AUT', 'AT']
-        ]).get(code) || code;
-      } catch {
-        return code;
-      }
-    }
+  // Statistiques gardien
+  let arrets = null;
+  let tirsRecus = null;
+  let pourcentage = null;
+  let butsEncaisses = null;
+  let blanchissages = null;
+  let tempsDeJeu = null;
 
-    const countryName = new Intl.DisplayNames(['fr'], { type: 'region' });
-    const nomPays = countryName.of(alpha3ToAlpha2(data.pays));
+  if (position === "G" && ligne) {
+    tirsRecus = ligne.shotsAgainst ?? null;
+    butsEncaisses = ligne.goalsAgainst ?? null;
+    arrets =
+      tirsRecus !== null && butsEncaissés !== null
+        ? tirsRecus - butsEncaissés
+        : null;
 
-    const html = `
-      <div class="carte-joueur">
-        <img src="${data.headshot}" alt="Photo de ${data.prenom} ${data.nom}" class="photo-joueur">
-        <h2>${data.prenom} ${data.nom} <span class="numero">#${data.numero}</span></h2>
-        <p><strong>Position :</strong> ${positionsMap[data.position] || data.position}</p>
-        <p><strong>Pays :</strong> ${nomPays}</p>
-        <hr>
-        <h3>Statistiques ${new Date().getFullYear()}-${new Date().getFullYear() + 1}</h3>
-        <ul>
-          ${data.position === 'G' ? `
-            <li><strong>Arrêts :</strong> ${data.arrets ?? 'N/A'}</li>
-            <li><strong>Tirs reçus :</strong> ${data.tirs_reçus ?? 'N/A'}</li>
-            <li><strong>Pourcentage d’arrêts :</strong> ${data.pourcentage_arrets ?? 'N/A'}</li>
-            <li><strong>Buts encaissés :</strong> ${data.buts_encaissés ?? 'N/A'}</li>
-            <li><strong>Blanchissages :</strong> ${data.blanchissages ?? 'N/A'}</li>
-            <li><strong>Temps de jeu :</strong> ${data.temps_de_jeu ?? 'N/A'} min</li>
-          ` : `
-            <li><strong>Buts :</strong> ${data.buts ?? 'N/A'}</li>
-            <li><strong>Passes :</strong> ${data.passes ?? 'N/A'}</li>
-            <li><strong>Points :</strong> ${data.points ?? 'N/A'}</li>
-          `}
-        </ul>
-      </div>
-    `;
+    pourcentage =
+      tirsRecus > 0 && butsEncaissés !== null
+        ? ((1 - butsEncaissés / tirsRecus) * 100).toFixed(2)
+        : null;
 
-    container.innerHTML = html;
+    blanchissages = ligne.shutouts ?? null;
+    tempsDeJeu = ligne.timeOnIce ? Math.round(ligne.timeOnIce / 60) : null;
   }
 
-  function showLoading() {
-    container.innerHTML = `
-      <div class="loading-state">
-        <div class="spinner"></div>
-        <p>Chargement des statistiques du joueur...</p>
-      </div>
-    `;
-  }
-
-  function showMessage(message, type = 'info') {
-    const icon =type === "error" ? "Erreur" : type === "info" ? "Information" : "Succès";
-
-    container.innerHTML = `
-      <div class="message ${type}">
-        <div class="message-icon">${icon}</div>
-        <div class="message-content">
-          <h3>${type === 'error' ? 'Erreur' : 'Information'}</h3>
-          <p>${message}</p>
-          ${type === 'error' ? '<button onclick="location.reload()" class="retry-btn">Réessayer</button>' : ''}
-        </div>
-      </div>
-    `;
-  }
-});
+  return {
+    id,
+    prenom,
+    nom,
+    numero,
+    position,
+    headshot,
+    pays,
+    buts,
+    passes,
+    points,
+    arrets,
+    tirs_reçus: tirsRecus,
+    pourcentage_arrets: pourcentage ? `${pourcentage}%` : null,
+    buts_encaissés: butsEncaissés,
+    blanchissages,
+    temps_de_jeu: tempsDeJeu,
+  };
+}

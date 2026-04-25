@@ -8,24 +8,8 @@ async function getJson(url) {
   }
 }
 
-function getCurrentSeason() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-
-  // Saison NHL commence en octobre
-  if (month >= 10) {
-    return `${year}-${year + 1}`;
-  } else {
-    return `${year - 1}-${year}`;
-  }
-}
-
 async function getClassementNHL() {
-  // Proxy CORS fiable
   const proxy = "https://corsproxy.io/?";
-
-  // API NHL
   const api = "https://api-web.nhle.com/v1/standings/now";
 
   const data = await getJson(proxy + api);
@@ -51,11 +35,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   const tbody = document.getElementById("classement-body");
   const titre = document.getElementById("titre-saison");
 
-  // Titre dynamique
-  const saison = getCurrentSeason();
+  // Fonction dans Fichier SaisonActuelle.js
+  const saison = getCurrentSeasonText();
   titre.textContent = `Classement LNH – Saison ${saison}`;
 
-  // Remplir le tableau
   classement.forEach((team) => {
     const row = document.createElement("tr");
     row.innerHTML = `
