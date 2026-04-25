@@ -14,14 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showLoading();
 
     try {
-      const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : 'https://dashboard-canadiens.onrender.com/api';
-      const response = await fetch(`${baseURL}/stats/${joueurId}`);
-
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP ${response.status}`);
-      }
-
-      const data = await response.json();
+      const data = await getInfosJoueur(joueurId);
 
       if (data.error) {
         showMessage(data.error, 'error');
@@ -97,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showMessage(message, type = 'info') {
-    const icon = type === 'error' ? '❌' : type === 'info' ? 'ℹ️' : '✅';
+    const icon =type === "error" ? "Erreur" : type === "info" ? "Information" : "Succès";
 
     container.innerHTML = `
       <div class="message ${type}">

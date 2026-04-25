@@ -1,35 +1,24 @@
 document.addEventListener('DOMContentLoaded', function() {
     const resultsContainer = document.getElementById('matchs');
     
-    // Charger et afficher les matchs
     loadAndDisplayMatchs();
     
     async function loadAndDisplayMatchs() {
         showLoading();
         
         try {
-            // Récupérer les données depuis votre API
-            const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : 'https://dashboard-canadiens.onrender.com/api';
-            const response = await fetch(`${baseURL}/matchs`);
             
-            if (!response.ok) {
-                throw new Error(`Erreur HTTP ${response.status}`);
-            }
-            
-            const data = await response.json();
-            
-            // Vérifier si c'est un message d'erreur ou de vide
+            const data = await getMatchsCanadiens();
+
             if (data.message) {
                 showMessage(data.message, 'info');
                 return;
             }
-            
-            // Vérifier la structure des données
+
             if (!data.matchs_par_mois || typeof data.matchs_par_mois !== 'object') {
                 throw new Error('Structure de données invalide');
             }
             
-            // Afficher les matchs
             displayMatchsByMonth(data);
             
         } catch (error) {
@@ -42,43 +31,30 @@ document.addEventListener('DOMContentLoaded', function() {
         resultsContainer.innerHTML = '';
         
         const months = Object.keys(data.matchs_par_mois).sort((a, b) => {
-        const dateA = new Date(data.matchs_par_mois[a][0].Date);
-        const dateB = new Date(data.matchs_par_mois[b][0].Date);
-        return dateB - dateA; 
-});
+            const dateA = new Date(data.matchs_par_mois[a][0].Date);
+            const dateB = new Date(data.matchs_par_mois[b][0].Date);
+            return dateB - dateA;
+        });
 
-        
         if (months.length === 0) {
             showMessage('Aucun match terminé disponible', 'info');
             return;
         }
         
-        // Pour chaque mois
         months.forEach(monthName => {
             const matches = data.matchs_par_mois[monthName];
-            
-            // Vérifier que c'est bien un tableau
-            if (!Array.isArray(matches)) {
-                console.warn(`Les matchs de ${monthName} ne sont pas dans un tableau`);
-                return;
-            }
-            
-            // Créer la section du mois
+            if (!Array.isArray(matches)) return;
             createMonthSection(monthName, matches);
         });
     }
     
     function createMonthSection(monthName, matches) {
-
-
         const section = document.createElement('div');
         section.className = 'month-section';
         
-        // Compter victoires/défaites pour ce mois
         const victories = matches.filter(m => m.Résultat === 'Victoire').length;
         const defeats = matches.filter(m => m.Résultat === 'Défaite').length;
         
-        // En-tête du mois avec statistiques
         const header = document.createElement('div');
         header.className = 'month-header';
         header.innerHTML = `
@@ -89,11 +65,9 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
         
-        // Tableau des matchs
         const table = document.createElement('table');
         table.className = 'matches-table';
         
-        // En-tête du tableau
         table.innerHTML = `
             <thead>
                 <tr>
@@ -114,21 +88,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function createMatchRow(match) {
-        // Formater la date (JJ-MM-AAAA)
         const dateParts = match.Date.split('-');
         const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
         
-        // Icône et texte pour domicile/extérieur
         const isHome = match.Domicile;
-        const locationIcon = isHome ? 'Domicile' : 'Extérieur';
         const locationText = isHome ? 'Domicile' : 'Extérieur';
         
-        // Résultat
         const isVictory = match.Résultat === 'Victoire';
         const resultClass = isVictory ? 'victoire' : 'defaite';
-        const resultText = match.Résultat || 'N/A';
         
-        // Score (si MTL est à domicile, afficher MTL-ADV, sinon ADV-MTL)
         let scoreDisplay = match.Score;
         if (scoreDisplay.includes('-')) {
             const [scoreHome, scoreAway] = scoreDisplay.split('-');
@@ -144,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td class="score">${scoreDisplay}</td>
                 <td class="result-cell">
                     <span class="result-badge ${resultClass}">
-                        ${resultText}
+                        ${match.Résultat}
                     </span>
                 </td>
             </tr>
@@ -161,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function showMessage(message, type = 'info') {
-        const icon = type === 'error' ? '❌' : type === 'info' ? 'ℹ️' : '✅';
+        const icon =type === "error" ? "Erreur" : type === "info" ? "Information" : "Succès";
         
         resultsContainer.innerHTML = `
             <div class="message ${type}">
@@ -177,8 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
     }
-    
-    // Ajouter les styles CSS
+
     addStyles();
     
     function addStyles() {
@@ -355,3 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.head.appendChild(style);
     }
 });
+
+    
+    
+    

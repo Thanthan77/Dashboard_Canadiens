@@ -1,72 +1,65 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const titreElement = document.getElementById('titre-saison');
-    const tbody = document.getElementById('classement-body');
+document.addEventListener("DOMContentLoaded", () => {
+  const titreElement = document.getElementById("titre-saison");
+  const tbody = document.getElementById("classement-body");
 
-    setSeasonTitle();
-    loadAndDisplayClassements();
+  setSeasonTitle();
+  loadAndDisplayClassements();
 
-    function setSeasonTitle() {
-        const now = new Date();
-        const currentYear = now.getFullYear();
-        const currentMonth = now.getMonth();
+  function setSeasonTitle() {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
 
-        let saisonDebut;
-        let saisonFin;
-        if (currentMonth >= 9) {
-            saisonDebut = currentYear;
-            saisonFin = currentYear + 1;
-        } else {
-            saisonDebut = currentYear - 1;
-            saisonFin = currentYear;
-        }
-
-        titreElement.textContent = `Classements LNH - Saison ${saisonDebut}-${saisonFin}`;
+    let saisonDebut;
+    let saisonFin;
+    if (currentMonth >= 9) {
+      saisonDebut = currentYear;
+      saisonFin = currentYear + 1;
+    } else {
+      saisonDebut = currentYear - 1;
+      saisonFin = currentYear;
     }
 
-    async function loadAndDisplayClassements() {
-        showLoading();
+    titreElement.textContent = `Classements LNH - Saison ${saisonDebut}-${saisonFin}`;
+  }
 
-        try {
-            const baseURL = window.location.hostname.includes('localhost') ? 'http://localhost/api' : 'https://dashboard-canadiens.onrender.com/api';
-            const response = await fetch(`${baseURL}/classements`);
+  async function loadAndDisplayClassements() {
+    showLoading();
 
-            if (!response.ok) {
-                throw new Error(`Erreur HTTP ${response.status}`);
-            }
+    try {
+      const data = await getClassementNHL();
 
-            const data = await response.json();
+      if (!Array.isArray(data)) {
+        throw new Error("Structure de données invalide");
+      }
 
-            if (!Array.isArray(data)) {
-                throw new Error('Structure de données invalide');
-            }
+      displayClassements(data);
+    } catch (error) {
+      console.error("Erreur chargement du classement :", error);
+      showMessage("Impossible de charger les données.", "error");
+    }
+  }
 
-            displayClassements(data);
-        } catch (error) {
-            console.error('Erreur chargement du classement :', error);
-            showMessage('Impossible de charger les données.', 'error');
-        }
+  function displayClassements(data) {
+    tbody.innerHTML = "";
+
+    if (data.length === 0) {
+      showMessage("Aucune donnée disponible.", "info");
+      return;
     }
 
-    function displayClassements(data) {
-        tbody.innerHTML = '';
+    data.forEach((team, index) => {
+      const row = document.createElement("tr");
 
-        if (data.length === 0) {
-            showMessage('Aucune donnée disponible.', 'info');
-            return;
-        }
+      if (index < 3) {
+        row.classList.add("highlight");
+      }
 
-        data.forEach((team, index) => {
-            const row = document.createElement('tr');
+      if (team.equipe.trim().toLowerCase().includes("montréal")) {
+        row.classList.add("montreal");
+      }
 
-            if (index < 3) {
-                row.classList.add('highlight');
-            }
-
-            if (team.equipe.trim().toLowerCase().includes('montréal')) {
-                row.classList.add('montreal');
-            }
-
-            row.innerHTML = `
+      row.innerHTML = `
                 <td>${team.rang}</td>
                 <td>${team.equipe}</td>
                 <td>${team.mj}</td>
@@ -75,12 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${team.dp}</td>
                 <td>${team.pts}</td>
             `;
-            tbody.appendChild(row);
-        });
-    }
+      tbody.appendChild(row);
+    });
+  }
 
-    function showLoading() {
-        tbody.innerHTML = `
+  function showLoading() {
+    tbody.innerHTML = `
             <tr>
                 <td colspan="7">
                     <div class="loading-state">
@@ -90,24 +83,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
             </tr>
         `;
-    }
+  }
 
-    function showMessage(message, type = 'info') {
-        const icon = type === 'error' ? '❌' : type === 'info' ? 'ℹ️' : '✅';
+  function showMessage(message, type = "info") {
+    const icon =type === "error" ? "Erreur" : type === "info" ? "Information" : "Succès";
 
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="7">
-                    <div class="message ${type}">
-                        <div class="message-icon">${icon}</div>
-                        <div class="message-content">
-                            <h3>${type === 'error' ? 'Erreur' : 'Information'}</h3>
-                            <p>${message}</p>
-                            ${type === 'error' ? '<button onclick="location.reload()" class="retry-btn">Réessayer</button>' : ''}
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        `;
-    }
+    tbody.innerHTML = `
+    <tr>
+        <td colspan="7">
+            <div class="message ${type}">
+                <div class="message-icon">${icon}</div>
+                <div class="message-content">
+                    <h3>${type === "error" ? "Erreur" : "Information"}</h3>
+                    <p>${message}</p>
+                    ${type === "error" ? '<button onclick="location.reload()" class="retry-btn">Réessayer</button>' : ""}
+                </div>
+            </div>
+        </td>
+    </tr>
+`;
+  }
 });
