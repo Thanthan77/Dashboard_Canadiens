@@ -9,89 +9,44 @@ async function getJson(url) {
 }
 
 /* ---------------------------------------------------------
-   Fallback : trouver la dernière date avec un classement valide
+   Déterminer automatiquement la saison actuelle
 --------------------------------------------------------- */
-async function getLastValidStandingsDate() {
+function getCurrentSeason() {
   const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1; // 1 = janvier, 12 = décembre
 
-  // Tester les 365 derniers jours
-  for (let i = 0; i < 365; i++) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
-
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    const dd = String(d.getDate()).padStart(2, "0");
-
-    const dateStr = `${yyyy}-${mm}-${dd}`;
-    const url = `https://api-web.nhle.com/v1/standings/${dateStr}`;
-
-    const data = await getJson(url);
-
-    if (data && Array.isArray(data.standings) && data.standings.length > 0) {
-      return dateStr; // 🎉 Date valide trouvée
-    }
+  // La saison NHL commence en octobre (mois 10)
+  if (month >= 10) {
+    // Exemple : octobre 2025 → saison 2025‑2026
+    return `${year}-${year + 1}`;
+  } else {
+    // Exemple : avril 2026 → saison 2025‑2026
+    return `${year - 1}-${year}`;
   }
-
-  return null;
 }
 
 /* ---------------------------------------------------------
-   Charger le classement NHL (fallback complet)
+   Charger le classement NHL (API stable toute l'année)
 --------------------------------------------------------- */
 async function getClassementNHL() {
-  // 1. Essayer standings/now
-  try {
-    const nowUrl = "https://api-web.nhle.com/v1/standings/now";
-    const nowData = await getJson(nowUrl);
-
-    if (nowData && nowData.standings && nowData.standings.length > 0) {
-      return formatClassement(nowData.standings);
-    }
-  } catch (e) {
-    console.warn("standings/now indisponible");
-  }
-
-  // 2. Essayer la dernière date valide
-  const lastDate = await getLastValidStandingsDate();
-
-  if (!lastDate) {
-    console.error("Aucune date valide trouvée");
-    return [];
-  }
-
-  const url = `https://api-web.nhle.com/v1/standings/${lastDate}`;
+  const url = "https://api.nhle.com/stats/rest/en/standings";
   const data = await getJson(url);
 
-  if (!data || !data.standings) {
-    console.error("Impossible de charger le fallback par date");
+  if (!data || !data.data) {
+    console.error("Impossible de charger le classement NHL");
     return [];
   }
 
-  return formatClassement(data.standings);
-}
-
-/* ---------------------------------------------------------
-   Formater le classement
---------------------------------------------------------- */
-function formatClassement(standings) {
-  let classement = [];
-  let rang = 1;
-
-  standings.forEach((team) => {
-    classement.push({
-      rang: rang++,
-      equipe: team.teamName?.default ?? "",
-      mj: team.gamesPlayed ?? 0,
-      v: team.wins ?? 0,
-      d: team.losses ?? 0,
-      dp: team.otLosses ?? 0,
-      pts: team.points ?? 0,
-      diff: team.goalDifferential ?? 0,
-    });
-  });
-
-  return classement;
+  return data.data.map((team, index) => ({
+    rang: index + 1,
+    equipe: team.teamCommonName,
+    mj: team.gamesPlayed,
+    v: team.wins,
+    d: team.losses,
+    dp: team.otLosses,
+    pts: team.points,
+  }));
 }
 
 /* ---------------------------------------------------------
@@ -100,7 +55,13 @@ function formatClassement(standings) {
 document.addEventListener("DOMContentLoaded", async () => {
   const classement = await getClassementNHL();
   const tbody = document.getElementById("classement-body");
+  const titre = document.getElementById("titre-saison");
 
+  // Déterminer automatiquement la saison
+  const saison = getCurrentSeason();
+  titre.textContent = `Classement LNH – Saison ${saison}`;
+
+  // Remplir le tableau
   classement.forEach((team) => {
     const row = document.createElement("tr");
     row.innerHTML = `
