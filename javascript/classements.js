@@ -14,33 +14,32 @@ async function getJson(url) {
 function getCurrentSeason() {
   const today = new Date();
   const year = today.getFullYear();
-  const month = today.getMonth() + 1; // 1 = janvier, 12 = décembre
+  const month = today.getMonth() + 1;
 
-  // La saison NHL commence en octobre (mois 10)
+  // Saison NHL commence en octobre
   if (month >= 10) {
-    // Exemple : octobre 2025 → saison 2025‑2026
     return `${year}-${year + 1}`;
   } else {
-    // Exemple : avril 2026 → saison 2025‑2026
     return `${year - 1}-${year}`;
   }
 }
 
 /* ---------------------------------------------------------
-   Charger le classement NHL (API stable toute l'année)
+   Charger le classement NHL (API qui MARCHE en frontend)
 --------------------------------------------------------- */
 async function getClassementNHL() {
-  const url = "https://api.nhle.com/stats/rest/en/standings";
+  // API qui fonctionne côté navigateur
+  const url = "https://api-web.nhle.com/v1/standings/now";
   const data = await getJson(url);
 
-  if (!data || !data.data) {
+  if (!data || !data.standings) {
     console.error("Impossible de charger le classement NHL");
     return [];
   }
 
-  return data.data.map((team, index) => ({
+  return data.standings.map((team, index) => ({
     rang: index + 1,
-    equipe: team.teamCommonName,
+    equipe: team.teamName.default,
     mj: team.gamesPlayed,
     v: team.wins,
     d: team.losses,
@@ -57,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const tbody = document.getElementById("classement-body");
   const titre = document.getElementById("titre-saison");
 
-  // Déterminer automatiquement la saison
+  // Titre dynamique
   const saison = getCurrentSeason();
   titre.textContent = `Classement LNH – Saison ${saison}`;
 
