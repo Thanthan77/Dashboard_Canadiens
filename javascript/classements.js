@@ -93,3 +93,25 @@ function formatClassement(standings) {
 
   return classement;
 }
+
+/* ---------------------------------------------------------
+   Injection dans le tableau HTML
+--------------------------------------------------------- */
+document.addEventListener("DOMContentLoaded", async () => {
+  const classement = await getClassementNHL();
+  const tbody = document.getElementById("classement-body");
+
+  classement.forEach((team) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${team.rang}</td>
+      <td>${team.equipe}</td>
+      <td>${team.mj}</td>
+      <td>${team.v}</td>
+      <td>${team.d}</td>
+      <td>${team.dp}</td>
+      <td>${team.pts}</td>
+    `;
+    tbody.appendChild(row);
+  });
+});
