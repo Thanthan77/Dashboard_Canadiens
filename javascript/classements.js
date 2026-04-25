@@ -8,9 +8,6 @@ async function getJson(url) {
   }
 }
 
-/* ---------------------------------------------------------
-   Déterminer automatiquement la saison actuelle
---------------------------------------------------------- */
 function getCurrentSeason() {
   const today = new Date();
   const year = today.getFullYear();
@@ -24,13 +21,14 @@ function getCurrentSeason() {
   }
 }
 
-/* ---------------------------------------------------------
-   Charger le classement NHL (API qui MARCHE en frontend)
---------------------------------------------------------- */
 async function getClassementNHL() {
-  // API qui fonctionne côté navigateur
-  const url = "https://api-web.nhle.com/v1/standings/now";
-  const data = await getJson(url);
+  // Proxy CORS fiable
+  const proxy = "https://corsproxy.io/?";
+
+  // API NHL
+  const api = "https://api-web.nhle.com/v1/standings/now";
+
+  const data = await getJson(proxy + api);
 
   if (!data || !data.standings) {
     console.error("Impossible de charger le classement NHL");
@@ -48,9 +46,6 @@ async function getClassementNHL() {
   }));
 }
 
-/* ---------------------------------------------------------
-   Injection dans le tableau HTML
---------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", async () => {
   const classement = await getClassementNHL();
   const tbody = document.getElementById("classement-body");
