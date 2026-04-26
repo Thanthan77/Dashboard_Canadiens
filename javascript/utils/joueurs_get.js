@@ -2,8 +2,11 @@ async function getJoueursCanadiens() {
   // Déterminer la saison actuelle
   const saisonId = getCurrentSeasonText();
 
-  // Récupérer le roster (API web)
-  const rosterUrl = "https://api-web.nhle.com/v1/roster/MTL/${saisonId}";
+  // Proxy CORS
+  const proxy = "https://corsproxy.io/?";
+
+  // Récupérer le roster
+  const rosterUrl = `${proxy}https://api-web.nhle.com/v1/roster/MTL/${saisonId}`;
   const rosterData = await getJson(rosterUrl);
 
   if (!rosterData) {
@@ -24,9 +27,9 @@ async function getJoueursCanadiens() {
       const headshot = joueur.headshot ?? "";
       const pays = joueur.birthCountry ?? "";
 
-      // Récupérer les stats individuelles (API stats)
+      // Récupérer les stats individuelles
       const type = position === "G" ? "goalie" : "skater";
-      const statsUrl = `https://api.nhle.com/stats/rest/en/${type}/summary?cayenneExp=playerId=${id}`;
+      const statsUrl = `${proxy}https://api.nhle.com/stats/rest/en/${type}/summary?cayenneExp=playerId=${id}`;
       const statsData = await getJson(statsUrl);
 
       // Trouver la ligne correspondant à la saison actuelle
@@ -83,7 +86,7 @@ async function getJoueursCanadiens() {
         arrets,
         tirs_reçus: tirsRecus,
         pourcentage_arrets: pourcentage ? `${pourcentage}%` : null,
-        buts_encaissés: butsEncaisses,
+        buts_encaissés: butsEncaissés,
         blanchissages,
         temps_de_jeu: tempsDeJeu,
       });
