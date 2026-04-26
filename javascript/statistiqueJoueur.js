@@ -16,15 +16,10 @@ async function getInfosJoueur(id) {
   }
 
   id = Number(id);
+  const saisonId = Number(getCurrentSeasonId());
 
-  // Saison actuelle via saisonActuelle.js
-  const saisonId = getCurrentSeasonId();
-
-  // Proxy CORS
-  const proxy = "https://corsproxy.io/?";
-
-  // Infos du joueur
-  const infoUrl = proxy + `https://api-web.nhle.com/v1/player/${id}/landing`;
+  //  Infos joueur
+  const infoUrl = `https://api-web.nhle.com/v1/player/${id}/landing`;
   const infoData = await getJson(infoUrl);
 
   if (!infoData) {
@@ -38,16 +33,11 @@ async function getInfosJoueur(id) {
   const headshot = infoData.headshot ?? "";
   const pays = infoData.birthCountry ?? "";
 
-  // Type de stats
+  // Stats joueur
   const type = position === "G" ? "goalie" : "skater";
-
-  const statsUrl =
-    proxy +
-    `https://api.nhle.com/stats/rest/en/${type}/summary?cayenneExp=playerId=${id}`;
-
+  const statsUrl = `https://api.nhle.com/stats/rest/en/${type}/summary?cayenneExp=playerId=${id}`;
   const statsData = await getJson(statsUrl);
 
-  // Trouver la ligne correspondant à la saison actuelle
   let ligne = null;
   for (const item of statsData?.data ?? []) {
     if (item.seasonId === saisonId) {
@@ -56,12 +46,10 @@ async function getInfosJoueur(id) {
     }
   }
 
-  // Statistiques communes
-  const buts = ligne?.goals ?? null;
-  const passes = ligne?.assists ?? null;
-  const points = ligne?.points ?? null;
+  const buts = ligne?.goals ?? 0;
+  const passes = ligne?.assists ?? 0;
+  const points = ligne?.points ?? 0;
 
-  // Statistiques gardien
   let arrets = null;
   let tirsRecus = null;
   let pourcentage = null;
@@ -72,16 +60,9 @@ async function getInfosJoueur(id) {
   if (position === "G" && ligne) {
     tirsRecus = ligne.shotsAgainst ?? null;
     butsEncaisses = ligne.goalsAgainst ?? null;
-    arrets =
-      tirsRecus !== null && butsEncaisses !== null
-        ? tirsRecus - butsEncaissés
-        : null;
 
-    pourcentage =
-      tirsRecus > 0 && butsEncaisses !== null
-        ? ((1 - butsEncaisses / tirsRecus) * 100).toFixed(2)
-        : null;
-
+    arrets = tirsRecus - butsEncaisses;
+    pourcentage = ((1 - butsEncaisses / tirsRecus) * 100).toFixed(2);
     blanchissages = ligne.shutouts ?? null;
     tempsDeJeu = ligne.timeOnIce ? Math.round(ligne.timeOnIce / 60) : null;
   }
@@ -98,11 +79,11 @@ async function getInfosJoueur(id) {
     passes,
     points,
     arrets,
-    tirs_reçus: tirsRecus,
-    pourcentage_arrets: pourcentage ? `${pourcentage}%` : null,
-    buts_encaissés: butsEncaisses,
+    tirsRecus,
+    pourcentage,
+    butsEncaisses,
     blanchissages,
-    temps_de_jeu: tempsDeJeu,
+    tempsDeJeu,
   };
 }
 
