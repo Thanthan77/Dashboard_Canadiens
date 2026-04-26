@@ -9,12 +9,19 @@ async function getJson(url) {
 }
 
 async function getJoueursCanadiens() {
-  const saisonId = getCurrentSeasonId();
+  // Déterminer la saison actuelle
+  const now = new Date();
+  const annee = now.getFullYear();
+  const mois = now.getMonth() + 1;
+
+  const saisonDebut = mois < 7 ? annee - 1 : annee;
+  const saisonFin = saisonDebut + 1;
+  const saisonId = Number(`${saisonDebut}${saisonFin}`);
 
   // PROXY CORS
   const proxy = "https://corsproxy.io/?";
 
-  // Récupérer le roster
+  // Étape 1 : Récupérer le roster
   const rosterUrl = proxy + "https://api-web.nhle.com/v1/roster/MTL/current";
   const rosterData = await getJson(rosterUrl);
 
@@ -36,7 +43,7 @@ async function getJoueursCanadiens() {
       const headshot = joueur.headshot ?? "";
       const pays = joueur.birthCountry ?? "";
 
-      // Récupérer les stats individuelles
+      // Étape 2 : Récupérer les stats individuelles
       const type = position === "G" ? "goalie" : "skater";
 
       const statsUrl =
@@ -98,7 +105,7 @@ async function getJoueursCanadiens() {
         arrets,
         tirs_reçus: tirsRecus,
         pourcentage_arrets: pourcentage ? `${pourcentage}%` : null,
-        buts_encaissés: butsEncaisses,
+        buts_encaissés: butsEncaissés,
         blanchissages,
         temps_de_jeu: tempsDeJeu,
       });
@@ -108,28 +115,80 @@ async function getJoueursCanadiens() {
   return joueurs;
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("joueurs");
 
-  const joueurs = await getJoueursCanadiens();
+  loadAndDisplayPlayers();
 
-  joueurs.forEach((joueur) => {
-    const card = document.createElement("div");
-    card.className = "joueur-card";
+  async function loadAndDisplayPlayers() {
+    showLoading();
 
-    card.innerHTML = `
-      <img src="${joueur.headshot}" class="photo-joueur">
-      <h3>#${joueur.numero} ${joueur.prenom} ${joueur.nom}</h3>
-      <p><strong>Position :</strong> ${joueur.position}</p>
-      <p><strong>Buts :</strong> ${joueur.buts ?? "0"}</p>
-      <p><strong>Passes :</strong> ${joueur.passes ?? "0"}</p>
-      <p><strong>Points :</strong> ${joueur.points ?? "0"}</p>
+    try {
+      const joueurs = await getJoueursCanadiens();
 
-      <a href="statistiques.html?id=${joueur.id}" class="btn-stats">
-        Voir statistiques détaillées
-      </a>
+      if (!Array.isArray(joueurs)) {
+        throw new Error("Structure de données invalide");
+      }
+
+      displayPlayers(joueurs);
+    } catch (error) {
+      console.error("Erreur lors du chargement des joueurs :", error);
+      showMessage(`Erreur : ${error.message}`, "error");
+    }
+  }
+
+  function displayPlayers(joueurs) {
+    container.innerHTML = "";
+
+    if (joueurs.length === 0) {
+      showMessage("Aucun joueur trouvé.", "info");
+      return;
+    }
+
+    joueurs.forEach((joueur) => {
+      const card = document.createElement("div");
+      card.className = "joueur-card";
+
+      const prenom = joueur.prenom || "";
+      const nom = joueur.nom || "";
+      const numero = joueur.numero !== undefined ? joueur.numero : "";
+      const id = joueur.id;
+
+      card.innerHTML = `
+        <div class="nom">${prenom} ${nom}</div>
+        <div class="numero">#${numero}</div>
+      `;
+
+      card.addEventListener("click", () => {
+        window.location.href = `statistiqueJoueur.html?id=${id}`;
+      });
+
+      container.appendChild(card);
+    });
+  }
+
+  function showLoading() {
+    container.innerHTML = `
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Chargement des joueurs...</p>
+      </div>
     `;
+  }
 
-    container.appendChild(card);
-  });
+  function showMessage(message, type = "info") {
+    const icon =
+      type === "error" ? "Erreur" : type === "info" ? "Information" : "Succès";
+
+    container.innerHTML = `
+      <div class="message ${type}">
+        <div class="message-icon">${icon}</div>
+        <div class="message-content">
+          <h3>${type === "error" ? "Erreur" : "Information"}</h3>
+          <p>${message}</p>
+          ${type === "error" ? '<button onclick="location.reload()" class="retry-btn">Réessayer</button>' : ""}
+        </div>
+      </div>
+    `;
+  }
 });
