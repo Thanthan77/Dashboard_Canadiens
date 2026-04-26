@@ -2,8 +2,13 @@ async function getJoueursCanadiens() {
   // Déterminer la saison actuelle (ex: 20242025)
   const saisonId = getCurrentSeasonId();
 
+  // Proxy CORS
+  const proxy = "https://corsproxy.io/?";
+
   // Récupérer le roster via API Stats (teamId = 8 pour Montréal)
-  const rosterUrl = "https://api.nhle.com/stats/rest/en/team/roster?cayenneExp=teamId=8";
+  const rosterUrl =
+    proxy +
+    "https://api.nhle.com/stats/rest/en/team/roster?cayenneExp=teamId=8";
   const rosterData = await getJson(rosterUrl);
 
   if (!rosterData?.data) {
@@ -15,7 +20,7 @@ async function getJoueursCanadiens() {
   const groupes = {
     forwards: [],
     defensemen: [],
-    goalies: []
+    goalies: [],
   };
 
   // On répartit les joueurs dans les groupes
@@ -44,6 +49,7 @@ async function getJoueursCanadiens() {
       const type = position === "G" ? "goalie" : "skater";
 
       const statsUrl =
+        proxy +
         `https://api.nhle.com/stats/rest/en/${type}/summary?cayenneExp=playerId=${id}`;
 
       const statsData = await getJson(statsUrl);
@@ -102,7 +108,7 @@ async function getJoueursCanadiens() {
         arrets,
         tirs_reçus: tirsRecus,
         pourcentage_arrets: pourcentage ? `${pourcentage}%` : null,
-        buts_encaissés: butsEncaisses,
+        buts_encaissés: butsEncaissés,
         blanchissages,
         temps_de_jeu: tempsDeJeu,
       });
