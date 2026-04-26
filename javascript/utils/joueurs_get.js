@@ -3,7 +3,7 @@ async function getJoueursCanadiens() {
   const saisonId = getCurrentSeasonText();
 
   // Récupérer le roster (API web)
-  const rosterUrl = "https://api-web.nhle.com/v1/roster/MTL/current";
+  const rosterUrl = "https://api-web.nhle.com/v1/roster/MTL/${saisonId}";
   const rosterData = await getJson(rosterUrl);
 
   if (!rosterData) {
