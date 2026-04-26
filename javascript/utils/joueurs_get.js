@@ -1,37 +1,49 @@
 async function getJoueursCanadiens() {
-  // Déterminer la saison actuelle
-  const saisonId = getCurrentSeasonText();
+  // Déterminer la saison actuelle (ex: 20242025)
+  const saisonId = getCurrentSeasonId();
 
-  // PROXY CORS
-  const proxy = "https://corsproxy.io/?";
-
-  //  Récupérer le roster
-  const rosterUrl = proxy + "https://api-web.nhle.com/v1/roster/MTL/current";
+  // Récupérer le roster via API Stats (teamId = 8 pour Montréal)
+  const rosterUrl = "https://api.nhle.com/stats/rest/en/team/roster?cayenneExp=teamId=8";
   const rosterData = await getJson(rosterUrl);
 
-  if (!rosterData) {
+  if (!rosterData?.data) {
     console.error("Roster introuvable");
     return [];
   }
 
-  const groupes = ["forwards", "defensemen", "goalies"];
+  // On recrée les mêmes groupes que ton code original
+  const groupes = {
+    forwards: [],
+    defensemen: [],
+    goalies: []
+  };
+
+  // On répartit les joueurs dans les groupes
+  for (const j of rosterData.data) {
+    if (j.positionCode === "G") groupes.goalies.push(j);
+    else if (j.positionCode === "D") groupes.defensemen.push(j);
+    else groupes.forwards.push(j);
+  }
+
   const joueurs = [];
 
-  for (const groupe of groupes) {
-    for (const joueur of rosterData[groupe] ?? []) {
-      const id = joueur.id;
-      const prenom = joueur.firstName?.default ?? "";
-      const nom = joueur.lastName?.default ?? "";
+  // Même structure que ton code original
+  for (const groupe of ["forwards", "defensemen", "goalies"]) {
+    for (const joueur of groupes[groupe]) {
+      const id = joueur.playerId;
+      const prenom = joueur.firstName ?? "";
+      const nom = joueur.lastName ?? "";
       const numero = joueur.sweaterNumber ?? "";
       const position = joueur.positionCode ?? "";
-      const headshot = joueur.headshot ?? "";
       const pays = joueur.birthCountry ?? "";
+
+      // Headshot reconstruit (format officiel NHL)
+      const headshot = `https://assets.nhle.com/mugs/nhl/${id}.png`;
 
       // Récupérer les stats individuelles
       const type = position === "G" ? "goalie" : "skater";
 
       const statsUrl =
-        proxy +
         `https://api.nhle.com/stats/rest/en/${type}/summary?cayenneExp=playerId=${id}`;
 
       const statsData = await getJson(statsUrl);
@@ -46,9 +58,9 @@ async function getJoueursCanadiens() {
       }
 
       // Statistiques communes
-      const buts = ligne?.goals ?? null;
-      const passes = ligne?.assists ?? null;
-      const points = ligne?.points ?? null;
+      const buts = ligne?.goals ?? 0;
+      const passes = ligne?.assists ?? 0;
+      const points = ligne?.points ?? 0;
 
       // Statistiques gardiens
       let arrets = null;
@@ -61,6 +73,7 @@ async function getJoueursCanadiens() {
       if (position === "G" && ligne) {
         tirsRecus = ligne.shotsAgainst ?? null;
         butsEncaisses = ligne.goalsAgainst ?? null;
+
         arrets =
           tirsRecus !== null && butsEncaisses !== null
             ? tirsRecus - butsEncaisses

@@ -1,8 +1,7 @@
-// --- GET JSON AVEC PROXY CORS ---
+// --- GET JSON SANS PROXY ---
 async function getJson(url) {
   try {
-    const proxy = "https://corsproxy.io/?";
-    const response = await fetch(proxy + url);
+    const response = await fetch(url);
     return await response.json();
   } catch (e) {
     console.error("Erreur fetch :", e);
@@ -10,7 +9,7 @@ async function getJson(url) {
   }
 }
 
-// Infos et stats d'un joueur
+// Infos et stats d'un joueur (API Stats)
 async function getInfosJoueur(id) {
   if (!id || isNaN(id)) {
     return { error: "ID joueur invalide" };
@@ -18,23 +17,27 @@ async function getInfosJoueur(id) {
 
   id = Number(id);
 
-  // Saison actuelle
-  const saisonId =  getCurrentSeasonText();
+  // Saison actuelle (ex: 20242025)
+  const saisonId = getCurrentSeasonId();
 
   // --- Infos joueur ---
-  const infoUrl = `https://api-web.nhle.com/v1/player/${id}/landing`;
+  const infoUrl = `https://api.nhle.com/stats/rest/en/player?cayenneExp=playerId=${id}`;
   const infoData = await getJson(infoUrl);
 
-  if (!infoData) {
+  if (!infoData?.data?.length) {
     return { error: "Joueur introuvable" };
   }
 
-  const prenom = infoData.firstName?.default ?? "";
-  const nom = infoData.lastName?.default ?? "";
-  const numero = infoData.sweaterNumber ?? "";
-  const position = infoData.position ?? "";
-  const headshot = infoData.headshot ?? "";
-  const pays = infoData.birthCountry ?? "";
+  const info = infoData.data[0];
+
+  const prenom = info.firstName ?? "";
+  const nom = info.lastName ?? "";
+  const numero = info.sweaterNumber ?? "";
+  const position = info.positionCode ?? "";
+  const pays = info.birthCountry ?? "";
+
+  // Headshot reconstruit
+  const headshot = `https://assets.nhle.com/mugs/nhl/${id}.png`;
 
   // --- Stats joueur ---
   const type = position === "G" ? "goalie" : "skater";
@@ -50,9 +53,9 @@ async function getInfosJoueur(id) {
   }
 
   // --- Stats communes ---
-  const buts = ligne?.goals ?? null;
-  const passes = ligne?.assists ?? null;
-  const points = ligne?.points ?? null;
+  const buts = ligne?.goals ?? 0;
+  const passes = ligne?.assists ?? 0;
+  const points = ligne?.points ?? 0;
 
   // --- Stats gardien ---
   let arrets = null;
@@ -65,14 +68,15 @@ async function getInfosJoueur(id) {
   if (position === "G" && ligne) {
     tirsRecus = ligne.shotsAgainst ?? null;
     butsEncaisses = ligne.goalsAgainst ?? null;
+
     arrets =
-      tirsRecus !== null && butsEncaissés !== null
-        ? tirsRecus - butsEncaissés
+      tirsRecus !== null && butsEncaisses !== null
+        ? tirsRecus - butsEncaisses
         : null;
 
     pourcentage =
-      tirsRecus > 0 && butsEncaissés !== null
-        ? ((1 - butsEncaissés / tirsRecus) * 100).toFixed(2)
+      tirsRecus > 0 && butsEncaisses !== null
+        ? ((1 - butsEncaisses / tirsRecus) * 100).toFixed(2)
         : null;
 
     blanchissages = ligne.shutouts ?? null;
@@ -111,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
     showLoading();
 
     try {
-      const joueurs = await getJoueursCanadiens();
+      const joueurs = await getJoueursCanadiens(); // version API Stats
 
       if (!Array.isArray(joueurs)) {
         throw new Error("Structure de données invalide");
