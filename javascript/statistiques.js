@@ -1,4 +1,3 @@
-
 async function getJson(url) {
   try {
     const response = await fetch(url, {
@@ -110,8 +109,6 @@ async function getInfosJoueur(id) {
   };
 }
 
-
-
 document.addEventListener("DOMContentLoaded", function () {
   const attaquants = document.getElementById("attaquants");
   const defenseurs = document.getElementById("defenseurs");
@@ -160,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const role = positionsMap[position] || "Inconnu";
 
       if (position === "G") {
-        // 🧤 Gardien
+        //  Gardien
         card.innerHTML = `
                     <h3>${numero} ${prenom} ${nom}</h3>
                     <p>Position : ${role}</p>
@@ -173,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 `;
         gardiens.appendChild(card);
       } else {
-        // 🏒 Attaquant ou Défenseur
+        //  Attaquant ou Défenseur
         card.innerHTML = `
                     <h3>${numero} ${prenom} ${nom}</h3>
                     <p>Position : ${role}</p>
