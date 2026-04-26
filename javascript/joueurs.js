@@ -105,7 +105,7 @@ async function getJoueursCanadiens() {
         arrets,
         tirs_reçus: tirsRecus,
         pourcentage_arrets: pourcentage ? `${pourcentage}%` : null,
-        buts_encaissés: butsEncaissés,
+        buts_encaissés: butsEncaisses,
         blanchissages,
         temps_de_jeu: tempsDeJeu,
       });
