@@ -106,7 +106,7 @@ async function getInfosJoueur(id) {
 
 // RÉCUPÉRATION DU ROSTER
 async function getJoueursCanadiens() {
-  const saisonId = getCurrentSeasonText(); // ex: "20252026"
+  const saisonId = getCurrentSeasonText(); 
 
   // Roster saisonnel (fonctionne vraiment)
   const rosterUrl = `https://api-web.nhle.com/v1/roster/MTL/${saisonId}`;

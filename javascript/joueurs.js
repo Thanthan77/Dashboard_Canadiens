@@ -1,13 +1,14 @@
 async function getJson(url) {
   try {
-    const response = await fetch(url);
+    const proxy = "https://corsproxy.io/?";
+    const encoded = encodeURIComponent(url);
+    const response = await fetch(proxy + encoded);
     return await response.json();
   } catch (e) {
     console.error("Erreur fetch :", e);
     return null;
   }
 }
-
 
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("joueurs");
