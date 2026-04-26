@@ -1,9 +1,8 @@
 async function getJson(url) {
   try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: { "User-Agent": "Mozilla/5.0" },
-    });
+    const proxy = "https://corsproxy.io/?";
+    const encoded = encodeURIComponent(url);
+    const response = await fetch(proxy + encoded);
     return await response.json();
   } catch (e) {
     console.error("Erreur fetch :", e);
@@ -79,7 +78,7 @@ async function getInfosJoueur(id) {
         : null;
 
     pourcentage =
-      tirsRecus > 0 && butsEncaissés !== null
+      tirsRecus > 0 && butsEncaisses !== null
         ? ((1 - butsEncaisses / tirsRecus) * 100).toFixed(2)
         : null;
 
@@ -111,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
 
-  const container = document.getElementById("statistiques"); // ✔️ correspond au HTML
+  const container = document.getElementById("statistiques");
 
   if (!id) {
     container.innerHTML = "<p>ID joueur manquant.</p>";
