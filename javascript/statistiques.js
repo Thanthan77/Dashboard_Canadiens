@@ -1,11 +1,8 @@
+// --- GET JSON AVEC PROXY CORS ---
 async function getJson(url) {
   try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "User-Agent": "Mozilla/5.0",
-      },
-    });
+    const proxy = "https://corsproxy.io/?";
+    const response = await fetch(proxy + url);
     return await response.json();
   } catch (e) {
     console.error("Erreur fetch :", e);
@@ -13,24 +10,18 @@ async function getJson(url) {
   }
 }
 
+// Infos et stats d'un joueur
 async function getInfosJoueur(id) {
-  // Vérification ID
   if (!id || isNaN(id)) {
     return { error: "ID joueur invalide" };
   }
 
   id = Number(id);
 
-  // Calcul de la saison actuelle
-  const now = new Date();
-  const annee = now.getFullYear();
-  const mois = now.getMonth() + 1;
+  // Saison actuelle
+  const saisonId =  getCurrentSeasonText();
 
-  const saisonDebut = mois < 7 ? annee - 1 : annee;
-  const saisonFin = saisonDebut + 1;
-  const saisonId = Number(`${saisonDebut}${saisonFin}`);
-
-  // Récupération des infos du joueur
+  // --- Infos joueur ---
   const infoUrl = `https://api-web.nhle.com/v1/player/${id}/landing`;
   const infoData = await getJson(infoUrl);
 
@@ -45,12 +36,11 @@ async function getInfosJoueur(id) {
   const headshot = infoData.headshot ?? "";
   const pays = infoData.birthCountry ?? "";
 
-  // Type de stats
+  // --- Stats joueur ---
   const type = position === "G" ? "goalie" : "skater";
   const statsUrl = `https://api.nhle.com/stats/rest/en/${type}/summary?cayenneExp=playerId=${id}`;
   const statsData = await getJson(statsUrl);
 
-  // Trouver la ligne correspondant à la saison actuelle
   let ligne = null;
   for (const item of statsData?.data ?? []) {
     if (item.seasonId === saisonId) {
@@ -59,12 +49,12 @@ async function getInfosJoueur(id) {
     }
   }
 
-  // Statistiques communes
+  // --- Stats communes ---
   const buts = ligne?.goals ?? null;
   const passes = ligne?.assists ?? null;
   const points = ligne?.points ?? null;
 
-  // Statistiques gardien
+  // --- Stats gardien ---
   let arrets = null;
   let tirsRecus = null;
   let pourcentage = null;
@@ -76,13 +66,13 @@ async function getInfosJoueur(id) {
     tirsRecus = ligne.shotsAgainst ?? null;
     butsEncaisses = ligne.goalsAgainst ?? null;
     arrets =
-      tirsRecus !== null && butsEncaisses !== null
-        ? tirsRecus - butsEncaisses
+      tirsRecus !== null && butsEncaissés !== null
+        ? tirsRecus - butsEncaissés
         : null;
 
     pourcentage =
-      tirsRecus > 0 && butsEncaisses !== null
-        ? ((1 - butsEncaisses / tirsRecus) * 100).toFixed(2)
+      tirsRecus > 0 && butsEncaissés !== null
+        ? ((1 - butsEncaissés / tirsRecus) * 100).toFixed(2)
         : null;
 
     blanchissages = ligne.shutouts ?? null;
@@ -109,6 +99,7 @@ async function getInfosJoueur(id) {
   };
 }
 
+// --- AFFICHAGE DES STATS ---
 document.addEventListener("DOMContentLoaded", function () {
   const attaquants = document.getElementById("attaquants");
   const defenseurs = document.getElementById("defenseurs");
@@ -157,27 +148,25 @@ document.addEventListener("DOMContentLoaded", function () {
       const role = positionsMap[position] || "Inconnu";
 
       if (position === "G") {
-        //  Gardien
         card.innerHTML = `
-                    <h3>${numero} ${prenom} ${nom}</h3>
-                    <p>Position : ${role}</p>
-                    <p>Arrêts : ${joueur.arrets ?? "??"}</p>
-                    <p>Tirs reçus : ${joueur.tirs_reçus ?? "??"}</p>
-                    <p>% Arrêts : ${joueur.pourcentage_arrets ?? "??"}</p>
-                    <p>Buts encaissés : ${joueur.buts_encaissés ?? "??"}</p>
-                    <p>Blanchissages : ${joueur.blanchissages ?? "??"}</p>
-                    <p>Temps de jeu : ${joueur.temps_de_jeu ?? "??"} min</p>
-                `;
+          <h3>${numero} ${prenom} ${nom}</h3>
+          <p>Position : ${role}</p>
+          <p>Arrêts : ${joueur.arrets ?? "??"}</p>
+          <p>Tirs reçus : ${joueur.tirs_reçus ?? "??"}</p>
+          <p>% Arrêts : ${joueur.pourcentage_arrets ?? "??"}</p>
+          <p>Buts encaissés : ${joueur.buts_encaissés ?? "??"}</p>
+          <p>Blanchissages : ${joueur.blanchissages ?? "??"}</p>
+          <p>Temps de jeu : ${joueur.temps_de_jeu ?? "??"} min</p>
+        `;
         gardiens.appendChild(card);
       } else {
-        //  Attaquant ou Défenseur
         card.innerHTML = `
-                    <h3>${numero} ${prenom} ${nom}</h3>
-                    <p>Position : ${role}</p>
-                    <p>Buts : ${joueur.buts ?? "0"}</p>
-                    <p>Passes : ${joueur.passes ?? "0"}</p>
-                    <p>Points : ${joueur.points ?? "0"}</p>
-                `;
+          <h3>${numero} ${prenom} ${nom}</h3>
+          <p>Position : ${role}</p>
+          <p>Buts : ${joueur.buts ?? "0"}</p>
+          <p>Passes : ${joueur.passes ?? "0"}</p>
+          <p>Points : ${joueur.points ?? "0"}</p>
+        `;
 
         if (position === "D") {
           defenseurs.appendChild(card);
@@ -190,11 +179,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function showLoading() {
     attaquants.innerHTML = `
-            <div class="loading-state">
-                <div class="spinner"></div>
-                <p>Chargement des joueurs des Canadiens...</p>
-            </div>
-        `;
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Chargement des joueurs des Canadiens...</p>
+      </div>
+    `;
     defenseurs.innerHTML = "";
     gardiens.innerHTML = "";
   }
@@ -204,19 +193,19 @@ document.addEventListener("DOMContentLoaded", function () {
       type === "error" ? "Erreur" : type === "info" ? "Information" : "Succès";
 
     const html = `
-            <div class="message ${type}">
-                <div class="message-icon">${icon}</div>
-                <div class="message-content">
-                    <h3>${type === "error" ? "Erreur" : "Information"}</h3>
-                    <p>${message}</p>
-                    ${
-                      type === "error"
-                        ? '<button onclick="location.reload()" class="retry-btn">Réessayer</button>'
-                        : ""
-                    }
-                </div>
-            </div>
-        `;
+      <div class="message ${type}">
+        <div class="message-icon">${icon}</div>
+        <div class="message-content">
+          <h3>${type === "error" ? "Erreur" : "Information"}</h3>
+          <p>${message}</p>
+          ${
+            type === "error"
+              ? '<button onclick="location.reload()" class="retry-btn">Réessayer</button>'
+              : ""
+          }
+        </div>
+      </div>
+    `;
 
     attaquants.innerHTML = html;
     defenseurs.innerHTML = "";
