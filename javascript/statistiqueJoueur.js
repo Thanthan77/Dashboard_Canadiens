@@ -74,13 +74,13 @@ async function getInfosJoueur(id) {
     tirsRecus = ligne.shotsAgainst ?? null;
     butsEncaisses = ligne.goalsAgainst ?? null;
     arrets =
-      tirsRecus !== null && butsEncaissés !== null
+      tirsRecus !== null && butsEncaisses !== null
         ? tirsRecus - butsEncaissés
         : null;
 
     pourcentage =
       tirsRecus > 0 && butsEncaissés !== null
-        ? ((1 - butsEncaissés / tirsRecus) * 100).toFixed(2)
+        ? ((1 - butsEncaisses / tirsRecus) * 100).toFixed(2)
         : null;
 
     blanchissages = ligne.shutouts ?? null;
@@ -101,8 +101,77 @@ async function getInfosJoueur(id) {
     arrets,
     tirs_reçus: tirsRecus,
     pourcentage_arrets: pourcentage ? `${pourcentage}%` : null,
-    buts_encaissés: butsEncaissés,
+    buts_encaissés: butsEncaisses,
     blanchissages,
     temps_de_jeu: tempsDeJeu,
   };
 }
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+
+  const container = document.getElementById("stats-container");
+
+  if (!id) {
+    container.innerHTML = "<p>ID joueur manquant.</p>";
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Chargement des statistiques...</p>
+    </div>
+  `;
+
+  const joueur = await getInfosJoueur(id);
+
+  if (joueur.error) {
+    container.innerHTML = `<p>${joueur.error}</p>`;
+    return;
+  }
+
+  const roleMap = {
+    R: "Ailier droit",
+    L: "Ailier gauche",
+    C: "Centre",
+    D: "Défenseur",
+    G: "Gardien",
+  };
+
+  const role = roleMap[joueur.position] || "Inconnu";
+
+  // --- Affichage ---
+  container.innerHTML = `
+    <div class="player-header">
+      <img src="${joueur.headshot}" alt="${joueur.prenom} ${joueur.nom}" class="player-photo">
+      <div>
+        <h2>${joueur.prenom} ${joueur.nom}</h2>
+        <p>#${joueur.numero} — ${role}</p>
+        <p>Pays : ${joueur.pays}</p>
+      </div>
+    </div>
+
+    <div class="stats-section">
+      <h3>Statistiques</h3>
+
+      ${
+        joueur.position === "G"
+          ? `
+        <p>Arrêts : ${joueur.arrets ?? "??"}</p>
+        <p>Tirs reçus : ${joueur.tirsRecus ?? "??"}</p>
+        <p>% Arrêts : ${joueur.pourcentage ?? "??"}%</p>
+        <p>Buts encaissés : ${joueur.butsEncaisses ?? "??"}</p>
+        <p>Blanchissages : ${joueur.blanchissages ?? "??"}</p>
+        <p>Temps de jeu : ${joueur.tempsDeJeu ?? "??"} min</p>
+      `
+          : `
+        <p>Buts : ${joueur.buts}</p>
+        <p>Passes : ${joueur.passes}</p>
+        <p>Points : ${joueur.points}</p>
+      `
+      }
+    </div>
+  `;
+});
