@@ -99,9 +99,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   container.innerHTML = `
-    <div class="loading-state">
-      <div class="spinner"></div>
-      <p>Chargement des statistiques...</p>
+    <div class="carte-joueur">
+      <p>Chargement...</p>
     </div>
   `;
 
@@ -119,37 +118,36 @@ document.addEventListener("DOMContentLoaded", async () => {
     D: "Défenseur",
     G: "Gardien",
   };
-
   const role = roleMap[joueur.position] || "Inconnu";
 
   container.innerHTML = `
-    <div class="player-header">
-      <img src="${joueur.headshot}" alt="${joueur.prenom} ${joueur.nom}" class="player-photo">
-      <div>
-        <h2>${joueur.prenom} ${joueur.nom}</h2>
-        <p>#${joueur.numero} — ${role}</p>
-        <p>Pays : ${joueur.pays}</p>
-      </div>
-    </div>
+    <div class="carte-joueur">
+      <img src="${joueur.headshot}" class="photo-joueur">
+      <h2>${joueur.prenom} ${joueur.nom}</h2>
+      <p class="numero">#${joueur.numero} — ${role}</p>
+      <p>Pays : ${joueur.pays}</p>
+      <hr>
 
-    <div class="stats-section">
-      <h3>Statistiques</h3>
+      <ul>
+        <li><strong>Buts :</strong> ${joueur.buts}</li>
+        <li><strong>Passes :</strong> ${joueur.passes}</li>
+        <li><strong>Points :</strong> ${joueur.points}</li>
+      </ul>
 
       ${
         joueur.position === "G"
           ? `
-        <p>Arrêts : ${joueur.arrets ?? "??"}</p>
-        <p>Tirs reçus : ${joueur.tirsRecus ?? "??"}</p>
-        <p>% Arrêts : ${joueur.pourcentage ?? "??"}%</p>
-        <p>Buts encaissés : ${joueur.butsEncaisses ?? "??"}</p>
-        <p>Blanchissages : ${joueur.blanchissages ?? "??"}</p>
-        <p>Temps de jeu : ${joueur.tempsDeJeu ?? "??"} min</p>
-      `
-          : `
-        <p>Buts : ${joueur.buts}</p>
-        <p>Passes : ${joueur.passes}</p>
-        <p>Points : ${joueur.points}</p>
-      `
+            <hr>
+            <ul>
+              <li><strong>Arrêts :</strong> ${joueur.arrets}</li>
+              <li><strong>Tirs reçus :</strong> ${joueur.tirsRecus}</li>
+              <li><strong>% Arrêts :</strong> ${joueur.pourcentage}%</li>
+              <li><strong>Buts encaissés :</strong> ${joueur.butsEncaisses}</li>
+              <li><strong>Blanchissages :</strong> ${joueur.blanchissages}</li>
+              <li><strong>Temps de jeu :</strong> ${joueur.tempsDeJeu} min</li>
+            </ul>
+          `
+          : ""
       }
     </div>
   `;
