@@ -1,4 +1,3 @@
-
 async function getJson(url) {
   try {
     const response = await fetch(url);
@@ -9,17 +8,33 @@ async function getJson(url) {
   }
 }
 
-
 async function getMatchsCanadiens() {
   const team = "MTL";
 
-const seasonId = getCurrentSeasonId();
+  // Déterminer la saison NHL
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+
+  let seasonStart, seasonEnd;
+
+  if (month >= 9) {
+    seasonStart = year;
+    seasonEnd = year + 1;
+  } else {
+    seasonStart = year - 1;
+    seasonEnd = year;
+  }
+
+  const seasonId = `${seasonStart}${seasonEnd}`;
 
   // PROXY CORS
   const proxy = "https://corsproxy.io/?";
 
-  // URL API NHL (AVEC PROXY)
-  const url = proxy + `https://api-web.nhle.com/v1/club-schedule-season/${team}/${seasonId}`;
+  // URL API NHL (avec proxy)
+  const url =
+    proxy +
+    `https://api-web.nhle.com/v1/club-schedule-season/${team}/${seasonId}`;
   const data = await getJson(url);
 
   if (!data || !data.games) {
@@ -28,18 +43,18 @@ const seasonId = getCurrentSeasonId();
     };
   }
 
- const frenchMonths = {
-  "10": "Octobre",
-  "11": "Novembre",
-  "12": "Décembre",
-  "01": "Janvier",
-  "02": "Février",
-  "03": "Mars",
-  "04": "Avril",
-  "05": "Mai",
-  "06": "Juin"
-};
-
+  // Mois en français
+  const frenchMonths = {
+    10: "Octobre",
+    11: "Novembre",
+    12: "Décembre",
+    "01": "Janvier",
+    "02": "Février",
+    "03": "Mars",
+    "04": "Avril",
+    "05": "Mai",
+    "06": "Juin",
+  };
 
   const matchesByMonth = {};
 
@@ -51,7 +66,7 @@ const seasonId = getCurrentSeasonId();
     const monthNum = date.substring(5, 7);
     const yearMonth = date.substring(0, 7);
 
-    // mois hors saison
+    // Ignorer juillet, août, septembre
     if (["07", "08", "09"].includes(monthNum)) continue;
 
     if (!matchesByMonth[yearMonth]) {
@@ -82,7 +97,7 @@ const seasonId = getCurrentSeasonId();
       const scoreAway = match.awayTeam?.score ?? null;
       const etat = match.gameState ?? "FUTURE";
 
-    // Verifie si le match est fini
+      // Match terminé ?
       const isTermine =
         etat === "FINAL" ||
         (etat === "OFF" && scoreHome !== null && scoreAway !== null);
@@ -137,12 +152,161 @@ const seasonId = getCurrentSeasonId();
   return result;
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  const resultsContainer = document.getElementById("matchs");
 
-    addStyles();
-    
-    function addStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
+  loadAndDisplayMatchs();
+
+  async function loadAndDisplayMatchs() {
+    showLoading();
+
+    try {
+      const data = await getMatchsCanadiens();
+
+      if (data.message) {
+        showMessage(data.message, "info");
+        return;
+      }
+
+      if (!data.matchs_par_mois || typeof data.matchs_par_mois !== "object") {
+        throw new Error("Structure de données invalide");
+      }
+
+      displayMatchsByMonth(data);
+    } catch (error) {
+      console.error("Erreur:", error);
+      showMessage(`Erreur: ${error.message}`, "error");
+    }
+  }
+
+  function displayMatchsByMonth(data) {
+    resultsContainer.innerHTML = "";
+
+    const months = Object.keys(data.matchs_par_mois).sort((a, b) => {
+      const dateA = new Date(data.matchs_par_mois[a][0].Date);
+      const dateB = new Date(data.matchs_par_mois[b][0].Date);
+      return dateB - dateA;
+    });
+
+    if (months.length === 0) {
+      showMessage("Aucun match terminé disponible", "info");
+      return;
+    }
+
+    months.forEach((monthName) => {
+      const matches = data.matchs_par_mois[monthName];
+      if (!Array.isArray(matches)) return;
+      createMonthSection(monthName, matches);
+    });
+  }
+
+  function createMonthSection(monthName, matches) {
+    const section = document.createElement("div");
+    section.className = "month-section";
+
+    const victories = matches.filter((m) => m.Résultat === "Victoire").length;
+    const defeats = matches.filter((m) => m.Résultat === "Défaite").length;
+
+    const header = document.createElement("div");
+    header.className = "month-header";
+    header.innerHTML = `
+            <h2>${monthName}</h2>
+            <div class="month-stats">
+                <span class="match-count">${matches.length} match${matches.length > 1 ? "s" : ""}</span>
+                <span class="record">${victories}V-${defeats}D</span>
+            </div>
+        `;
+
+    const table = document.createElement("table");
+    table.className = "matches-table";
+
+    table.innerHTML = `
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Adversaire</th>
+                    <th>Score</th>
+                    <th>Résultat</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${matches.map((match) => createMatchRow(match)).join("")}
+            </tbody>
+        `;
+
+    section.appendChild(header);
+    section.appendChild(table);
+    resultsContainer.appendChild(section);
+  }
+
+  function createMatchRow(match) {
+    const dateParts = match.Date.split("-");
+    const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+
+    const isHome = match.Domicile;
+    const locationText = isHome ? "Domicile" : "Extérieur";
+
+    const isVictory = match.Résultat === "Victoire";
+    const resultClass = isVictory ? "victoire" : "defaite";
+
+    let scoreDisplay = match.Score;
+    if (scoreDisplay.includes("-")) {
+      const [scoreHome, scoreAway] = scoreDisplay.split("-");
+      scoreDisplay = isHome
+        ? `${scoreHome}-${scoreAway}`
+        : `${scoreAway}-${scoreHome}`;
+    }
+
+    return `
+            <tr>
+                <td class="match-date">${formattedDate}</td>
+                <td class="opponent" title="${locationText}">
+                    ${locationText} - ${match.Adversaire}
+                </td>
+                <td class="score">${scoreDisplay}</td>
+                <td class="result-cell">
+                    <span class="result-badge ${resultClass}">
+                        ${match.Résultat}
+                    </span>
+                </td>
+            </tr>
+        `;
+  }
+
+  function showLoading() {
+    resultsContainer.innerHTML = `
+            <div class="loading-state">
+                <div class="spinner"></div>
+                <p>Chargement des matchs des Canadiens...</p>
+            </div>
+        `;
+  }
+
+  function showMessage(message, type = "info") {
+    const icon =
+      type === "error" ? "Erreur" : type === "info" ? "Information" : "Succès";
+
+    resultsContainer.innerHTML = `
+            <div class="message ${type}">
+                <div class="message-icon">${icon}</div>
+                <div class="message-content">
+                    <h3>${type === "error" ? "Erreur" : "Information"}</h3>
+                    <p>${message}</p>
+                    ${
+                      type === "error"
+                        ? '<button onclick="location.reload()" class="retry-btn">Réessayer</button>'
+                        : ""
+                    }
+                </div>
+            </div>
+        `;
+  }
+  addStyles();
+});
+
+function addStyles() {
+  const style = document.createElement("style");
+  style.textContent = `
         /* === Chargement === */
         .loading-state {
             text-align: center;
@@ -311,9 +475,5 @@ const seasonId = getCurrentSeasonId();
         }
     `;
 
-        document.head.appendChild(style);
-    }
-
-    
-    
-    
+  document.head.appendChild(style);
+}
