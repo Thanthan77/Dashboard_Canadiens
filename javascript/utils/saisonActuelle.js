@@ -20,9 +20,8 @@ function getCurrentSeasonId() {
   const month = today.getMonth() + 1;
 
   // Saison NHL commence en octobre
-  if (month >= 10) {
-    return Number(`${year}${year + 1}`);
-  } else {
-    return Number(`${year - 1}${year}`);
-  }
+  const start = month >= 10 ? year : year - 1;
+  const end = start + 1;
+
+  return `${start}${end}`; // format "20252026"
 }
