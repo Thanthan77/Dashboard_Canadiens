@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
 
-  const container = document.getElementById("statistiques");
+  const container = document.getElementById("statistiques"); // ✔️ correspond au HTML
 
   if (!id) {
     container.innerHTML = "<p>ID joueur manquant.</p>";
@@ -142,7 +142,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const role = roleMap[joueur.position] || "Inconnu";
 
-  // --- Affichage ---
   container.innerHTML = `
     <div class="player-header">
       <img src="${joueur.headshot}" alt="${joueur.prenom} ${joueur.nom}" class="player-photo">
