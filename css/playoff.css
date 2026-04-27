@@ -95,8 +95,10 @@
   gap: 6px;
 }
 
-.cup-logo {
-  width: 180px;
-  display: block;
-  margin: 0 auto 15px auto;
+.stanley-text {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #0a1a33;
+  text-transform: uppercase;
 }

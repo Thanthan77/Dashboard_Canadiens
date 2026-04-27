@@ -99,7 +99,7 @@ async function chargerBracket() {
     const scBox = document.querySelector(".stanley-final");
     if (scBox && stanleyCup) {
         scBox.innerHTML = `
-            <img src="${data.bracketLogoFr}" class="cup-logo">
+             <div class="stanley-text">Finale Coupe Stanley</div>
             <div>${formatSerie(stanleyCup)}</div>
         `;
     }
