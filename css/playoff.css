@@ -102,3 +102,51 @@
   color: #0a1a33;
   text-transform: uppercase;
 }
+
+/*Reponsive*/
+
+/*  MODE MOBILE  */
+@media (max-width: 900px) {
+  .bracket-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .round-col {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .match-box {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .team-logo {
+    width: 22px;
+    height: 22px;
+  }
+
+  .stanley-final {
+    order: 10;
+    width: 100%;
+    text-align: center;
+  }
+
+  .east,
+  .west {
+    width: 100%;
+  }
+
+  .east .round-col,
+  .west .round-col {
+    display: block;
+    width: 100%;
+  }
+
+  .stanley-text {
+    font-size: 18px;
+  }
+}
