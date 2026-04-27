@@ -1,37 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Résultats de Matchs - Canadiens</title>
-    <link rel="stylesheet" href="../css/general.css">
-    <link rel="stylesheet" href="../css/resultat.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/general.css" />
+    <link rel="stylesheet" href="../css/resultat.css" />
+  </head>
+  <body>
     <div class="header-banner">
-        <h1 class="titre">Résultats de Matchs</h1>
-        <div class="season-info">
-            <p>Canadiens de Montréal - Saison 2025-2026</p>
-        </div>
+      <h1 class="titre">Résultats de Matchs</h1>
+      <div class="season-info">
+        <p>Canadiens de Montréal - Saison 2025-2026</p>
+      </div>
     </div>
-    
+
     <nav class="navbar">
-        <ul>
-            <li><a href="../index.html">Accueil</a></li>
-            <li><a href="joueurs.html">Joueurs</a></li>
-            <li><a href="statistiques.html">Statistiques</a></li>
-            <li><a href="resultat_match.html" class="active">Résultats de Matchs</a></li>
-            <li><a href="classements.html">Classements</a></li>
-            <li><a href="playoffs.html" >Playoffs</a></li>
-        </ul>
+      <ul>
+        <li><a href="../index.html">Accueil</a></li>
+        <li><a href="joueurs.html">Joueurs</a></li>
+        <li><a href="statistiques.html">Statistiques</a></li>
+        <li>
+          <a href="resultat_match.html" class="active">Résultats de Matchs</a>
+        </li>
+        <li><a href="classements.html">Classements</a></li>
+        <li><a href="playoff.html">Playoffs</a></li>
+      </ul>
     </nav>
 
     <main class="main-container">
-        <section id="matchs">
-            <!-- Les matchs seront injectés ici par JavaScript -->
-        </section>
+      <section id="matchs">
+        <!-- Les matchs seront injectés ici par JavaScript -->
+      </section>
     </main>
     <script src="../javascript/utils/saisonActuelle.js"></script>
     <script src="../javascript/resultats.js"></script>
-</body>
+  </body>
 </html>

@@ -1,33 +1,32 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Statistiques du Joueur</title>
-  <link rel="stylesheet" href="../css/general.css">
-  <link rel="stylesheet" href="../css/statistiqueJoueur.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Statistiques du Joueur</title>
+    <link rel="stylesheet" href="../css/general.css" />
+    <link rel="stylesheet" href="../css/statistiqueJoueur.css" />
+  </head>
+  <body>
+    <div class="header-banner">
+      <h1 class="titre">Statistiques du Joueur</h1>
+    </div>
 
-  <div class="header-banner">
-    <h1 class="titre">Statistiques du Joueur</h1>
-  </div>
+    <nav class="navbar">
+      <ul>
+        <li><a href="../index.html">Accueil</a></li>
+        <li><a href="joueurs.html">Joueurs</a></li>
+        <li><a href="statistiqueJoueur.html" class="active">Statistiques Joueur</a></li>
+        <li><a href="resultat_match.html">Résultats de Matchs</a></li>
+        <li><a href="classements.html">Classements</a></li>
+        <li><a href="playoff.html">Playoffs</a></li>
+      </ul>
+    </nav>
 
-  <nav class="navbar">
-    <ul>
-      <li><a href="../index.html">Accueil</a></li>
-      <li><a href="joueurs.html">Joueurs</a></li>
-      <li><a href="statistiqueJoueur.html" class="active">Statistiques Joueur</a></li>
-      <li><a href="resultat_match.html">Résultats de Matchs</a></li>
-      <li><a href="classements.html">Classements</a></li>
-      <li><a href="playoffs.html" >Playoffs</a></li>
-    </ul>
-  </nav>
-
-  <section id="statistiques" class="statistiques-container">
-    <!-- Les stats seront injectées ici -->
-  </section>
-  <script src="../javascript/utils/saisonActuelle.js"></script>
-  <script src="../javascript/statistiqueJoueur.js"></script>
-</body>
+    <section id="statistiques" class="statistiques-container">
+      <!-- Les stats seront injectées ici -->
+    </section>
+    <script src="../javascript/utils/saisonActuelle.js"></script>
+    <script src="../javascript/statistiqueJoueur.js"></script>
+  </body>
 </html>
