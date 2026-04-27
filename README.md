@@ -10,7 +10,7 @@ Le projet inclut :
 
 
 ---
-## 🚀 Fonctionnalités principales 
+##  Fonctionnalités principales 
 
 ### 🔹 Fonctionnalités du MVP 
 
