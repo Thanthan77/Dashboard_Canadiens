@@ -1,4 +1,4 @@
-// URL de ton Worker Cloudflare
+// URL du Worker Cloudflare
 const WORKER_URL = "https://throbbing-base-9cf9.ethanqc-chea.workers.dev/";
 
 // Détecte automatiquement l'année des playoffs
@@ -7,11 +7,11 @@ function getCurrentPlayoffYear() {
   const year = now.getFullYear();
   const month = now.getMonth() + 1;
 
-  // Les playoffs commencent en avril → saison = année en cours
+  // Les playoffs commencent en avril
   return month >= 4 ? year : year - 1;
 }
 
-// Fonction générique pour fetch JSON
+// fetch JSON
 async function getJson(url) {
   try {
     const response = await fetch(url);
