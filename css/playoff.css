@@ -111,7 +111,7 @@
 @media (max-width: 900px) {
   /* Le grid 3 colonnes devient un scroll horizontal */
   .bracket-grid {
-    display: flex !important;
+    display: flex-start !important;
     flex-wrap: nowrap !important;
     overflow-x: auto !important;
     gap: 20px !important;
