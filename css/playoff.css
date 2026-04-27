@@ -105,99 +105,68 @@
 
 /*Reponsive*/
 
-/* --- MODE COMPACT GLOBAL --- */
-.bracket-container {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto; /* scroll horizontal */
-  padding-bottom: 20px;
-}
-
-.round-col {
-  min-width: 140px; /* colonnes compactes */
-}
-
-.match-box {
-  padding: 6px 4px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  background: #f4f4f4;
-}
-
-.match-team {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 13px;
-}
-
-.team-logo {
-  width: 20px;
-  height: 20px;
-  margin-right: 4px;
-}
-
-/* MODE MOBILE (≤ 900px) */
+/* ============================
+   RESPONSIVE MOBILE (≤ 900px)
+   ============================ */
 @media (max-width: 900px) {
   /* Le grid 3 colonnes devient un scroll horizontal */
   .bracket-grid {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 20px;
-    padding: 10px;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 20px !important;
+    padding: 10px !important;
   }
 
-  /* Colonnes Ouest / Est deviennent flex horizontales */
+  /* Colonnes Ouest / Est deviennent horizontales */
   .west,
   .east {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 15px !important;
   }
 
-  /* Chaque round devient une petite colonne compacte */
+  /* Colonnes compactes */
   .round-col {
-    min-width: 130px;
-    gap: 10px;
+    min-width: 130px !important;
+    gap: 10px !important;
   }
 
   /* Match box compact */
   .match-box {
-    width: 100%;
-    height: auto;
-    padding: 6px 4px;
-    font-size: 12px;
-    border-radius: 6px;
+    width: 100% !important;
+    height: auto !important;
+    padding: 6px 4px !important;
+    font-size: 12px !important;
   }
 
-  /* Logos plus petits */
+  /* Logos réduits */
   .team-logo {
-    width: 18px;
-    height: 18px;
-    margin-right: 4px;
+    width: 18px !important;
+    height: 18px !important;
+    margin-right: 4px !important;
   }
 
   /* Finale Stanley Cup compacte */
   .stanley-final {
-    min-width: 160px;
-    font-size: 16px;
-    padding: 12px;
+    min-width: 160px !important;
+    font-size: 16px !important;
+    padding: 12px !important;
   }
 
   .stanley-text {
-    font-size: 14px;
-    margin-bottom: 6px;
+    font-size: 14px !important;
+    margin-bottom: 6px !important;
   }
 
   /* Titres plus petits */
   .conf-title {
-    font-size: 16px;
-    margin-bottom: 10px;
+    font-size: 16px !important;
+    margin-bottom: 10px !important;
   }
 
   .round-title {
-    font-size: 12px;
-    margin-bottom: 4px;
+    font-size: 12px !important;
+    margin-bottom: 4px !important;
   }
 }
