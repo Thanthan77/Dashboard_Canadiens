@@ -42,7 +42,7 @@ Le projet inclut :
 ```plaintext
 canadiens-dashboard/
 │
- index.html
+| index.html
 |   ├──html/ 
 │   ├── classements.html
 │   ├── joueurs.html
