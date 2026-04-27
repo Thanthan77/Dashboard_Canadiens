@@ -81,3 +81,22 @@
   width: 260px;
   margin: auto;
 }
+
+.team-logo {
+  width: 28px;
+  height: 28px;
+  margin-right: 8px;
+}
+
+.match-team {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.cup-logo {
+  width: 180px;
+  display: block;
+  margin: 0 auto 15px auto;
+}
