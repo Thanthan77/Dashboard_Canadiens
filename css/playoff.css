@@ -1,0 +1,92 @@
+/* CONTENEUR GLOBAL */
+.bracket-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  max-width: 1400px;
+  margin: auto;
+}
+
+/* TITRES CONFÉRENCES */
+.conf-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #0a1a33;
+}
+
+/* COLONNES DE ROUNDS */
+.round-col {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.round-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  color: #345;
+  margin-bottom: 5px;
+}
+
+/* MATCH BOX */
+.match-box {
+  background: white;
+  border-radius: 10px;
+  border: 1px solid #d0d8e8;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 13px;
+  font-style: italic;
+  width: 180px;
+}
+
+/* OUEST  */
+.west {
+  display: grid;
+  grid-template-columns: repeat(3, 200px);
+  gap: 20px;
+  justify-content: left;
+}
+
+.west .match-box {
+  margin-right: auto;
+}
+
+/* EST  */
+.east {
+  display: grid;
+  grid-template-columns: repeat(3, 200px);
+  gap: 20px;
+  justify-content: right;
+}
+
+.east .match-box {
+  margin-left: auto;
+}
+
+/* ALIGNEMENT DES FINALES */
+.west .round-col:last-child,
+.east .round-col:last-child {
+  margin-top: 80px;
+}
+
+/* FINALE STANLEY CUP */
+.stanley-final {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  padding: 20px;
+  background: #fff7d6;
+  border-radius: 12px;
+  border: 2px solid #ffd36b;
+  width: 260px;
+  margin: auto;
+}

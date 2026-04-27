@@ -1,34 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Joueurs des Canadiens</title>
-    <link rel="stylesheet" href="../css/general.css">
-    <link rel="stylesheet" href="../css/joueurs.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/general.css" />
+    <link rel="stylesheet" href="../css/joueurs.css" />
+  </head>
+  <body>
+    <div class="header-banner">
+      <h1 class="titre">Joueurs - Canadiens de Montréal</h1>
+    </div>
+    <nav class="navbar">
+      <ul>
+        <li><a href="../index.html">Accueil</a></li>
+        <li><a href="joueurs.html" class="active">Joueurs</a></li>
+        <li><a href="statistiques.html">Statistiques</a></li>
+        <li><a href="resultat_match.html">Résultats de Matchs</a></li>
+        <li><a href="classements.html">Classements</a></li>
+        <li><a href="playoffs.html">Playoffs</a></li>
+      </ul>
+    </nav>
 
-  <div class="header-banner">
-    <h1 class="titre">Joueurs - Canadiens de Montréal</h1>
-  </div>
-  <nav class="navbar">
-    <ul>
-      <li><a href="../index.html">Accueil</a></li>
-      <li><a href="joueurs.html"class="active">Joueurs</a></li>
-      <li><a href="statistiques.html">Statistiques</a></li>
-      <li><a href="resultat_match.html">Résultats de Matchs</a></li>
-      <li><a href="classements.html" >Classements</a></li>
-    </ul>
-  </nav>
+    <section id="joueurs" class="joueurs-grid">
+      <!-- Cartes joueurs injectées dynamiquement -->
+    </section>
 
-
-  <section id="joueurs" class="joueurs-grid">
-    <!-- Cartes joueurs injectées dynamiquement -->
-  </section>
-
-  <script src="../javascript/utils/saisonActuelle.js"></script>
-  <script src="../javascript/utils/joueurs_get.js"></script>
-  <script src="../javascript/joueurs.js"></script>
-</body>
+    <script src="../javascript/utils/saisonActuelle.js"></script>
+    <script src="../javascript/utils/joueurs_get.js"></script>
+    <script src="../javascript/joueurs.js"></script>
+  </body>
 </html>
