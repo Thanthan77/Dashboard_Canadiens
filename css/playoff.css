@@ -105,48 +105,39 @@
 
 /*Reponsive*/
 
-/*  MODE MOBILE  */
+/* --- MODE MOBILE --- */
 @media (max-width: 900px) {
   .bracket-container {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 10px;
+    flex-direction: column !important;
+    align-items: center;
+    gap: 25px;
+    width: 100%;
+  }
+
+  .west,
+  .east,
+  .stanley-final {
+    width: 100% !important;
+    max-width: 500px;
   }
 
   .round-col {
-    width: 100%;
-    margin: 0 auto;
+    width: 100% !important;
+    margin-bottom: 20px;
   }
 
   .match-box {
-    width: 100%;
-    margin-bottom: 15px;
+    width: 100% !important;
   }
 
   .team-logo {
-    width: 22px;
-    height: 22px;
-  }
-
-  .stanley-final {
-    order: 10;
-    width: 100%;
-    text-align: center;
-  }
-
-  .east,
-  .west {
-    width: 100%;
-  }
-
-  .east .round-col,
-  .west .round-col {
-    display: block;
-    width: 100%;
+    width: 24px;
+    height: 24px;
   }
 
   .stanley-text {
-    font-size: 18px;
+    font-size: 20px;
+    text-align: center;
   }
 }
