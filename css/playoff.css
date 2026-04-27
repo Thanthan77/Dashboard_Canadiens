@@ -46,21 +46,18 @@
   font-size: 13px;
   font-style: italic;
   width: 180px;
+  margin: auto;
 }
 
-/* OUEST  */
+/* OUEST */
 .west {
   display: grid;
   grid-template-columns: repeat(3, 200px);
   gap: 20px;
-  justify-content: left;
+  justify-content: center;
 }
 
-.west .match-box {
-  margin-right: auto;
-}
-
-/* EST  */
+/* EST */
 .east {
   display: grid;
   grid-template-columns: repeat(3, 200px);
@@ -70,12 +67,6 @@
 
 .east .match-box {
   margin-left: auto;
-}
-
-/* ALIGNEMENT DES FINALES */
-.west .round-col:last-child,
-.east .round-col:last-child {
-  margin-top: 80px;
 }
 
 /* FINALE STANLEY CUP */
