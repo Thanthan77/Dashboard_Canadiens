@@ -105,39 +105,66 @@
 
 /*Reponsive*/
 
+/* --- MODE COMPACT GLOBAL --- */
+.bracket-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto; /* scroll horizontal */
+  padding-bottom: 20px;
+}
+
+.round-col {
+  min-width: 140px; /* colonnes compactes */
+}
+
+.match-box {
+  padding: 6px 4px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  background: #f4f4f4;
+}
+
+.match-team {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.team-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+}
+
 /* --- MODE MOBILE --- */
 @media (max-width: 900px) {
   .bracket-container {
-    display: flex;
-    flex-direction: column !important;
-    align-items: center;
-    gap: 25px;
-    width: 100%;
-  }
-
-  .west,
-  .east,
-  .stanley-final {
-    width: 100% !important;
-    max-width: 500px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding: 10px;
   }
 
   .round-col {
-    width: 100% !important;
-    margin-bottom: 20px;
+    min-width: 120px;
   }
 
   .match-box {
-    width: 100% !important;
+    padding: 4px 3px;
   }
 
   .team-logo {
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .stanley-final {
+    min-width: 150px;
+    text-align: center;
   }
 
   .stanley-text {
-    font-size: 20px;
-    text-align: center;
+    font-size: 14px;
+    margin-bottom: 6px;
   }
 }
