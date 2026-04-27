@@ -41,6 +41,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   classement.forEach((team) => {
     const row = document.createElement("tr");
+
+    if (
+      team.equipe.toLowerCase().includes("montreal") ||
+      team.equipe.toLowerCase().includes("canadiens")
+    ) {
+      row.classList.add("montreal");
+    }
+
     row.innerHTML = `
       <td>${team.rang}</td>
       <td>${team.equipe}</td>
