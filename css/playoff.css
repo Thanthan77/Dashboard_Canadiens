@@ -137,34 +137,67 @@
   margin-right: 4px;
 }
 
-/* --- MODE MOBILE --- */
+/* MODE MOBILE (≤ 900px) */
 @media (max-width: 900px) {
-  .bracket-container {
-    overflow-x: auto;
+  /* Le grid 3 colonnes devient un scroll horizontal */
+  .bracket-grid {
+    display: flex;
     flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 20px;
     padding: 10px;
   }
 
+  /* Colonnes Ouest / Est deviennent flex horizontales */
+  .west,
+  .east {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+  }
+
+  /* Chaque round devient une petite colonne compacte */
   .round-col {
-    min-width: 120px;
+    min-width: 130px;
+    gap: 10px;
   }
 
+  /* Match box compact */
   .match-box {
-    padding: 4px 3px;
+    width: 100%;
+    height: auto;
+    padding: 6px 4px;
+    font-size: 12px;
+    border-radius: 6px;
   }
 
+  /* Logos plus petits */
   .team-logo {
     width: 18px;
     height: 18px;
+    margin-right: 4px;
   }
 
+  /* Finale Stanley Cup compacte */
   .stanley-final {
-    min-width: 150px;
-    text-align: center;
+    min-width: 160px;
+    font-size: 16px;
+    padding: 12px;
   }
 
   .stanley-text {
     font-size: 14px;
     margin-bottom: 6px;
+  }
+
+  /* Titres plus petits */
+  .conf-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .round-title {
+    font-size: 12px;
+    margin-bottom: 4px;
   }
 }
