@@ -304,6 +304,12 @@ document.addEventListener("DOMContentLoaded", function () {
   addStyles();
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const season = getCurrentSeasonText();
+  document.getElementById("season-text").textContent =
+    `Canadiens de Montréal - Saison ${season}`;
+});
+
 function addStyles() {
   const style = document.createElement("style");
   style.textContent = `
