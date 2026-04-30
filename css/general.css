@@ -1,110 +1,128 @@
+/* GLOBAL*/
 body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #e3ecf9;
-    color: #121C68;
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #e3ecf9;
+  color: #121c68;
 }
 
+/* Header */
+.header-banner {
+  background-color: #af1e2d;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.titre {
+  color: white;
+  font-size: 2em;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* NAVBAR DESKTOP*/
 .navbar {
-    background-color: white;
-    padding: 12px 0;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background-color: white;
+  padding: 12px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1000;
 }
 
-.navbar ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin: 0;
-    padding: 0;
+.nav-desktop {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
 }
 
 .navbar li a {
-    color: #2E3551;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1em;
-    padding: 8px 12px;
-    transition: background-color 0.3s ease;
-    border-radius: 4px;
+  color: #2e3551;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1em;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
 .navbar li a:hover {
-    background-color: #5151d6;
-    color:white;
+  background-color: #5151d6;
+  color: white;
 }
 
 .navbar a.active {
   background-color: #dcdcdc;
-  color: #121C68;
-  border-radius: 4px;
+  color: #121c68;
 }
 
-.header-banner {
-    background-color: #AF1E2D;
-    padding: 20px 0;
-    text-align: center;
+/* MENU MOBILE LATÉRAL*/
+.burger {
+  display: none;
 }
 
-.titre {
-    color: white;
-    font-size: 2em;
-    margin-bottom: 10px;
-    text-align: center;
+.nav-links {
+  display: none;
 }
 
-.season-info {
-    text-align: center;
-    margin-top: 10px;
-    color: white;
-    font-size: 18px;
-    font-weight: 500;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-}
-
-.season-info p {
-    margin: 0;
-    padding: 8px 20px;
-    background: rgba(174, 31, 36, 0.8);
-    border-radius: 5px;
-}
-
-/* Responsive navbar */
 @media (max-width: 768px) {
-  .navbar {
-    background-color: transparent;
+  /* Bouton burger */
+  .burger {
+    display: block;
+    font-size: 30px;
+    cursor: pointer;
+    padding: 12px 20px;
+    color: #2e3551;
+    font-weight: bold;
   }
 
-  .navbar ul {
-    flex-direction: column;
-    align-items: stretch; /* Étire sur toute la largeur */
+  /* Cache le menu desktop */
+  .nav-desktop {
+    display: none;
+  }
+
+  /* Menu latéral */
+  .nav-links {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 260px;
+    height: 100%;
+    background: #ffffff;
+    border-right: 1px solid #dcdcdc;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
+    padding-top: 80px;
+
+    list-style: none;
     padding: 0;
     margin: 0;
-    gap: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    transition: left 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 4000;
   }
 
-  .navbar li {
-    width: 100%; /* Chaque ligne = toute la largeur */
+  .nav-links.open {
+    left: 0;
   }
 
-  .navbar li a {
-    display: block;        /* Le lien occupe toute la ligne */
-    width: 100%;
-    text-align: center;
-    padding: 14px 0;
-    background-color: transparent;
-    border-radius: 0;      /* Pas d’arrondi pour un effet “ligne complète” */
+  .nav-links a {
+    display: block;
+    padding: 14px 22px;
+    font-size: 17px;
+    color: #2e3551;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background 0.2s ease;
   }
 
-  .navbar li a:hover {
-    background-color: white; /* Hover blanc sur toute la ligne */
-    color: #121C68;
-  }
-
-  .navbar a.active {
-    background-color: white; /* Page active = même style */
-    color: #121C68;
+  .nav-links a:hover {
+    background: #f3f3f3;
   }
 }
-
