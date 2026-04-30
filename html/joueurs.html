@@ -6,13 +6,28 @@
     <title>Joueurs des Canadiens</title>
     <link rel="stylesheet" href="../css/general.css" />
     <link rel="stylesheet" href="../css/joueurs.css" />
+    <link rel="stylesheet" href="../css/menuMobile.css" />
   </head>
   <body>
     <div class="header-banner">
       <h1 class="titre">Joueurs - Canadiens de Montréal</h1>
     </div>
     <nav class="navbar">
-      <ul>
+      <!-- Bouton burger -->
+      <div class="burger">☰</div>
+
+      <!-- Menu desktop -->
+      <ul class="nav-desktop">
+        <li><a href="../index.html">Accueil</a></li>
+        <li><a href="joueurs.html" class="active">Joueurs</a></li>
+        <li><a href="statistiques.html">Statistiques</a></li>
+        <li><a href="resultat_match.html">Résultats de Matchs</a></li>
+        <li><a href="classements.html">Classements</a></li>
+        <li><a href="playoff.html">Playoffs</a></li>
+      </ul>
+
+      <!-- Menu latéral mobile -->
+      <ul class="nav-links">
         <li><a href="../index.html">Accueil</a></li>
         <li><a href="joueurs.html" class="active">Joueurs</a></li>
         <li><a href="statistiques.html">Statistiques</a></li>
@@ -25,7 +40,7 @@
     <section id="joueurs" class="joueurs-grid">
       <!-- Cartes joueurs injectées dynamiquement -->
     </section>
-
+    <script src="../javascript/menu.js"></script>
     <script src="../javascript/utils/saisonActuelle.js"></script>
     <script src="../javascript/utils/joueurs_get.js"></script>
     <script src="../javascript/joueurs.js"></script>

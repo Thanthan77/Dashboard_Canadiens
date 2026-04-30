@@ -6,18 +6,33 @@
     <title>Classements LNH - Saison</title>
     <link rel="stylesheet" href="../css/general.css" />
     <link rel="stylesheet" href="../css/classements.css" />
+    <link rel="stylesheet" href="../css/menuMobile.css" />
   </head>
   <body>
     <div class="header-banner">
       <h1 class="titre" id="titre-saison"></h1>
     </div>
     <nav class="navbar">
-      <ul>
+      <!-- Bouton burger -->
+      <div class="burger">☰</div>
+
+      <!-- Menu desktop -->
+      <ul class="nav-desktop">
         <li><a href="../index.html">Accueil</a></li>
-        <li><a href="joueurs.html">Joueurs</a></li>
+        <li><a href="joueurs.html" class="active">Joueurs</a></li>
         <li><a href="statistiques.html">Statistiques</a></li>
         <li><a href="resultat_match.html">Résultats de Matchs</a></li>
-        <li><a href="classements.html" class="active">Classements</a></li>
+        <li><a href="classements.html">Classements</a></li>
+        <li><a href="playoff.html">Playoffs</a></li>
+      </ul>
+
+      <!-- Menu latéral mobile -->
+      <ul class="nav-links">
+        <li><a href="../index.html">Accueil</a></li>
+        <li><a href="joueurs.html" class="active">Joueurs</a></li>
+        <li><a href="statistiques.html">Statistiques</a></li>
+        <li><a href="resultat_match.html">Résultats de Matchs</a></li>
+        <li><a href="classements.html">Classements</a></li>
         <li><a href="playoff.html">Playoffs</a></li>
       </ul>
     </nav>
@@ -39,6 +54,7 @@
         <!-- Données injectées ici dynamiquement -->
       </tbody>
     </table>
+    <script src="../javascript/menu.js"></script>
     <script src="../javascript/utils/saisonActuelle.js"></script>
     <script src="../javascript/classements.js"></script>
   </body>

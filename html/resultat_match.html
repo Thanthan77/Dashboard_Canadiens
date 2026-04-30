@@ -6,6 +6,7 @@
     <title>Résultats de Matchs - Canadiens</title>
     <link rel="stylesheet" href="../css/general.css" />
     <link rel="stylesheet" href="../css/resultat.css" />
+    <link rel="stylesheet" href="../css/menuMobile.css" />
   </head>
   <body>
     <div class="header-banner">
@@ -16,13 +17,25 @@
     </div>
 
     <nav class="navbar">
-      <ul>
+      <!-- Bouton burger -->
+      <div class="burger">☰</div>
+
+      <!-- Menu desktop -->
+      <ul class="nav-desktop">
         <li><a href="../index.html">Accueil</a></li>
-        <li><a href="joueurs.html">Joueurs</a></li>
+        <li><a href="joueurs.html" class="active">Joueurs</a></li>
         <li><a href="statistiques.html">Statistiques</a></li>
-        <li>
-          <a href="resultat_match.html" class="active">Résultats de Matchs</a>
-        </li>
+        <li><a href="resultat_match.html">Résultats de Matchs</a></li>
+        <li><a href="classements.html">Classements</a></li>
+        <li><a href="playoff.html">Playoffs</a></li>
+      </ul>
+
+      <!-- Menu latéral mobile -->
+      <ul class="nav-links">
+        <li><a href="../index.html">Accueil</a></li>
+        <li><a href="joueurs.html" class="active">Joueurs</a></li>
+        <li><a href="statistiques.html">Statistiques</a></li>
+        <li><a href="resultat_match.html">Résultats de Matchs</a></li>
         <li><a href="classements.html">Classements</a></li>
         <li><a href="playoff.html">Playoffs</a></li>
       </ul>
@@ -33,6 +46,7 @@
         <!-- Les matchs seront injectés ici par JavaScript -->
       </section>
     </main>
+    <script src="../javascript/menu.js"></script>
     <script src="../javascript/utils/saisonActuelle.js"></script>
     <script src="../javascript/resultats.js"></script>
   </body>

@@ -6,16 +6,31 @@
     <title>Statistiques - Canadiens de Montréal</title>
     <link rel="stylesheet" href="../css/general.css" />
     <link rel="stylesheet" href="../css/statistiques.css" />
+    <link rel="stylesheet" href="../css/menuMobile.css" />
   </head>
   <body>
     <div class="header-banner">
       <h1 class="titre">Statistiques</h1>
     </div>
     <nav class="navbar">
-      <ul>
+      <!-- Bouton burger -->
+      <div class="burger">☰</div>
+
+      <!-- Menu desktop -->
+      <ul class="nav-desktop">
         <li><a href="../index.html">Accueil</a></li>
-        <li><a href="joueurs.html">Joueurs</a></li>
-        <li><a href="statistiques.html" class="active">Statistiques</a></li>
+        <li><a href="joueurs.html" class="active">Joueurs</a></li>
+        <li><a href="statistiques.html">Statistiques</a></li>
+        <li><a href="resultat_match.html">Résultats de Matchs</a></li>
+        <li><a href="classements.html">Classements</a></li>
+        <li><a href="playoff.html">Playoffs</a></li>
+      </ul>
+
+      <!-- Menu latéral mobile -->
+      <ul class="nav-links">
+        <li><a href="../index.html">Accueil</a></li>
+        <li><a href="joueurs.html" class="active">Joueurs</a></li>
+        <li><a href="statistiques.html">Statistiques</a></li>
         <li><a href="resultat_match.html">Résultats de Matchs</a></li>
         <li><a href="classements.html">Classements</a></li>
         <li><a href="playoff.html">Playoffs</a></li>
@@ -36,6 +51,7 @@
       <h2>Gardiens</h2>
       <div class="stats-grid" id="gardiens"></div>
     </section>
+    <script src="../javascript/menu.js"></script>
     <script src="../javascript/utils/saisonActuelle.js"></script>
     <script src="../javascript/utils/joueurs_get.js"></script>
     <script src="../javascript/statistiques.js"></script>

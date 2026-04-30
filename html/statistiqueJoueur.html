@@ -6,6 +6,7 @@
     <title>Statistiques du Joueur</title>
     <link rel="stylesheet" href="../css/general.css" />
     <link rel="stylesheet" href="../css/statistiqueJoueur.css" />
+    <link rel="stylesheet" href="../css/menuMobile.css" />
   </head>
   <body>
     <div class="header-banner">
@@ -13,10 +14,24 @@
     </div>
 
     <nav class="navbar">
-      <ul>
+      <!-- Bouton burger -->
+      <div class="burger">☰</div>
+
+      <!-- Menu desktop -->
+      <ul class="nav-desktop">
         <li><a href="../index.html">Accueil</a></li>
-        <li><a href="joueurs.html">Joueurs</a></li>
-        <li><a href="statistiqueJoueur.html" class="active">Statistiques Joueur</a></li>
+        <li><a href="joueurs.html" class="active">Joueurs</a></li>
+        <li><a href="statistiques.html">Statistiques</a></li>
+        <li><a href="resultat_match.html">Résultats de Matchs</a></li>
+        <li><a href="classements.html">Classements</a></li>
+        <li><a href="playoff.html">Playoffs</a></li>
+      </ul>
+
+      <!-- Menu latéral mobile -->
+      <ul class="nav-links">
+        <li><a href="../index.html">Accueil</a></li>
+        <li><a href="joueurs.html" class="active">Joueurs</a></li>
+        <li><a href="statistiques.html">Statistiques</a></li>
         <li><a href="resultat_match.html">Résultats de Matchs</a></li>
         <li><a href="classements.html">Classements</a></li>
         <li><a href="playoff.html">Playoffs</a></li>
@@ -26,6 +41,7 @@
     <section id="statistiques" class="statistiques-container">
       <!-- Les stats seront injectées ici -->
     </section>
+    <script src="../javascript/menu.js"></script>
     <script src="../javascript/utils/saisonActuelle.js"></script>
     <script src="../javascript/statistiqueJoueur.js"></script>
   </body>
