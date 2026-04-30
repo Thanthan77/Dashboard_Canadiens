@@ -107,70 +107,75 @@
 /*Reponsive*/
 
 @media (max-width: 800px) {
-  /* 3 colonnes compactes */
+  /* Bracket devient vertical */
   .bracket-grid {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    justify-content: center;
-    align-items: start;
-    gap: 10px;
-    padding: 10px 0;
-    transform: scale(0.85); /* miniaturisation */
-    transform-origin: top center;
-  }
-
-  /* Mini-arbres Ouest / Est */
-  .west,
-  .east {
-    display: grid;
-    grid-template-columns: repeat(3, 90px);
-    gap: 8px;
-    justify-content: center;
-  }
-
-  /* Mini colonnes de rounds */
-  .round-col {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    align-items: center;
+    gap: 25px;
+    padding: 10px 0;
   }
 
-  /* Mini match-box */
+  /* Mini-arbre Ouest / Est */
+  .west,
+  .east {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+  }
+
+  /* Chaque round devient une colonne verticale */
+  .round-col {
+    width: 100%;
+    max-width: 200px; /* largeur mini-arbre */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  /* CASE = MATCH (mini) */
   .match-box {
-    width: 90px;
-    min-height: 40px;
-    padding: 6px 4px;
+    width: 100%;
+    max-width: 200px;
+    min-width: 150px;
+    padding: 10px 8px;
 
     background: #ffffff;
-    border-radius: 8px;
+    border-radius: 10px;
     border: 1px solid #d0d8e8;
 
-    font-size: 11px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 13px;
     text-align: center;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   }
 
-  /* Titres mini */
+  /* Titres */
   .conf-title {
+    font-size: 18px;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .round-title {
     font-size: 12px;
     margin-bottom: 4px;
     text-align: center;
   }
 
-  .round-title {
-    font-size: 10px;
-    margin-bottom: 2px;
-    text-align: center;
-  }
-
-  /* Finale coupe Stanley */
+  /* Finale au centre (taille normale) */
   .stanley-final {
-    width: 120px;
-    padding: 10px;
-    font-size: 14px;
+    width: 100%;
+    max-width: 240px;
+    padding: 14px;
+    font-size: 18px;
     text-align: center;
-    background: #fff7d6;
-    border-radius: 10px;
-    border: 2px solid #ffd36b;
   }
 }
