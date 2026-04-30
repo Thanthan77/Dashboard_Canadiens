@@ -107,67 +107,53 @@
 /*Reponsive*/
 
 @media (max-width: 800px) {
-  /* Bracket devient vertical */
+  /* Bracket vertical */
   .bracket-grid {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 35px;
+    gap: 40px; /* espace entre Ouest / Finale / Est */
     padding: 10px 0;
   }
 
-  /* Mini-arbres horizontaux */
+  /* Chaque arbre = un bloc indépendant */
   .west,
   .east {
     display: grid;
-    grid-template-columns: repeat(3, minmax(90px, 1fr));
-    gap: 10px;
-    justify-items: center;
+    grid-template-columns: repeat(3, 110px); /* largeur mini mais stable */
+    gap: 15px; /* évite le chevauchement */
+    justify-content: center;
     width: 100%;
-    max-width: 320px; /* largeur max d’un mini-arbre */
+    max-width: 360px; /* limite pour éviter compression */
+    padding: 10px 0; /* espace autour de l'arbre */
   }
 
   /* Colonnes de rounds */
   .round-col {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px; /* évite que les match-box se touchent */
     align-items: center;
   }
 
-  /* case = match */
+  /* CASE = MATCH (mini) */
   .match-box {
-    width: 100%;
-    max-width: 120px;
-    min-width: 90px;
+    width: 110px;
+    min-height: 45px;
     padding: 8px 6px;
 
     background: #ffffff;
     border-radius: 8px;
     border: 1px solid #d0d8e8;
 
-    font-size: 11px;
+    font-size: 12px;
     text-align: center;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   }
 
-  /* Titres mini */
-  .conf-title {
-    font-size: 14px;
-    margin-bottom: 4px;
-    text-align: center;
-  }
-
-  .round-title {
-    font-size: 10px;
-    margin-bottom: 2px;
-    text-align: center;
-  }
-
   /* Finale au centre */
   .stanley-final {
-    width: 100%;
-    max-width: 180px;
+    width: 160px;
     padding: 12px;
     font-size: 15px;
     text-align: center;
