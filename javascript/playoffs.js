@@ -126,10 +126,3 @@ async function chargerBracket() {
 }
 
 chargerBracket();
-
-// Pour Design responsive
-document.addEventListener("DOMContentLoaded", () => {
-  const grid = document.querySelector(".bracket-grid");
-  if (!grid) return;
-  grid.scrollLeft = (grid.scrollWidth - grid.clientWidth) / 2;
-});

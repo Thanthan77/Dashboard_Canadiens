@@ -84,16 +84,16 @@
 }
 
 .team-logo {
-  width: 28px;
-  height: 28px;
-  margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  margin-right: 2px;
 }
 
 .match-team {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 2px;
 }
 
 .stanley-text {
