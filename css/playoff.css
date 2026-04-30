@@ -52,7 +52,7 @@
 /* OUEST */
 .west {
   display: grid;
-  grid-template-columns: repeat(3, 200px);
+  grid-template-columns: repeat(3, 160px);
   gap: 20px;
   justify-content: center;
 }
@@ -60,7 +60,7 @@
 /* EST */
 .east {
   display: grid;
-  grid-template-columns: repeat(3, 200px);
+  grid-template-columns: repeat(3, 160px);
   gap: 20px;
   justify-content: right;
 }
@@ -106,7 +106,6 @@
 /*Reponsive*/
 
 @media (max-width: 900px) {
-
   /* Bracket vertical */
   .bracket-grid {
     display: flex;
