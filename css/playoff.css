@@ -107,59 +107,65 @@
 /*Reponsive*/
 
 @media (max-width: 800px) {
-  /* Bracket vertical */
+  /* Arbres empilés verticalement */
   .bracket-grid {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 40px; /* espace entre Ouest / Finale / Est */
+    gap: 35px;
     padding: 10px 0;
   }
 
-  /* Chaque arbre = un bloc indépendant */
+  /* Mini-arbres horizontaux */
   .west,
   .east {
     display: grid;
-    grid-template-columns: repeat(3, 110px); /* largeur mini mais stable */
-    gap: 15px; /* évite le chevauchement */
+    grid-template-columns: repeat(3, 95px); /* 🔥 plus compact */
+    gap: 12px;
     justify-content: center;
     width: 100%;
-    max-width: 360px; /* limite pour éviter compression */
-    padding: 10px 0; /* espace autour de l'arbre */
+    max-width: 320px;
   }
 
-  /* Colonnes de rounds */
+  /* Colonnes internes */
   .round-col {
     display: flex;
     flex-direction: column;
-    gap: 12px; /* évite que les match-box se touchent */
+    gap: 8px;
     align-items: center;
   }
 
-  /* CASE = MATCH (mini) */
+  /* CASE = MATCH (compact) */
   .match-box {
-    width: 110px;
-    min-height: 45px;
-    padding: 8px 6px;
+    width: 95px;
+    min-height: 42px;
+    padding: 4px 3px; /* 🔥 réduit */
 
     background: #ffffff;
-    border-radius: 8px;
+    border-radius: 6px;
     border: 1px solid #d0d8e8;
 
-    font-size: 12px;
+    font-size: 10px; /* 🔥 texte réduit */
     text-align: center;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
 
-  /* Finale au centre */
-  .stanley-final {
-    width: 160px;
-    padding: 12px;
-    font-size: 15px;
-    text-align: center;
+  /* Logos plus petits */
+  .match-box img {
+    width: 20px; /* 🔥 mini logo */
+    height: 20px;
+    object-fit: contain;
+  }
 
-    background: #fff7d6;
-    border-radius: 10px;
-    border: 2px solid #ffd36b;
+  /* Finale */
+  .stanley-final {
+    width: 140px;
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
   }
 }
