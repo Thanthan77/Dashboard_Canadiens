@@ -112,70 +112,68 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 25px;
+    gap: 35px;
     padding: 10px 0;
   }
 
-  /* Mini-arbre Ouest / Est */
+  /* Mini-arbres horizontaux */
   .west,
   .east {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 18px;
-    width: 100%;
-  }
-
-  /* Chaque round devient une colonne verticale */
-  .round-col {
-    width: 100%;
-    max-width: 200px; /* largeur mini-arbre */
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(90px, 1fr));
     gap: 10px;
+    justify-items: center;
+    width: 100%;
+    max-width: 320px; /* largeur max d’un mini-arbre */
+  }
+
+  /* Colonnes de rounds */
+  .round-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     align-items: center;
   }
 
-  /* CASE = MATCH (mini) */
+  /* case = match */
   .match-box {
     width: 100%;
-    max-width: 200px;
-    min-width: 150px;
-    padding: 10px 8px;
+    max-width: 120px;
+    min-width: 90px;
+    padding: 8px 6px;
 
     background: #ffffff;
-    border-radius: 10px;
+    border-radius: 8px;
     border: 1px solid #d0d8e8;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    font-size: 13px;
+    font-size: 11px;
     text-align: center;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   }
 
-  /* Titres */
+  /* Titres mini */
   .conf-title {
-    font-size: 18px;
-    margin-bottom: 6px;
-    text-align: center;
-  }
-
-  .round-title {
-    font-size: 12px;
+    font-size: 14px;
     margin-bottom: 4px;
     text-align: center;
   }
 
-  /* Finale au centre (taille normale) */
+  .round-title {
+    font-size: 10px;
+    margin-bottom: 2px;
+    text-align: center;
+  }
+
+  /* Finale au centre */
   .stanley-final {
     width: 100%;
-    max-width: 240px;
-    padding: 14px;
-    font-size: 18px;
+    max-width: 180px;
+    padding: 12px;
+    font-size: 15px;
     text-align: center;
+
+    background: #fff7d6;
+    border-radius: 10px;
+    border: 2px solid #ffd36b;
   }
 }
