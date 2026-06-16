@@ -71,7 +71,7 @@ canadiens-dashboard/
 ├── README.md
 
 ```
-## 🔗 Liens importants
+##  Liens importants
 
 | Type               | Lien                                                                 |
 |--------------------|----------------------------------------------------------------------|
