@@ -65,8 +65,19 @@ export async function getMatchsCanadiens() {
 
     //  FUTURS MATCHS
     if (state === "FUT") {
-      const formattedFuture = {
+
+    // Convertir l'heure UTC en heure locale Montréal
+        const localDate = new Date(match.startTimeUTC);
+        const options = {
+             hour: "2-digit",
+             minute: "2-digit",
+             timeZone: "America/Montreal"
+        };
+        const heureLocale = localDate.toLocaleTimeString("fr-CA", options);
+
+       const formattedFuture = {
         Date: date,
+        Heure: heureLocale,
         Adversaire: isHome ? away : home,
         Domicile: isHome,
         Etat: "FUTURE"

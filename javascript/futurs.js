@@ -57,6 +57,7 @@ function displayFutureMatches(matches) {
     <thead>
       <tr>
         <th>Date</th>
+        <th>Heure</th>
         <th>Adversaire</th>
         <th>Lieu</th>
       </tr>
@@ -80,6 +81,7 @@ function createFutureRow(match) {
   return `
     <tr>
       <td class="match-date">${formattedDate}</td>
+      <td class="match-time">${match.Heure}</td>
       <td class="opponent">${match.Adversaire}</td>
       <td class="location">${locationText}</td>
     </tr>
