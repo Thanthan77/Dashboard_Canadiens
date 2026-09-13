@@ -21,9 +21,11 @@ async function getMatchsCanadiens() {
   if (month >= 9) {
     seasonStart = year;
     seasonEnd = year + 1;
+    console.log("toto");
   } else {
     seasonStart = year - 1;
     seasonEnd = year;
+    console.log("tata");
   }
 
   const seasonId = `${seasonStart}${seasonEnd}`;

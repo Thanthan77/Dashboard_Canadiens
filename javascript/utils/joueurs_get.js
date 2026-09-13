@@ -17,7 +17,7 @@ async function getInfosJoueur(id) {
 
   id = Number(id);
 
-  // Calcul de la saison actuelle (comme ton PHP)
+  // Calcul de la saison actuelle 
   const now = new Date();
   const annee = now.getFullYear();
   const mois = now.getMonth() + 1;
