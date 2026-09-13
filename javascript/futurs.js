@@ -6,7 +6,8 @@ async function loadFutureMatches() {
   try {
     const data = await getMatchsCanadiens();
 
-    if (!data || !data.futurs_par_mois) {
+    // Vérifier que la structure FUT existe
+    if (!data || !data.futurs_par_mois || typeof data.futurs_par_mois !== "object") {
       showMessage("Aucun match futur disponible.", "info");
       return;
     }
