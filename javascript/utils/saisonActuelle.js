@@ -5,12 +5,14 @@ function getCurrentSeasonText() {
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
 
-  if (month >= 10) {
+  // Bascule en septembre (pré-saison)
+  if (month >= 9) {
     return `${year}-${year + 1}`;
   } else {
     return `${year - 1}-${year}`;
   }
 }
+
 
 // Saison Actuelle
 
