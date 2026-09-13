@@ -18,8 +18,9 @@ async function loadFutureMatches() {
       .flat()
       .sort((a, b) => new Date(a.Date) - new Date(b.Date));
 
-    // Garder seulement les 4 prochains
-    const nextFour = allFutureMatches.slice(0, 4);
+
+    // Garder seulement les 7 prochains
+    const nextFour = allFutureMatches.slice(0, 7);
 
     if (nextFour.length === 0) {
       showMessage("Aucun match futur disponible.", "info");
