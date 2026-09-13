@@ -108,8 +108,9 @@ export async function getJoueursCanadiens() {
   const saisonId = getCurrentSeasonId();
 
   // Roster saisonnel (fonctionne vraiment)
+  const proxy = "https://proxy12.ethanqc-chea.workers.dev/?url=";
   const rosterUrl = `https://api-web.nhle.com/v1/roster/MTL/${saisonId}`;
-  const rosterData = await getJson(rosterUrl);
+  const rosterData = await getJson(proxy + rosterUrl);
 
   if (!rosterData) {
     console.error("Roster introuvable");
