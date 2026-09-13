@@ -266,7 +266,7 @@ async function loadAndDisplayMatchs() {
         `;
   }
   addStyles();
-});
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const season = getCurrentSeasonText();
