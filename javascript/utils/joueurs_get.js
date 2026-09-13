@@ -1,14 +1,14 @@
 async function getJson(url) {
   try {
-    const proxy = "https://proxy12.ethanqc-chea.workers.dev/?";
-    const encoded = encodeURIComponent(url);
-    const response = await fetch(proxy + encoded);
+    const proxy = "https://proxy12.ethanqc-chea.workers.dev/?url=";
+    const response = await fetch(proxy + url);
     return await response.json();
   } catch (e) {
     console.error("Erreur fetch :", e);
     return null;
   }
 }
+
 
 async function getInfosJoueur(id) {
   if (!id || isNaN(id)) {
