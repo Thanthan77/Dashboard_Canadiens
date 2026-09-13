@@ -108,14 +108,24 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const data = await getMatchsCanadiens();
 
-      if (data.message) {
-        showMessage(data.message, "info");
-        return;
+      // Cas erreur API
+      if (data.error) {
+        showMessage(data.error, "error");
+      return;
       }
 
-      if (!data.matchs_par_mois || typeof data.matchs_par_mois !== "object") {
-        throw new Error("Structure de données invalide");
+      // Cas message "aucun match"
+      if (data.message) {
+        showMessage(data.message, "info");
+      return;
       }
+      displayMatchsByMonth(data);
+
+// Vérification structure
+if (!data.matchs_par_mois || typeof data.matchs_par_mois !== "object") {
+  throw new Error("Structure de données invalide");
+}
+
 
       displayMatchsByMonth(data);
     } catch (error) {
