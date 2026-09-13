@@ -9,7 +9,7 @@ async function getJson(url) {
 }
 
 async function getClassementNHL() {
-  const proxy = "https://corsproxy.io/?";
+  const proxy = "https://proxy12.ethanqc-chea.workers.dev/?";
   const api = "https://api-web.nhle.com/v1/standings/now";
 
   const data = await getJson(proxy + api);
