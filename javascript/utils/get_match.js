@@ -12,7 +12,6 @@ async function getJson(url) {
 export async function getMatchsCanadiens() {
   const team = "MTL";
 
-  // Déterminer la saison NHL
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth() + 1;
@@ -30,6 +29,7 @@ export async function getMatchsCanadiens() {
   }
 
   const frenchMonths = {
+    "09": "Septembre",   // ← AJOUT
     "10": "Octobre",
     "11": "Novembre",
     "12": "Décembre",
@@ -41,7 +41,11 @@ export async function getMatchsCanadiens() {
     "06": "Juin",
   };
 
-  const result = { matchs_par_mois: {} };
+  const result = { 
+    matchs_par_mois: {},
+    futurs_par_mois: {}   // ← AJOUT
+  };
+
   let totalMatches = 0;
 
   for (const match of data.games) {
@@ -49,9 +53,6 @@ export async function getMatchsCanadiens() {
     if (!date) continue;
 
     const monthNum = date.substring(5, 7);
-    if (["07", "08", "09"].includes(monthNum)) continue; // ignorer les mois de juillet, août et septembre
-
-    const yearMonth = date.substring(0, 7);
     const monthName = frenchMonths[monthNum] || `Mois ${monthNum}`;
 
     const home = match.homeTeam?.abbrev;
@@ -60,13 +61,32 @@ export async function getMatchsCanadiens() {
     const scoreAway = match.awayTeam?.score;
     const state = match.gameState;
 
+    const isHome = home === team;
+
+    //  FUTURS MATCHS
+    if (state === "FUT") {
+      const formattedFuture = {
+        Date: date,
+        Adversaire: isHome ? away : home,
+        Domicile: isHome,
+        Etat: "FUTURE"
+      };
+
+      if (!result.futurs_par_mois[monthName]) {
+        result.futurs_par_mois[monthName] = [];
+      }
+
+      result.futurs_par_mois[monthName].push(formattedFuture);
+      continue;
+    }
+
+    //  MATCHS TERMINÉS
     const isFinished =
       state === "FINAL" ||
       (state === "OFF" && scoreHome != null && scoreAway != null);
 
     if (!isFinished) continue;
 
-    const isHome = home === team;
     const resultat = isHome
       ? scoreHome > scoreAway ? "Victoire" : "Défaite"
       : scoreAway > scoreHome ? "Victoire" : "Défaite";
