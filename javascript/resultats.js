@@ -22,7 +22,7 @@ async function getMatchsCanadiens() {
   const seasonEnd = seasonStart + 1;
   const seasonId = `${seasonStart}${seasonEnd}`;
 
-  const proxy = "https://corsproxy.io/?";
+  const proxy = "https://proxy12.ethanqc-chea.workers.dev/?url=";
   const url = `${proxy}https://api-web.nhle.com/v1/club-schedule-season/${team}/${seasonId}`;
   const data = await getJson(url);
 
