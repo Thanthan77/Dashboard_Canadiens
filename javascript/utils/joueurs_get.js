@@ -1,14 +1,12 @@
 async function getJson(url) {
   try {
-    const proxy = "https://proxy12.ethanqc-chea.workers.dev/?url=";
-    const response = await fetch(proxy + url);
+    const response = await fetch(url);
     return await response.json();
   } catch (e) {
     console.error("Erreur fetch :", e);
     return null;
   }
 }
-
 
 async function getInfosJoueur(id) {
   if (!id || isNaN(id)) {
@@ -27,7 +25,8 @@ async function getInfosJoueur(id) {
 
   // Infos joueur
   const infoUrl = `https://api-web.nhle.com/v1/player/${id}/landing`;
-  const infoData = await getJson(infoUrl);
+  const proxy = "https://proxy12.ethanqc-chea.workers.dev/?url=";
+  const infoData = await getJson(proxy+infoUrl);
 
   if (!infoData) {
     return { error: "Joueur introuvable" };

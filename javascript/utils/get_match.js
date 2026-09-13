@@ -74,8 +74,7 @@ export async function getMatchsCanadiens() {
              timeZone: "America/Montreal"
         };
         const heureLocale = localDate.toLocaleTimeString("fr-CA", options);
-
-       const formattedFuture = {
+      const formattedFuture = {
         Date: date,
         Heure: heureLocale,
         Adversaire: isHome ? away : home,
