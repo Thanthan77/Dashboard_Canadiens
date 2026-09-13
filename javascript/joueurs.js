@@ -1,6 +1,6 @@
 async function getJson(url) {
   try {
-    const proxy = "https://corsproxy.io/?";
+    const proxy = "https://proxy12.ethanqc-chea.workers.dev/?";
     const encoded = encodeURIComponent(url);
     const response = await fetch(proxy + encoded);
     return await response.json();
