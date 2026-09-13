@@ -18,16 +18,26 @@ async function loadFutureMatches() {
       .flat()
       .sort((a, b) => new Date(a.Date) - new Date(b.Date));
 
+    // Filtrer les doublons par date (évite les split-squad)
+    const uniqueByDate = [];
+    const seenDates = new Set();
+
+    for (const match of allFutureMatches) {
+      if (!seenDates.has(match.Date)) {
+        uniqueByDate.push(match);
+        seenDates.add(match.Date);
+      }
+    }
 
     // Garder seulement les 7 prochains
-    const nextFour = allFutureMatches.slice(0, 7);
+    const nextSeven = uniqueByDate.slice(0, 7);
 
-    if (nextFour.length === 0) {
+    if (nextSeven.length === 0) {
       showMessage("Aucun match futur disponible.", "info");
       return;
     }
 
-    displayFutureMatches(nextFour);
+    displayFutureMatches(nextSeven);
 
   } catch (error) {
     console.error(error);
