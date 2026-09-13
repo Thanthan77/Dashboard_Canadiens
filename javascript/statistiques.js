@@ -1,16 +1,6 @@
-// --- GET JSON AVEC PROXY CORS ---
-async function getJson(url) {
-  try {
-    const proxy = "https://corsproxy.io/?";
-    const response = await fetch(proxy + url);
-    return await response.json();
-  } catch (e) {
-    console.error("Erreur fetch :", e);
-    return null;
-  }
-}
+import { getJoueursCanadiens } from "./utils/joueurs_get.js";
 
-// --- AFFICHAGE DES STATS ---
+// Afficher les joueurs des Canadiens
 document.addEventListener("DOMContentLoaded", function () {
   const attaquants = document.getElementById("attaquants");
   const defenseurs = document.getElementById("defenseurs");
