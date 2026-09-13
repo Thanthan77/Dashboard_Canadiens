@@ -1,3 +1,5 @@
+const resultsContainer = document.getElementById("matchs");
+
 async function getJson(url) {
   try {
     const response = await fetch(url);
@@ -7,7 +9,6 @@ async function getJson(url) {
     return null;
   }
 }
-
 
 async function getMatchsCanadiens() {
   const team = "MTL";
