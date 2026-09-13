@@ -1,3 +1,4 @@
+import { getMatchsCanadiens } from "./utils/get_match.js";
 const resultsContainer = document.getElementById("matchs");
 
 async function loadFutureMatches() {
