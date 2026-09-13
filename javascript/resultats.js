@@ -101,38 +101,47 @@ document.addEventListener("DOMContentLoaded", function () {
   const resultsContainer = document.getElementById("matchs");
 
   loadAndDisplayMatchs();
+});
 
-  async function loadAndDisplayMatchs() {
-    showLoading();
+async function loadAndDisplayMatchs() {
+  showLoading();
 
-    try {
-      const data = await getMatchsCanadiens();
+  try {
+    const data = await getMatchsCanadiens();
 
-      // Cas erreur API
-      if (data.error) {
-        showMessage(data.error, "error");
+    // Cas erreur API
+    if (data.error) {
+      showMessage(data.error, "error");
       return;
-      }
+    }
 
-      // Cas message "aucun match"
-      if (data.message) {
-        showMessage(data.message, "info");
+    // Cas message "aucun match"
+    if (data.message) {
+      showMessage(
+        "Il n'y a pas de résultat pour le moment.<br>Consultez l'onglet <strong>Matchs futurs</strong>.",
+        "info"
+      );
       return;
-      }
-      displayMatchsByMonth(data);
+    }
 
-// Vérification structure
-if (!data.matchs_par_mois || typeof data.matchs_par_mois !== "object") {
-  throw new Error("Structure de données invalide");
+    // Vérification structure AVANT l'affichage
+    if (!data.matchs_par_mois || typeof data.matchs_par_mois !== "object") {
+      showMessage(
+        "Il n'y a pas de résultat pour le moment.<br>Consultez l'onglet <strong>Matchs futurs</strong>.",
+        "info"
+      );
+      return;
+    }
+
+    // Affichage des résultats
+    displayMatchsByMonth(data);
+
+  } catch (error) {
+    console.error("Erreur:", error);
+    showMessage(`Erreur: ${error.message}`, "error");
+  }
 }
 
-
-      displayMatchsByMonth(data);
-    } catch (error) {
-      console.error("Erreur:", error);
-      showMessage(`Erreur: ${error.message}`, "error");
-    }
-  }
 
   function displayMatchsByMonth(data) {
     resultsContainer.innerHTML = "";
@@ -144,7 +153,7 @@ if (!data.matchs_par_mois || typeof data.matchs_par_mois !== "object") {
     });
 
     if (months.length === 0) {
-      showMessage("Aucun match terminé disponible", "info");
+      showMessage("Il n'y a pas de résultat pour le moment.<br>Consultez l'onglet <strong>Matchs futurs</strong> pour voir le calendrier.", "info");
       return;
     }
 
