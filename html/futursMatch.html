@@ -3,14 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Classements LNH - Saison</title>
+    <title>Futurs Matchs - Canadiens</title>
     <link rel="stylesheet" href="../css/general.css" />
-    <link rel="stylesheet" href="../css/classements.css" />
+    <link rel="stylesheet" href="../css/resultat.css" />
   </head>
   <body>
     <div class="header-banner">
-      <h1 class="titre" id="titre-saison"></h1>
+      <h1 class="titre">Futurs Matchs</h1>
+      <div class="season-info">
+        <p id="season-text"></p>
+      </div>
     </div>
+
     <nav class="navbar">
       <div class="burger">☰</div>
 
@@ -35,25 +39,14 @@
       </ul>
     </nav>
 
-    <!--Tableau de classements de la ligue national d'hockey-->
-    <table class="classement-table">
-      <thead>
-        <tr>
-          <th>Position</th>
-          <th>Équipe</th>
-          <th>MJ</th>
-          <th>V</th>
-          <th>D</th>
-          <th>DP</th>
-          <th>PTS</th>
-        </tr>
-      </thead>
-      <tbody id="classement-body">
-        <!-- Données injectées ici dynamiquement -->
-      </tbody>
-    </table>
+    <main class="main-container">
+      <section id="matchs">
+        <!-- Les futurs matchs seront injectés ici -->
+      </section>
+    </main>
+
     <script src="../javascript/menu.js"></script>
     <script src="../javascript/utils/saisonActuelle.js"></script>
-    <script src="../javascript/classements.js"></script>
+    <script src="../javascript/futurs.js"></script>
   </body>
 </html>
