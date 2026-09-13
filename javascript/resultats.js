@@ -8,6 +8,7 @@ async function getJson(url) {
   }
 }
 
+
 async function getMatchsCanadiens() {
   const team = "MTL";
 
@@ -16,40 +17,22 @@ async function getMatchsCanadiens() {
   const year = now.getFullYear();
   const month = now.getMonth() + 1;
 
-  let seasonStart, seasonEnd;
-
-  if (month >= 9) {
-    seasonStart = year;
-    seasonEnd = year + 1;
-    console.log("toto");
-  } else {
-    seasonStart = year - 1;
-    seasonEnd = year;
-    console.log("tata");
-  }
-
+  const seasonStart = month >= 9 ? year : year - 1;
+  const seasonEnd = seasonStart + 1;
   const seasonId = `${seasonStart}${seasonEnd}`;
 
-  // PROXY CORS
   const proxy = "https://corsproxy.io/?";
-
-  // URL API NHL (avec proxy)
-  const url =
-    proxy +
-    `https://api-web.nhle.com/v1/club-schedule-season/${team}/${seasonId}`;
+  const url = `${proxy}https://api-web.nhle.com/v1/club-schedule-season/${team}/${seasonId}`;
   const data = await getJson(url);
 
-  if (!data || !data.games) {
-    return {
-      error: "Données introuvables pour les Canadiens",
-    };
+  if (!data?.games) {
+    return { error: "Données introuvables pour les Canadiens" };
   }
 
-  // Mois en français
   const frenchMonths = {
-    10: "Octobre",
-    11: "Novembre",
-    12: "Décembre",
+    "10": "Octobre",
+    "11": "Novembre",
+    "12": "Décembre",
     "01": "Janvier",
     "02": "Février",
     "03": "Mars",
@@ -58,101 +41,61 @@ async function getMatchsCanadiens() {
     "06": "Juin",
   };
 
-  const matchesByMonth = {};
+  const result = { matchs_par_mois: {} };
+  let totalMatches = 0;
 
-  // Grouper les matchs par mois
   for (const match of data.games) {
     const date = match.gameDate;
     if (!date) continue;
 
     const monthNum = date.substring(5, 7);
+    if (["07", "08", "09"].includes(monthNum)) continue; // ignorer les mois de juillet, août et septembre
+
     const yearMonth = date.substring(0, 7);
-
-    // Ignorer juillet, août, septembre
-    if (["07", "08", "09"].includes(monthNum)) continue;
-
-    if (!matchesByMonth[yearMonth]) {
-      matchesByMonth[yearMonth] = [];
-    }
-
-    matchesByMonth[yearMonth].push(match);
-  }
-
-  // Trier par mois
-  const sortedMonths = Object.keys(matchesByMonth).sort();
-
-  const result = { matchs_par_mois: {} };
-  let monthsWithMatches = 0;
-  let totalMatches = 0;
-
-  for (const yearMonth of sortedMonths) {
-    const monthNum = yearMonth.substring(5, 7);
     const monthName = frenchMonths[monthNum] || `Mois ${monthNum}`;
 
-    const monthMatches = matchesByMonth[yearMonth];
-    const formattedMatches = [];
+    const home = match.homeTeam?.abbrev;
+    const away = match.awayTeam?.abbrev;
+    const scoreHome = match.homeTeam?.score;
+    const scoreAway = match.awayTeam?.score;
+    const state = match.gameState;
 
-    for (const match of monthMatches) {
-      const home = match.homeTeam?.abbrev ?? "";
-      const away = match.awayTeam?.abbrev ?? "";
-      const scoreHome = match.homeTeam?.score ?? null;
-      const scoreAway = match.awayTeam?.score ?? null;
-      const etat = match.gameState ?? "FUTURE";
+    const isFinished =
+      state === "FINAL" ||
+      (state === "OFF" && scoreHome != null && scoreAway != null);
 
-      // Match terminé ?
-      const isTermine =
-        etat === "FINAL" ||
-        (etat === "OFF" && scoreHome !== null && scoreAway !== null);
+    if (!isFinished) continue;
 
-      if (!isTermine) continue;
+    const isHome = home === team;
+    const resultat = isHome
+      ? scoreHome > scoreAway ? "Victoire" : "Défaite"
+      : scoreAway > scoreHome ? "Victoire" : "Défaite";
 
-      const score = `${scoreHome}-${scoreAway}`;
-
-      // Déterminer victoire/défaite
-      let resultat;
-      if (home === team) {
-        resultat = scoreHome > scoreAway ? "Victoire" : "Défaite";
-      } else {
-        resultat = scoreAway > scoreHome ? "Victoire" : "Défaite";
-      }
-
-      formattedMatches.push({
-        Date: match.gameDate,
-        Adversaire: home === team ? away : home,
-        Score: score,
-        Résultat: resultat,
-        Domicile: home === team,
-        Etat: etat === "OFF" ? "TERMINE" : etat,
-      });
-    }
-
-    if (formattedMatches.length > 0) {
-      result.matchs_par_mois[monthName] = formattedMatches;
-      monthsWithMatches++;
-      totalMatches += formattedMatches.length;
-    }
-  }
-
-  // Aucun match terminé
-  if (monthsWithMatches === 0) {
-    return {
-      equipe: "Canadiens de Montréal",
-      saison: seasonId,
-      message: "Aucun match terminé disponible pour le moment",
-      matchs_par_mois: {},
-      total_mois: 0,
-      total_matchs: 0,
+    const formatted = {
+      Date: date,
+      Adversaire: isHome ? away : home,
+      Score: `${scoreHome}-${scoreAway}`,
+      Résultat: resultat,
+      Domicile: isHome,
+      Etat: state === "OFF" ? "TERMINE" : state,
     };
+
+    if (!result.matchs_par_mois[monthName]) {
+      result.matchs_par_mois[monthName] = [];
+    }
+
+    result.matchs_par_mois[monthName].push(formatted);
+    totalMatches++;
   }
 
-  // Métadonnées
   result.equipe = "Canadiens de Montréal";
   result.saison = seasonId;
-  result.total_mois = monthsWithMatches;
+  result.total_mois = Object.keys(result.matchs_par_mois).length;
   result.total_matchs = totalMatches;
 
   return result;
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
   const resultsContainer = document.getElementById("matchs");
