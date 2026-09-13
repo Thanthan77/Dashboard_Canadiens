@@ -1,15 +1,4 @@
-async function getJson(url) {
-  try {
-    const proxy = "https://proxy12.ethanqc-chea.workers.dev/?";
-    const encoded = encodeURIComponent(url);
-    const response = await fetch(proxy + encoded);
-    return await response.json();
-  } catch (e) {
-    console.error("Erreur fetch :", e);
-    return null;
-  }
-}
-
+import { getJoueursCanadiens } from "./utils/joueurs_get.js";
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("joueurs");
 

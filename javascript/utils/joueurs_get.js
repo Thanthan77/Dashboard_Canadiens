@@ -104,7 +104,7 @@ async function getInfosJoueur(id) {
 }
 
 // RÉCUPÉRATION DU ROSTER
-async function getJoueursCanadiens() {
+async export function getJoueursCanadiens() {
   const saisonId = getCurrentSeasonId();
 
   // Roster saisonnel (fonctionne vraiment)
