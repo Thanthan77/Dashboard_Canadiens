@@ -1,3 +1,14 @@
+
+async function getJson(url) {
+  try {
+    const response = await fetch(url);
+    return await response.json();
+  } catch (e) {
+    console.error("Erreur fetch :", e);
+    return null;
+  }
+}
+
 export async function getMatchsCanadiens() {
   const team = "MTL";
 
