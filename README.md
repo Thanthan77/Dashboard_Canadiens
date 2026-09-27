@@ -47,6 +47,7 @@ canadiens-dashboard/
 │   ├── classements.html
 │   ├── joueurs.html
 │   ├── resultat_match.html
+│   ├── futurs_matchs.html
 │   ├── statistiqueJoueur.html
 │   ├── statistiques.html
 │   ├── css/
@@ -67,6 +68,7 @@ canadiens-dashboard/
 │       └── resultat.js
 │       └── statistiqueJoueurs.js
 │       └── statistiques.js
+│       └── futurs.js
 │
 ├── README.md
 
