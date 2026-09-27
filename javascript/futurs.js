@@ -121,4 +121,10 @@ function showMessage(message, type = "info") {
   `;
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const season = getCurrentSeasonText();
+  document.getElementById("season-text").textContent =
+    `Canadiens de Montréal - Saison ${season}`;
+});
+
 loadFutureMatches();
