@@ -14,17 +14,8 @@ async function getClassementNHL() {
 
   const data = await getJson(proxy + api);
 
-  if (!data || !data.standings) {
+  if (!data || !data.standings || data.standings.length === 0) {
     console.error("Impossible de charger le classement NHL");
-    return { disponible: false, standings: [] };
-  }
-
-  // Vérifier si l'API renvoie la saison courante
-  const saisonCourante = Number(getCurrentSeasonId());
-  const saisonAPI = Number(data.seasonId);
-
-  if (saisonAPI !== saisonCourante) {
-    // Classement pas encore disponible
     return { disponible: false, standings: [] };
   }
 
@@ -62,6 +53,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     `;
     return;
   }
+  
+  tbody.innerHTML = "";
 
   classement.standings.forEach((team) => {
     const row = document.createElement("tr");
